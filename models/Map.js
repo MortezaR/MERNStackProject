@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const objSchema = new Schema({
-    name: {
-        type: String
-    },
-    position: {
-        type: [Number]
-    },
-    status: {
-        type: String
-    }
-})
+// const objSchema = new Schema({
+//     name: {
+//         type: String
+//     },
+//     position: {
+//         type: [Number]
+//     },
+//     status: {
+//         type: String
+//     }
+// })
 
 const MapSchema = new Schema({
     user: {
@@ -26,7 +26,10 @@ const MapSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    objects: [objSchema]
+    objects: {
+        type: Object,
+        required: true
+    }
 });
 
 const Maps = mongoose.model('maps', MapSchema)
