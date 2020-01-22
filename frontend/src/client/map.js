@@ -1,5 +1,3 @@
-// import Game from './game'
-
 export default class Map{
     constructor(width, height) {
         this.width = width;

@@ -1,5 +1,3 @@
-// import Game from './game'
-
 export default class Player{
     constructor(id, x, y, width, height) {
         this.id = id;
