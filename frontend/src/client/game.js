@@ -1,11 +1,12 @@
 import Map from './map'
 import Camera from './camera'
 import Player from './player'
+import Object from './object'
 
 export default class Game{
   constructor(){
-    this.FPS = 30;
     this.otherPlayers = {};
+    this.objects = {};
     this.player = null;
     this.camera = null;
     this.myId = null;
@@ -15,7 +16,6 @@ export default class Game{
     this.vHeight = this.canvas.height;
     this.context = this.canvas.getContext("2d");
     this.gameLoop = this.gameLoop.bind(this)
-
   }
 
   addNewPlayer(playerData){
@@ -50,13 +50,26 @@ export default class Game{
     })
   }
 
-  update(playerData){
+  addObjects(objectData){
+    Object.values(objectData).forEach(object => {
+      let { id, x, y, width, height } = object
+      let object = new Object(id, x, y, width, height)
+      this.objects[object.id] = object;
+    })
+  }
+
+  updatePlayers(gameData){
+    let (playerData, objectData) = gameData
     Object.values(playerData).forEach((data) => {
       if (data.id === this.myId) {
         this.player.update(data.x, data.y);
         this.camera.update();
       } else if (this.otherPlayers[data.id]) {
         this.otherPlayers[data.id].update(data.x, data.y);
+      }
+    })
+    Object.values(objectData).forEach((data) => {
+        this.objects[data.id].update(data.x, data.y);
       }
     })
   }
@@ -70,8 +83,8 @@ export default class Game{
     })
   }
 
-  gameLoop(playerData){
-    this.update(playerData);
+  gameLoop(gameData){
+    this.updatePlayers(gameData);
     if (this.player){
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.room.map.draw(this.context, this.camera.xView, this.camera.yView);

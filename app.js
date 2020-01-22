@@ -8,11 +8,7 @@ const User = require('./models/User');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-<<<<<<< HEAD
-// added constants for sockets
-=======
 //added for sockets
->>>>>>> ddacea380ac2d2aaea8c30171d9a580b22b410b9
 const io = require("socket.io");
 const server = io.listen(8000);
 
@@ -44,11 +40,6 @@ app.use("/api/maps", maps);
 
 const port = process.env.PORT || 5000;
 
-<<<<<<< HEAD
-
-//removed for sockets
-=======
->>>>>>> ddacea380ac2d2aaea8c30171d9a580b22b410b9
 // app.listen(port, () => {console.log(`Listening on port ${port}`)})
 
 
@@ -121,10 +112,6 @@ let updatePlayerMovement = (player) => {
     if (player.y + player.height / 2 > worldHeight) {
         player.y = worldHeight - player.height / 2;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> ddacea380ac2d2aaea8c30171d9a580b22b410b9
     return player
 }
 
@@ -142,11 +129,7 @@ server.on('connection', function (socket) {
 
     players[socket.id] = {
         id: socket.id, x: 20, y: 20,
-<<<<<<< HEAD
-        speed: 1, width: 50, height: 50,
-=======
         speed: 5, width: 50, height: 50,
->>>>>>> ddacea380ac2d2aaea8c30171d9a580b22b410b9
         moveData: { vector: [0, 0], clickPos: [20, 20] }
     };
 
