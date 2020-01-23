@@ -1,18 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// const objSchema = new Schema({
-//     name: {
-//         type: String
-//     },
-//     position: {
-//         type: [Number]
-//     },
-//     status: {
-//         type: String
-//     }
-// })
-
 const MapSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
@@ -29,8 +17,23 @@ const MapSchema = new Schema({
     objects: {
         type: Object,
         required: true
+    },
+    url: {
+        type: String
     }
 });
 
 const Maps = mongoose.model('maps', MapSchema)
 module.exports = Maps
+
+// const objSchema = new Schema({
+//     name: {
+//         type: String
+//     },
+//     position: {
+//         type: [Number]
+//     },
+//     status: {
+//         type: String
+//     }
+// })

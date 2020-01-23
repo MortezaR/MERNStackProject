@@ -28,11 +28,6 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-    // const user = new User({
-    //     username: "Joe",
-    //     password: "12345"
-    // })
-    // user.save()
     res.send("Hello World!");
 });
 
