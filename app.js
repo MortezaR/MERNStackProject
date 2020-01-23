@@ -60,23 +60,12 @@ app.get('/', function (req, res) {
 let game = new Game();
 
 gameServer.on('connection', function (socket) {
-
-    socket.emit('news', { hello: 'world' });
-    socket.on('my other event', function (data) {
-        console.log(data);
-    });
-    game.addPlayer(socket.id, 'bbw', 50, 50);
-
-
+    
     console.log('a game user connected: ', socket.id);
     socket.emit('currentPlayers', game.getPlayers());
-
-    players[socket.id] = {
-        id: socket.id, x: 20, y: 20,
-        speed: 5, width: 50, height: 50,
-        moveData: { vector: [0, 0], clickPos: [20, 20] }
-    };
-
+    
+    game.addPlayer(socket.id, 'bbw', 50, 50);
+    console.log(game.getPlayer(socket.id).toObj())
     gameServer.emit('newPlayer', game.getPlayer(socket.id).toObj());
 
     socket.on('newClickMove', function (moveData) {

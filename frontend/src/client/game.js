@@ -1,7 +1,6 @@
 import Map from './map'
 import Camera from './camera'
 import Player from './player'
-import Object from './object'
 
 export default class Game{
   constructor(){
@@ -27,14 +26,14 @@ export default class Game{
     this.room.map.generate();
     if (this.myId === null) {
       console.log("new player created")
+      console.log(playerData)
       let { id, x, y, width, height } = playerData;
       this.myId = playerData.id;
       this.player = new Player(id, x, y, width, height);
       this.camera = new Camera(0, 0, this.vWidth, this.vHeight, this.room.width, this.room.height);
       let follow = this.camera.follow.bind(this);
-      setTimeout(() => {
-        follow(this.player, this.vWidth / 2, this.vHeight / 2)
-      }, 1000);
+      this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)
+      
     } else {
       let { id, x, y, width, height } = playerData;
       let player = new Player(id, x, y, width, height);
@@ -50,17 +49,8 @@ export default class Game{
     })
   }
 
-  addObjects(objectData){
-    Object.values(objectData).forEach(object => {
-      let { id, x, y, width, height } = object
-      let object = new Object(id, x, y, width, height)
-      this.objects[object.id] = object;
-    })
-  }
-
-  updatePlayers(gameData){
-    let (playerData, objectData) = gameData
-    Object.values(playerData).forEach((data) => {
+  updatePlayers(playersData){
+    Object.values(playersData).forEach((data) => {
       if (data.id === this.myId) {
         this.player.update(data.x, data.y);
         this.camera.update();
@@ -68,9 +58,6 @@ export default class Game{
         this.otherPlayers[data.id].update(data.x, data.y);
       }
     })
-    Object.values(objectData).forEach((data) => {
-        this.objects[data.id].update(data.x, data.y);
-      })
     }
 
   draw(){
