@@ -1,0 +1,23 @@
+canvas {
+    /* background-color: red; */
+    background-image: url(../../assets//images/worldmap1.png);
+    border-radius: 2px;
+    position: relative;
+}
+
+.obstacle {
+    cursor: url(../../assets//images/rock_cursor.png), auto;
+}
+
+.food {
+    cursor: url(../../assets/images/food_cursor.png), auto;
+}
+
+.remove {
+    cursor: url('https://cdn4.iconfinder.com/data/icons/32x32-free-design-icons/32/Eraser.png'), auto;
+}
+
+.hidden {
+    display: none;
+}
+

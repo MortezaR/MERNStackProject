@@ -70,9 +70,8 @@ export default class Game{
     })
     Object.values(objectData).forEach((data) => {
         this.objects[data.id].update(data.x, data.y);
-      }
-    })
-  }
+      })
+    }
 
   draw(){
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -96,7 +95,7 @@ export default class Game{
   }
 
   disconnectPlayer(id){
-    console.log("player disconnected")
+    console.log("player disconnected");
     delete this.otherPlayers[id];
   }
 }

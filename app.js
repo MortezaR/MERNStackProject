@@ -10,7 +10,8 @@ const passport = require('passport');
 
 //added for sockets
 const io = require("socket.io");
-const server = io.listen(8000);
+const gameServer = io.listen(8000);
+const chatServer = io.listen(7000);
 
 mongoose
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -49,8 +50,8 @@ app.get('/index.html', function (req, res) {
     res.sendFile(__dirname + '/frontend/public/index.html');
 });
 
-server.listen(process.env.PORT || 5000, () => {
-    console.log(`Server started on port ${process.env.PORT || 5000}`);
+gameServer.listen(process.env.PORT || 5000, () => {
+    console.log(`gameServer started on port ${process.env.PORT || 5000}`);
 });
 
 app.get('/', function (req, res) {
@@ -116,7 +117,7 @@ let updatePlayerMovement = (player) => {
 }
 
 
-server.on('connection', function (socket) {
+gameServer.on('connection', function (socket) {
 
     socket.emit('news', { hello: 'world' });
     socket.on('my other event', function (data) {
@@ -124,7 +125,7 @@ server.on('connection', function (socket) {
     });
 
 
-    console.log('a user connected: ', socket.id);
+    console.log('a game user connected: ', socket.id);
     socket.emit('currentPlayers', players);
 
     players[socket.id] = {
@@ -133,7 +134,7 @@ server.on('connection', function (socket) {
         moveData: { vector: [0, 0], clickPos: [20, 20] }
     };
 
-    server.emit('newPlayer', players[socket.id]);
+    gameServer.emit('newPlayer', players[socket.id]);
 
     socket.on('newClickMove', function (moveData) {
         players[socket.id].moveData = moveData;
@@ -141,8 +142,8 @@ server.on('connection', function (socket) {
 
     socket.on('disconnect', function () {
         console.log('user disconnected: ', socket.id);
-        delete players[socket.id];
-        server.emit('disconnect', socket.id);
+        delete players[socket.id]; 
+        gameServer.emit('disconnect', socket.id);
         clearInterval(interval)
     });
 
@@ -159,3 +160,10 @@ server.on('connection', function (socket) {
     interval()
 });
 
+chatServer.on('connection', function(socket){
+    console.log('a chat user connected: ', socket.id);
+    socket.on('chatMessage', (message)=> {
+        console.log("incoming message")
+        chatServer.emit('newMessage', message)
+    })
+})
