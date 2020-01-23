@@ -1,10 +1,10 @@
 
-const Object = require( './object.js')
+const GObject = require( './object.js')
 const utils = require('../util.js')
 const getDir = utils.getDir;
 const hitBoxTouch = utils.hitBoxTouch;
 
-class moveableObject extends Object{
+class moveableObject extends GObject{
 
     constructor(map, x, y, id){
         super(map, x, y, id);
@@ -26,8 +26,10 @@ class moveableObject extends Object{
             this.x += unitX;
             this.y += unitY;
             this.getOut = false;
-            this.map.getAllObjects().forEach((obj) =>{
-                if (obj.id !== this.id){
+            let allObj = this.map.getAllObjects();
+            Object.keys(allObj).forEach((key) =>{
+                let obj = allObj[key]
+                if (obj.id !== this.id && obj.phasable === false){
                     if(hitBoxTouch(obj.getHitBox(), this.getHitBox())){
                         this.getOut = true;
                     }
@@ -39,7 +41,6 @@ class moveableObject extends Object{
                 this.y -= unitY;
                 return true;
             }
-            
             if (((this.x >= dX && unitX >= 0) || (this.x <= dX && unitX <= 0)) && 
                 ((this.y >= dY && unitY >= 0) || (this.y <= dY && unitY <= 0))){
                 this.x = dX;

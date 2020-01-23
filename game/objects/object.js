@@ -1,6 +1,6 @@
 
 
-class Object {
+class GObject {
     constructor(map,x,y,id){
         this.map = map;
         this.x = x;
@@ -15,4 +15,4 @@ class Object {
             [(s + this.x), (s + this.y)], [(-s + this.x), (s + this.y)]]
     }
 }
-module.exports = Object;
+module.exports = GObject;

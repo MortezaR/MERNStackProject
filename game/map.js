@@ -1,29 +1,35 @@
 const Tree = require( './objects/tree.js')
 const BigBadWolf = require( './objects/bigbadwolf.js')
 const Piglet = require( './objects/piglet.js')
-// const {isBetween} from 'util.js'
+const utils = require('./util.js')
+const hitBoxTouch = utils.hitBoxTouch;
+
 class Map {
     constructor(height, width){
         this.height = height;
         this.width = width;
-        this.gameObjects = [];
-        this.playerObjects = [];
+        this.gameObjects = {};
+        this.playerObjects = {};
         this.getObjects = this.getObjects.bind(this);
     }
     getDim(){
         return [this.width,this.height];
     }
-    getObject(objectIndex){
-        return this.gameObjects[objectIndex];
-    }
-    getObjects(sX, sY, eX, eY){
+    getObjects(coord){
         //function is wrong and needs to be edit
-        return this.gameObjects.map(obj => {
-            // return isBetween(obj.x,sX, eX) && isBetween(obj.y, sY, eY) ? obj : null
+        let retVal = {};
+        let allObj = this.getAllObjects();
+        Object.keys(allObj).forEach(key => {
+            let obj = allObj[key];
+            if(hitBoxTouch(coord, obj.getHitBox())){
+                retVal[obj.id] = obj;
+            }
         });
+        return retVal;
     }
     getAllObjects(){
-        return this.gameObjects.concat(this.playerObjects);
+        // return this.gameObjects.concat(this.playerObjects);
+        return Object.assign({}, this.gameObjects, this.playerObjects);
     }
     addObject(objType, ...objParams){
         let obj;
@@ -33,11 +39,11 @@ class Map {
                 break
         }
         if(obj) {
-            this.gameObjects.push(obj);
+            this.gameObjects[obj.id] = obj;
         }
     }
     addPlayerObject(obj){
-        this.playerObjects.push(obj);
+        this.playerObjects[obj.id] = obj;
     }
 }
 

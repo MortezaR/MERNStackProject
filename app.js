@@ -70,7 +70,7 @@ gameServer.on('connection', function (socket) {
 
     socket.on('newClickMove', function (moveData) {
         game.getPlayer(socket.id).getObject()
-            .move(moveData.clickPos[0], moveData.clickPos[1]);
+            .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
     });
 
     socket.on('disconnect', function () {
