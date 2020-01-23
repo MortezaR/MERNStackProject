@@ -1,3 +1,4 @@
+const Game = require('./game/game')
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -56,61 +57,7 @@ app.get('/', function (req, res) {
 
 
 
-
-let players = {};
-let worldWidth = 3000;
-let worldHeight = 3000;
-
-let updatePlayerMovement = (player) => {
-    let stopMovement = (player) => {
-        if ((player.moveData.vector[0] < 0) && (player.x < 10 || player.x < player.moveData.clickPos[0])) {
-            return true
-        } else if ((player.moveData.vector[0] > 0) && (player.x > worldWidth - 10 || player.x > player.moveData.clickPos[0])) {
-            return true
-        } else if ((player.moveData.vector[1] < 0) && (player.y < 10 || player.y < player.moveData.clickPos[1])) {
-            return true
-        } else if ((player.moveData.vector[1] > 0) && (player.y > worldHeight - 10 || player.y > player.moveData.clickPos[1])) {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    if (stopMovement(player)) {
-        player.moveData.vector = [0, 0];
-    } else {
-        player.x = player.x + player.moveData.vector[0] * player.speed;
-        player.y = player.y + player.moveData.vector[1] * player.speed;
-    }
-
-    if (player.x - player.width / 2 < 0) {
-        player.x = player.width / 2;
-    }
-    if (player.y - player.height / 2 < 0) {
-        player.y = player.height / 2;
-    }
-    if (player.x + player.width / 2 > worldWidth) {
-        player.x = worldWidth - player.width / 2;
-    }
-    if (player.y + player.height / 2 > worldHeight) {
-        player.y = worldHeight - player.height / 2;
-    }
-
-    if (player.x - player.width / 2 < 0) {
-        player.x = player.width / 2;
-    }
-    if (player.y - player.height / 2 < 0) {
-        player.y = player.height / 2;
-    }
-    if (player.x + player.width / 2 > worldWidth) {
-        player.x = worldWidth - player.width / 2;
-    }
-    if (player.y + player.height / 2 > worldHeight) {
-        player.y = worldHeight - player.height / 2;
-    }
-    return player
-}
-
+let game = new Game();
 
 gameServer.on('connection', function (socket) {
 
@@ -118,10 +65,11 @@ gameServer.on('connection', function (socket) {
     socket.on('my other event', function (data) {
         console.log(data);
     });
+    game.addPlayer(socket.id, 'bbw', 50, 50);
 
 
     console.log('a game user connected: ', socket.id);
-    socket.emit('currentPlayers', players);
+    socket.emit('currentPlayers', game.getPlayers());
 
     players[socket.id] = {
         id: socket.id, x: 20, y: 20,
@@ -129,15 +77,16 @@ gameServer.on('connection', function (socket) {
         moveData: { vector: [0, 0], clickPos: [20, 20] }
     };
 
-    gameServer.emit('newPlayer', players[socket.id]);
+    gameServer.emit('newPlayer', game.getPlayer(socket.id).toObj());
 
     socket.on('newClickMove', function (moveData) {
-        players[socket.id].moveData = moveData;
+        game.getPlayer(socket.id).getObject()
+            .move(moveData.clickPos[0], moveData.clickPos[1]);
     });
 
     socket.on('disconnect', function () {
         console.log('user disconnected: ', socket.id);
-        delete players[socket.id]; 
+        game.deletePlayer(socket.id);
         gameServer.emit('disconnect', socket.id);
         clearInterval(interval)
     });
@@ -145,10 +94,10 @@ gameServer.on('connection', function (socket) {
     let interval = () => {
         console.log("im setting an interval");
         setInterval(() => {
-            Object.keys(players).forEach(key => {
-                players[key] = updatePlayerMovement(players[key])
-            })
-            socket.emit("updatePlayer", players)
+            // Object.keys(players).forEach(key => {
+            //     players[key] = updatePlayerMovement(players[key])
+            // })
+            socket.emit("updatePlayer", game.getPlayers())
         }, 1000 / 60)
     }
 
