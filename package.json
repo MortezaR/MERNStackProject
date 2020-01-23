@@ -20,13 +20,10 @@
     "mongoose": "^5.8.9",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-<<<<<<< HEAD
+    "redux": "^4.0.5",
     "sass": "^1.25.0",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
-=======
-    "redux": "^4.0.5",
->>>>>>> backend
     "validator": "^12.1.0"
   },
   "devDependencies": {
