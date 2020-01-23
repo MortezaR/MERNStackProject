@@ -7,6 +7,7 @@ import { Route, Switch } from 'react-router-dom';
 import Lobby from './lobby'
 import MapEditor from './map_editor/map_editor'
 import LoginFormContainer from './session/login_form_container'
+import '../App.scss'
 
 const App = () => (
   <div>

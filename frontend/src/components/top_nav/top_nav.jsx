@@ -52,8 +52,8 @@ class TopNav extends React.Component {
                             <span className="topnav-logout">Logout</span>
                         </li>
                     </ul>
-                </div>
 
+                </div>
             </div>
         )
 

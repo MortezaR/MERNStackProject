@@ -1,14 +1,55 @@
 .map-editor {
-    background-color: #121212;
+    // background-color: red;
     /* min-height: 100vh; */
     display: flex;
     flex-direction: row;
     align-items: center;
     /* justify-content: center; */
     font-size: calc(10px + 2vmin);
-    color: white;
+    // color: white;
     /* max-width: 1920; */
     /* overflow: hidden; */
-    width: 5000px;
+    // width: 5000px;
+    // margin: auto;
+    // height: auto;
   }
   
+  .overlap {
+    position: fixed;
+    top: 80%;
+    left: 43%;
+    background-color: rgba(131, 75, 75, 0.658);
+    width: 300px;
+    height: 50px;
+    border-radius: 50px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 20px;
+  }
+
+
+  @keyframes fade-in {
+    0%   {opacity: 0;}
+    100% {opacity: 1;}
+  }
+
+  @keyframes fade-out {
+    0%   {opacity: 1;}
+    100% {opacity: 0;}
+  }
+
+  .fadein {
+    display: block;
+    animation-name: fade-in;
+    animation-duration: 1s;
+  }
+
+  .fadeout {
+    display: block;
+    animation-name: fade-out;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+  }

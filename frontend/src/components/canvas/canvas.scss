@@ -3,6 +3,7 @@ canvas {
     background-image: url(../../assets//images/worldmap1.png);
     border-radius: 2px;
     position: relative;
+    background-color: red;
 }
 
 .obstacle {
@@ -13,9 +14,15 @@ canvas {
     cursor: url(../../assets/images/food_cursor.png), auto;
 }
 
+.house {
+    cursor: url(../../assets/images/house_cursor.png), auto;
+}
+
+
 .remove {
     cursor: url('https://cdn4.iconfinder.com/data/icons/32x32-free-design-icons/32/Eraser.png'), auto;
 }
+
 
 .hidden {
     display: none;
