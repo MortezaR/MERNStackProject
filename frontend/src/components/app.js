@@ -8,6 +8,7 @@ import Lobby from './lobby'
 import gameCanvas from './gameCanvas'
 import MapEditor from './map_editor/map_editor'
 import LoginFormContainer from './session/login_form_container'
+import SignupFormContainer from './session/signup_form_container'
 import '../App.scss'
 
 const App = () => (
@@ -21,8 +22,13 @@ const App = () => (
       <ProtectedRoute exact path="/game" component={UsersIndexContainer} /> */}
       <Route exact path="/map" component={MapEditor} />
       <Route exact path="/login" component={LoginFormContainer} />
+<<<<<<< HEAD
       <Route exact path="/lobby" component={Lobby} />
       <Route exact path="/game" component={gameCanvas} />
+=======
+      <Route exact path="/signup" component={SignupFormContainer} />
+      <Route path="/" component={Lobby} />
+>>>>>>> loginpage
       {/* <ProtectedRoute exact path="/editor" component={ProfileContainer} /> */}
 
     </Switch>
