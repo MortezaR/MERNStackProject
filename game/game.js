@@ -28,7 +28,6 @@ class Game {
     }
     deletePlayer(playerId){
         delete this.map.playerObjects[playerId];
-        console.log(this.map.playerObjects);
         //delete player from the map
         delete this.players[playerId];
     }

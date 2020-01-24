@@ -52,10 +52,10 @@ export default class Game{
   updatePlayers(playersData){
     Object.values(playersData).forEach((data) => {
       if (data.id === this.myId) {
-        this.player.update(data.x, data.y);
+        this.player.update(data.x, data.y, data.moveDir);
         this.camera.update();
       } else if (this.otherPlayers[data.id]) {
-        this.otherPlayers[data.id].update(data.x, data.y);
+        this.otherPlayers[data.id].update(data.x, data.y, data.moveDir);
       }
     })
     }

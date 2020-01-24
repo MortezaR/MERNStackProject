@@ -65,7 +65,17 @@ gameServer.on('connection', function (socket) {
     console.log('a game user connected: ', socket.id);
     socket.emit('currentPlayers', game.getPlayers());
     
-    game.addPlayer(socket.id, 'bbw', 50, 50);
+    let numPlayers = Object.keys(game.getPlayers()).length;
+    console.log(numPlayers);
+    if (numPlayers < 1){
+        game.addPlayer(socket.id, 'bbw', 200, 200);
+    }else{
+        game.addPlayer(socket.id, 'piglet',
+         200 * (numPlayers + 1), 200 * (numPlayers + 1))
+    }
+
+
+
     console.log(game.getPlayer(socket.id).toObj())
     gameServer.emit('newPlayer', game.getPlayer(socket.id).toObj());
 
@@ -84,9 +94,6 @@ gameServer.on('connection', function (socket) {
     let interval = () => {
         console.log("im setting an interval");
         setInterval(() => {
-            // Object.keys(players).forEach(key => {
-            //     players[key] = updatePlayerMovement(players[key])
-            // })
             socket.emit("updatePlayer", game.getPlayers())
         }, 1000 / 60)
     }

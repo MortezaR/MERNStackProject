@@ -71,7 +71,6 @@ class moveableObject extends GObject{
             NS = 20;
         }
         this.moveDir = NS + EW;
-        console.log(this.moveDir);
     }
 
 }
