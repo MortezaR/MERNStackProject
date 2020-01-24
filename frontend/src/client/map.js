@@ -9,26 +9,26 @@ export default class Map{
         ctx.canvas.width = this.width;
         ctx.canvas.height = this.height;
 
-        let rows = ~~(this.width / 44) + 1;
-        let columns = ~~(this.height / 44) + 1;
+        // let rows = ~~(this.width / 44) + 1;
+        // let columns = ~~(this.height / 44) + 1;
 
-        let color = "red";
-        ctx.save();
-        ctx.fillStyle = "red";
-        for (let x = 0, i = 0; i < rows; x += 44, i++) {
-            ctx.beginPath();
-            for (let y = 0, j = 0; j < columns; y += 44, j++) {
-                ctx.rect(x, y, 40, 40);
-            }
-            color = (color == "red" ? "blue" : "red");
-            ctx.fillStyle = color;
-            ctx.fill();
-            ctx.closePath();
-        }
-        ctx.restore();
+        // let color = "red";
+        // ctx.save();
+        // ctx.fillStyle = "red";
+        // for (let x = 0, i = 0; i < rows; x += 44, i++) {
+        //     ctx.beginPath();
+        //     for (let y = 0, j = 0; j < columns; y += 44, j++) {
+        //         ctx.rect(x, y, 40, 40);
+        //     }
+        //     color = (color == "red" ? "blue" : "red");
+        //     ctx.fillStyle = color;
+        //     ctx.fill();
+        //     ctx.closePath();
+        // }
+        // ctx.restore();
 
         this.image = new Image();
-        this.image.src = ctx.canvas.toDataURL("image/png");
+        this.image.src = 'https://i.imgur.com/KuaWfh7.png'
         ctx = null;
     }
 

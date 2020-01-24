@@ -1,7 +1,7 @@
 
-const Object = require( './object.js')
+const GObject = require( './object.js')
 
-class Tree extends Object{
+class Tree extends GObject{
 
 }
 

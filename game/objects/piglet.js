@@ -5,14 +5,20 @@ class Piglet extends movableObject{
     constructor(map, x, y, id) {
         super(map, x, y, id);
         this.speed = 2;
-        this.hitBoxSize = [6, 3];
+        this.hitBoxSize = [50, 25];
         this.actionCooldown = 1;
     }
 
     performAction(type, dX, dY) {
-        const [dirX, dirY] = getDir(this.x, this.y, dX, dY);
         switch (type) {
-            case 'farm':
+            case 'attack':
+                const hB = calcHitBox(getDir(this.x, this.y, dX, dY), this.hitBoxSize,
+                    this.x, this.y);
+                let hitObjects = this.map.getObjects(hB);
+                delete hitObjects[this.id];
+                break;
+            case 'move':
+                this.move(dX, dY);
                 break;
             default:
                 break;

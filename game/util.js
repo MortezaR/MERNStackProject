@@ -1,5 +1,3 @@
-
-
 const isBetween = (target, start, end) => {
     return start <= target && end >= target ? true : false;
 }
@@ -22,7 +20,6 @@ const calcHitBox = (dir, hitBoxSize, sX, sY) =>{
 const hitBoxTouch = (coord1, coord2) => {
     let retVal = false;
     coord1.forEach(coord => {
-        // console.log(coord1, coord2);
         if(isInside(coord[0], coord[1], coord2)){
             retVal = true;
             return retVal;
@@ -55,7 +52,6 @@ const findLine = (firstX, firstY, secondX, secondY) => {
     let c = a * (secondX) + b * (secondY);
     if (b === 0 && a >= 0){
         b = 0.0001;
-        console.log(b);
     }else if( b=== 0){
         b = -0.0001;
     }
