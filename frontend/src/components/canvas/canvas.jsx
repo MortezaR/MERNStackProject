@@ -5,6 +5,10 @@ import rockIcon from '../../assets/images/rock_icon.png'
 import houseIcon from '../../assets/images/house_icon.png'
 import worldMap from '../../assets/images/worldmap1.png';
 
+import Sound from 'react-sound';
+import worldMusic from '../../assets/sound/gflop.mp3';
+
+
 const GAME_DIMENSIONX = 5000;
 const GAME_DIMENSIONY = 5500;
 
@@ -137,10 +141,13 @@ class Canvas extends React.Component {
 
             <canvas id="canvas" onKeyPress={this.handleKey} onClick={this.getCursorPosition} ref="canvas" className={this.props.clickEffect} width={5000} height={5500} />
 
-            <img ref="foodIcon" src={foodIcon} className="hidden" />
-            <img ref="rockIcon" src={rockIcon} className="hidden" />
-            <img ref="houseIcon" src={houseIcon} className="hidden" />
-            <img ref="worldMap" onLoad={this.callbackTest} src={worldMap} className="hidden" />
+            <img ref="foodIcon" alt="" src={foodIcon} className="hidden" />
+            <img ref="rockIcon" alt="" src={rockIcon} className="hidden" />
+            <img ref="houseIcon" alt="" src={houseIcon} className="hidden" />
+            <img ref="worldMap" alt="" onLoad={this.callbackTest} src={worldMap} className="hidden" />
+
+
+            
          </div> 
         )
       }
