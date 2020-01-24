@@ -23,11 +23,10 @@ const App = () => (
       <ProtectedRoute exact path="/game" component={UsersIndexContainer} /> */}
       <Route exact path="/map" component={MapEditor} />
       <Route exact path="/login" component={LoginFormContainer} />
-      <Route exact path="/signup" component={SignupFormContainer} />
-      <Route exact path="/game" component={gameCanvas} />
       <Route exact path="/lobby" component={Lobby} />
+      <Route exact path="/game" component={gameCanvas} />
+      <Route exact path="/signup" component={SignupFormContainer} />
       <Route path="/" component={Lobby} />
-
       {/* <ProtectedRoute exact path="/editor" component={ProfileContainer} /> */}
 
     </Switch>

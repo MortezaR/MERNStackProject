@@ -1,3 +1,4 @@
+import './login_form.scss'
 import React from "react"
 import { Link } from 'react-router-dom'
 
@@ -47,7 +48,7 @@ class LoginForm extends React.Component {
     render() {
 
         return (
-            <div>
+            <div className="login-box">
                 <form>
                     <input type="text" placeholder="Username" value={this.state.username} onChange={this.handleInput('username')} />
                     <input type="text" placeholder="Password" value={this.state.password} onChange={this.handleInput('password')} />
