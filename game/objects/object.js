@@ -12,8 +12,8 @@ class GObject {
     getHitBox(){
         let x = this.hitBox[0];
         let y = this.hitBox[1];
-        return [[(-x + this.x), (-y + this.y)], [(x + this.x), (-y + this.y)],
-            [(x + this.x), (y + this.y)], [(-x + this.x), (y + this.y)]]
+        return [[(-x/2 + this.x), (-y/2 + this.y)], [(x/2 + this.x), (-y/2 + this.y)],
+            [(x/2 + this.x), (y/2 + this.y)], [(-x/2 + this.x), (y/2 + this.y)]]
     }
 }
 module.exports = GObject;

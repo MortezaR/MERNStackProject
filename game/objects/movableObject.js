@@ -4,6 +4,7 @@ const utils = require('../util.js')
 const getDir = utils.getDir;
 const hitBoxTouch = utils.hitBoxTouch;
 //S - 21 , SW - 22, W - 12, NW - 32, N - 31, NE - 33, E - 13, SE - 23
+//
 
 class moveableObject extends GObject{
 
