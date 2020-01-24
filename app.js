@@ -13,6 +13,7 @@ const passport = require('passport');
 const io = require("socket.io");
 const gameServer = io.listen(8000);
 const chatServer = io.listen(7000);
+// 
 
 mongoose
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -53,7 +54,7 @@ gameServer.listen(process.env.PORT || 5000, () => {
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
-
+//
 
 
 
@@ -93,10 +94,88 @@ gameServer.on('connection', function (socket) {
     interval()
 });
 
+// let chatters;
+let rooms = {}
+
 chatServer.on('connection', function(socket){
     console.log('a chat user connected: ', socket.id);
-    socket.on('chatMessage', (message)=> {
-        console.log("incoming message")
-        chatServer.emit('newMessage', message)
+    setTimeout(() => {
+        socket.emit('setupNewChatter', { rooms, id: socket.id }) 
+    }, 2000)
+    
+    socket.on('requestRoom', (data) => {
+        rooms[socket.id] = {
+            roomName: data.roomName,
+            chatters: {},
+            roomId: socket.id
+        }
+        let newData = data;
+        newData["roomId"] = socket.id;
+        joinRoom(newData)
+        chatServer.emit('updateRoomsInfo', rooms)
     })
+
+    let addChatterToRoom = (username, roomId, playerId) => {
+        rooms[roomId].chatters[playerId] = {
+            id: playerId,
+            username: username,
+            ready: false
+        }
+    }
+
+    let joinRoom = (data) => {
+            if (rooms[data.oldRoomId]){
+                delete rooms[data.oldRoomId].chatters[data.myId]
+                socket.leave(rooms[data.oldRoomId].roomName)
+                if (Object.keys(rooms[data.oldRoomId].chatters).length===0){
+                    delete rooms[data.oldRoomId]
+                    chatServer.emit('updateRoomsInfo', rooms)
+                }
+            }
+            addChatterToRoom(data.username, data.roomId, socket.id, socket)
+            let roomName = rooms[data.roomId].roomName
+            socket.join(roomName)
+            chatServer.in(roomName).emit('joinRoomInfo', { 
+                chatters: rooms[data.roomId].chatters, 
+                roomName: rooms[data.roomId].roomName, 
+                roomId: data.roomId 
+            })
+        }
+
+    socket.on('joinRoom', data => joinRoom(data))
+
+    socket.on('disconnect', () => {
+        delete rooms[socket.id]
+        chatServer.emit('updateRoomsInfo', rooms)
+        chatServer.emit('disconnectUser', socket.id)
+    })
+
+    
+    // setTimeout(()=> {
+    //     socket.emit('setupCurrentChatters', chatters)
+    // }, 2000)
+
+    // setTimeout(()=> {
+    //     chatters[socket.id] = { id: socket.id, username: "Fred", ready: false }
+    //     socket.emit('setupNewChatter', {rooms, user: chatters[socket.id]}) 
+    // }, 500)
+
+    // socket.on('newChatterConnected', (chatter) => {
+    //     socket.broadcast.emit('addNewChatter', chatter)
+    // })
+
+
+
+    socket.on('chatMessage', (data) => {
+        chatServer.in(data.roomName).emit('newMessage', data)
+    })
+
+    socket.on('playerReady', (data) => {
+        console.log('player is ready')
+        console.log(data)
+        rooms[data.roomId].chatters[data.id].ready = data.ready
+        let newData = {id: socket.id, ready: data.ready}
+        chatServer.in(data.roomName).emit('playerIsReady', newData)
+    })
+    
 })

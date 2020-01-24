@@ -1,4 +1,5 @@
 import React from 'react';
+import './lobby.scss';
 
 class Display extends React.Component {
     constructor(props) {
@@ -7,24 +8,22 @@ class Display extends React.Component {
     }
 
     render() {
-        console.log(this.messages)
         const messages = this.messages.map((message, i) => {
             return (
-                <li>
+                <li className="chat-message">
                     <p key={i}>{message.username}</p>
-                    <p key={i}>{message.messageContent}</p>
+                    <p key={i}>{message.currentMessage}</p>
                 </li>
                
             );
         });
 
         return (
-            <div className="display">
-                <div className="messages">
-                    <ul>
-                        {messages}
-                    </ul>
-                </div>
+            <div className="message-list">
+                this is the message list
+                <ul>
+                    {messages}
+                </ul>
             </div>
         )
     }

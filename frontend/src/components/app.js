@@ -4,15 +4,16 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 // import LoginFormContainer from './session/login_form_container';
 // import SignupFormContainer from './session/signup_form_container';
-import Lobby from './lobby'
+import Lobby from './lobby/lobby'
 import gameCanvas from './gameCanvas'
 import MapEditor from './map_editor/map_editor'
+import TopNav from './top_nav/top_nav'
 import LoginFormContainer from './session/login_form_container'
 import '../App.scss'
 
 const App = () => (
   <div>
-    {/* <NavBarContainer /> */}
+    <TopNav />
     <Switch>
 {/*       
       <AuthRoute exact path="/" component={MainPage} />
@@ -21,7 +22,7 @@ const App = () => (
       <ProtectedRoute exact path="/game" component={UsersIndexContainer} /> */}
       <Route exact path="/map" component={MapEditor} />
       <Route exact path="/login" component={LoginFormContainer} />
-      <Route exact path="/lobby" component={Lobby} />
+      <Route exact path="/home" component={Lobby} />
       <Route exact path="/game" component={gameCanvas} />
       {/* <ProtectedRoute exact path="/editor" component={ProfileContainer} /> */}
 
