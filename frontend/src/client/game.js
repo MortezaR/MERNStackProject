@@ -79,6 +79,7 @@ export default class Game{
         this.otherPlayers[key].draw(this.context, this.camera.xView, this.camera.yView)
       })
     }
+    
   }
 
   disconnectPlayer(id){

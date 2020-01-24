@@ -1,6 +1,9 @@
 import React from 'react';
 import Game from '../client/game'
 import io from "socket.io-client";
+import Sound from 'react-sound';
+import worldMusic from '../assets/sound/gflop.mp3';
+
 
 class gameCanvas extends React.Component {
   constructor(props) {
@@ -9,6 +12,9 @@ class gameCanvas extends React.Component {
     this.handleRightClick = this.handleRightClick.bind(this)
     this.game = null;
     this.socket = io.connect("http://localhost:8000");
+    this.state = {
+      sound: 'Sound.status.MUTED'
+    }
   }
 
   playGame() {
@@ -35,12 +41,27 @@ class gameCanvas extends React.Component {
 
   componentDidMount() {
     this.playGame();
+
+    this.setState({
+      sound: 'Sound.status.PLAYING'
+    })
+
   }
+
+
 
   render() {
     return (
       <div>
         <canvas id="canvas" onClick={this.handleClick} onContextMenu={this.handleRightClick} width={500} height={500}></canvas>
+        <Sound
+          url={worldMusic}
+          onClick={this.handleSoundClick}
+          playStatus={`${this.state.sound}`}
+          playFromPosition={30 /* in milliseconds */}
+          loop="true"
+          volume="50"
+        />
       </div>
     )
   }
