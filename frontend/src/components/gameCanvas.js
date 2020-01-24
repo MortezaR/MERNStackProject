@@ -40,7 +40,6 @@ class gameCanvas extends React.Component {
   render() {
     return (
       <div>
-        <div>Hello</div>
         <canvas id="canvas" onClick={this.handleClick} onContextMenu={this.handleRightClick} width={500} height={500}></canvas>
       </div>
     )
