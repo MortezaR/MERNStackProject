@@ -10,6 +10,7 @@ class BigBadWolf extends movableObject {
         super(map, x, y, id);
         this.speed = 2;
         this.hitBoxSize = [50,25];
+        this.hitBox = [112, 112];
         this.actionCooldown = 1;
     }
     performAction(type, dX, dY) {

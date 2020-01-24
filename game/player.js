@@ -25,7 +25,7 @@ class Player {
     }
     toObj(){
         return {id: this.id, x: this.getObject().x,
-             y: this.getObject().y, width: 10, height: 10 }
+             y: this.getObject().y, width: this.object.hitBox[0], height: this.object.hitBox[1] }
     }
 }
 
