@@ -37,17 +37,18 @@ app.use("/api/maps", maps);
 
 const port = process.env.PORT || 5000;
 
-// app.listen(port, () => {console.log(`Listening on port ${port}`)})
 
+const pear = require('http').createServer(app);
 
+app.listen(port, () => {console.log(`Listening on port ${port}`)})
 
 //added code for sockets
 app.get('/index.html', function (req, res) {
     res.sendFile(__dirname + '/frontend/public/index.html');
 });
 
-gameServer.listen(process.env.PORT || 5000, () => {
-    console.log(`gameServer started on port ${process.env.PORT || 5000}`);
+gameServer.listen(pear, () => {
+    console.log(`gameServer started on port ${pear}`);
 });
 
 app.get('/', function (req, res) {
