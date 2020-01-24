@@ -167,6 +167,7 @@ chatServer.on('connection', function(socket){
 
 
     socket.on('chatMessage', (data) => {
+        console.log("im receiving msg")
         chatServer.in(data.roomName).emit('newMessage', data)
     })
 

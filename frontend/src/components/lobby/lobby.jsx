@@ -37,7 +37,10 @@ class Lobby extends React.Component{
             this.setState({
                 myChatters: data.chatters,
                 myRoomName: data.roomName,
-                myRoomId: data.roomId
+                myRoomId: data.roomId,
+                messages: [],
+                // currentMessage: '',
+                // requestedRoomName: ''
             })
         })
 
@@ -79,13 +82,15 @@ class Lobby extends React.Component{
 
 
         this.socket.on('newMessage', (data) => {
-            let allMessages = this.state.messages
-            let message = {currentMessage: data.currentMessage, 
+            console.log(data)
+            let {messages} = this.state
+            let message = {
+                currentMessage: data.currentMessage, 
                 username: data.username
             }
-            allMessages.push(message)
+            messages.push(message)
             this.setState({
-                messages: allMessages
+                messages: messages
             })
         })
 
@@ -133,7 +138,9 @@ class Lobby extends React.Component{
             e.preventDefault();
             if (roomId === this.state.myRoomId) return null
             let {myRoomId, username,myId} = this.state
-            let data = {roomId, oldRoomId: myRoomId, 
+            let data = {
+                roomId, 
+                oldRoomId: myRoomId, 
                 username: username, myId: myId
             }
             this.socket.emit('joinRoom', data)
@@ -171,7 +178,6 @@ class Lobby extends React.Component{
             className="not-ready">Def not time</button>)
         let currentPlayers = (<div></div>)
         if(this.state.myRoomId!==''){
-            debugger
             allPlayersReady = Object.values(this.state.myChatters).every((user) => {
                 return user.ready
             })
@@ -198,7 +204,7 @@ class Lobby extends React.Component{
                 })
             ) : (<div>No current members</div>)
         }
-        
+        console.log(this.state.messages)
         return (
             
              <div className="lobby-main">
