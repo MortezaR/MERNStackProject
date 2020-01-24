@@ -60,14 +60,14 @@ export default class Game{
     })
     }
 
-  draw(){
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.room.map.draw(this.context, this.camera.xView, this.camera.yView);
-    this.player.draw(this.context, this.camera.xView, this.camera.yView)
-    Object.keys(this.otherPlayers).forEach(key => {
-      this.otherPlayers[key].draw(this.context, this.camera.xView, this.camera.yView)
-    })
-  }
+  // draw(){
+  //   this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  //   this.room.map.draw(this.context, this.camera.xView, this.camera.yView);
+  //   this.player.draw(this.context, this.camera.xView, this.camera.yView)
+  //   Object.keys(this.otherPlayers).forEach(key => {
+  //     this.otherPlayers[key].draw(this.context, this.camera.xView, this.camera.yView)
+  //   })
+  // }
 
   gameLoop(gameData){
     this.updatePlayers(gameData);

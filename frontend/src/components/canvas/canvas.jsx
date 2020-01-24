@@ -3,6 +3,7 @@ import './canvas.scss';
 import foodIcon from '../../assets/images/food_icon.png'
 import rockIcon from '../../assets/images/rock_icon.png'
 import houseIcon from '../../assets/images/house_icon.png'
+import worldMap from '../../assets/images/worldmap1.png';
 
 const GAME_DIMENSIONX = 5000;
 const GAME_DIMENSIONY = 5500;
@@ -10,8 +11,10 @@ const GAME_DIMENSIONY = 5500;
 class Canvas extends React.Component {
   constructor (props) {
       super(props)
-      this.canvas = null;
+      this.canvas = this.refs.canvas;
       this.ctx = null;
+      this.image = new Image();
+      this.image.src = worldMap;
       this.state = {
         positionX: 750,
         positionY: 350,
@@ -21,73 +24,29 @@ class Canvas extends React.Component {
         foods: {},
         rocks: {},
         houses: {},
-        radius: 70
+        radius: 70,
+        imgLoaded: false
 
       };
       this.getCursorPosition = this.getCursorPosition.bind(this);
       this.intersectRect = this.intersectRect.bind(this);
+      this.callbackTest = this.callbackTest.bind(this);
   }
   componentDidMount() {
         this.canvas = this.refs.canvas
         this.ctx = this.canvas.getContext("2d")
+
+        
+        
+        this.ctx.drawImage(this.image, 0, 0);
         
   }
 
-  // isBetween = (target, start, end) => {
-  //     return start <= target && end >= target ? true : false;
-  // }
-  // getDir = (sX,sY,eX,eY) => {
-  //     let rX = eX - sX;
-  //     let rY = eY - sY;
-  //     let mag = Math.sqrt(rX*rX + rY*rY);
-  //     return [rX/mag, rY/mag];
-  // }
-  // calcHitBox = (dir, hitBoxSize, sX, sY) =>{
-  //     let [dirX, dirY] = dir;
-  //     let [hbW, hbH] =  hitBoxSize;
-  //     let p1 = [sX - dirY * (hbW / 2), sY + dirX * (hbW / 2)];
-  //     let p4 = [sX + dirY * (hbW / 2), sY - dirX * (hbW / 2)];
-  //     let p2 = [p1[0] + dirX * hbH, p1[1] + dirY * hbH ];
-  //     let p3 = [p4[0] + dirX * hbH, p4[1] + dirY * hbH ];
-  //     return [p1,p2,p3,p4];
-  // }
-  // findLine = (firstX, firstY, secondX, secondY) => {
-  //   let a = secondY - firstY;
-  //   let b = firstX - secondX;
-  //   let c = a * (secondX) + b * (secondY);
-  //   return { a: a, b: b, c: -c };
-  // }
-  // isInside = (tX, tY, coord) => {
-  //     let [p1, p2, p3, p4] = coord;
-  //     let l1 = this.findLine(p1[0], p1[1], p2[0], p2[1]);
-  //     let l2 = this.findLine(p2[0], p2[1], p3[0], p3[1]);
-  //     let l3 = this.findLine(p3[0], p3[1], p4[0], p4[1]);
-  //     let l4 = this.findLine(p4[0], p4[1], p1[0], p1[1]);
-  //     let l1LT = tY >= (-(l1.a * tX) - l1.c) / l1.b ? true : false;
-  //     let l2LT = tY >= (-(l2.a * tX) - l2.c) / l2.b ? true : false;
-  //     let l3LT = tY >= (-(l3.a * tX) - l3.c) / l3.b ? true : false;
-  //     let l4LT = tY >= (-(l4.a * tX) - l4.c) / l4.b ? true : false;
-  //     console.log(l1LT + l3LT, l2LT + l4LT)
-  //     console.log(l1, l2, l3, l4)
-  //     return l1LT + l3LT === 1 && l2LT + l4LT === 1 ? true : false;
-  // }
-
-  // hitBoxTouch = (coord1, coord2) => {
-  //   let retVal = false;
-  //   coord1.forEach(coord => {
-  //       if(this.isInside(coord[0], coord[1]), coord2){
-  //           retVal = true;
-  //           return retVal;
-  //       }
-  //   })
-  //   coord2.forEach(coord => {
-  //       if(this.isInside(coord[0], coord[1]), coord1){
-  //           retVal = true;
-  //           return retVal;
-  //       }
-  //   })
-  //   return retVal;
-  // }
+  callbackTest () {
+    this.setState({
+      imgLoaded: true
+    })
+  }
 
   intersectRect(clickX, clickY, r2) {
     return !(r2.x-150 > clickX+70 || 
@@ -160,6 +119,8 @@ class Canvas extends React.Component {
       if (this.ctx) {
         this.ctx.clearRect(0,0,GAME_DIMENSIONX, GAME_DIMENSIONY);
 
+        this.ctx.drawImage(this.image, 0, 0);
+
         Object.values(this.state.rocks).forEach(rock => {
           this.ctx.drawImage(this.refs.rockIcon, 0, 0, 135, 135, rock.x-60, rock.y-60, 135, 135);
         })
@@ -176,9 +137,10 @@ class Canvas extends React.Component {
 
             <canvas id="canvas" onKeyPress={this.handleKey} onClick={this.getCursorPosition} ref="canvas" className={this.props.clickEffect} width={5000} height={5500} />
 
-            <img ref="foodIcon" alt ="" src={foodIcon} className="hidden" />
-            <img ref="rockIcon" alt ="" src={rockIcon} className="hidden" />
-            <img ref="houseIcon" alt ="" src={houseIcon} className="hidden" />
+            <img ref="foodIcon" src={foodIcon} className="hidden" />
+            <img ref="rockIcon" src={rockIcon} className="hidden" />
+            <img ref="houseIcon" src={houseIcon} className="hidden" />
+            <img ref="worldMap" onLoad={this.callbackTest} src={worldMap} className="hidden" />
          </div> 
         )
       }
