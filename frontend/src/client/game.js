@@ -31,9 +31,9 @@ export default class Game{
       this.myId = playerData.id;
       this.player = new Player(id, x, y, width, height);
       this.camera = new Camera(0, 0, this.vWidth, this.vHeight, this.room.width, this.room.height);
-      let follow = this.camera.follow.bind(this);
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)
-      
+      console.log(this.player)
+      console.log(this.camera)
     } else {
       let { id, x, y, width, height } = playerData;
       let player = new Player(id, x, y, width, height);
@@ -42,6 +42,7 @@ export default class Game{
   }
 
   addCurrentPlayers(playersData){
+    console.log("im adding current players")
     Object.values(playersData).forEach(playerData => {
       let { id, x, y, width, height } = playerData
       let player = new Player(id, x, y, width, height)

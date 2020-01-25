@@ -33,7 +33,6 @@ export default class Map{
     }
 
     draw(context, xView, yView){
-        console.log("im drawing map")
         let sx, sy, dx, dy;
         let sWidth, sHeight, dWidth, dHeight;
         sx = xView;

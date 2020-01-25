@@ -11,19 +11,26 @@ class gameCanvas extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleRightClick = this.handleRightClick.bind(this)
     this.game = null;
-    this.socket = io.connect("http://localhost:8000");
+    // this.socket = io.connect("http://localhost:8000");
+    this.socket = this.props.socket;
     this.state = {
       sound: 'Sound.status.MUTED'
     }
   }
 
   playGame() {
+    console.log("setting up new game")
     this.game = new Game();
     this.socket.on('newPlayer', (playerData) => this.game.addNewPlayer(playerData))
     this.socket.on('currentPlayers', (playersData) => this.game.addCurrentPlayers(playersData))
     this.socket.on('disconnect', (id) => this.game.disconnectPlayer(id))
     this.socket.on('updatePlayer', (playerData) => this.game.gameLoop(playerData))
-
+    console.log(this.game)
+    setTimeout(() => {
+      console.log("players are all ready timeout")
+      let data = {roomName: this.props.roomName, roomId: this.props.roomId}
+      this.socket.emit('playersAllReady', data)
+    }, 1000);
   }
 
   handleClick(e) {

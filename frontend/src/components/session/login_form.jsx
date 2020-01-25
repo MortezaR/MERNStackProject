@@ -13,6 +13,10 @@ class LoginForm extends React.Component {
         this.handleSignIn = this.handleSignIn.bind(this);
         this.showErrors = this.showErrors.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
+        this.demo1 = this.demo1.bind(this);
+        this.demo2 = this.demo2.bind(this);
+        this.demo3 = this.demo3.bind(this);
+        this.demo4 = this.demo4.bind(this);
     }
 
     handleInput(kind) {
@@ -25,6 +29,46 @@ class LoginForm extends React.Component {
         e.preventDefault();
         this.props.login(this.state).then(() => {
             if (this.props.currentUser) this.props.history.push("/map")
+        })
+    }
+
+    demo1(e) {
+        e.preventDefault();
+        this.props.login({
+            username: 'myqueen',
+            password: 'demo123'
+        }).then(() => {
+            if (this.props.currentUser) this.props.history.push("/home")
+        })
+    }
+
+    demo2(e) {
+        e.preventDefault();
+        this.props.login({
+            username: 'myqueen2',
+            password: 'demo123'
+        }).then(() => {
+            if (this.props.currentUser) this.props.history.push("/home")
+        })
+    }
+
+    demo3(e) {
+        e.preventDefault();
+        this.props.login({
+            username: 'myqueen3',
+            password: 'demo123'
+        }).then(() => {
+            if (this.props.currentUser) this.props.history.push("/home")
+        })
+    }
+
+    demo4(e) {
+        e.preventDefault();
+        this.props.login({
+            username: 'myqueen4',
+            password: 'demo123'
+        }).then(() => {
+            if (this.props.currentUser) this.props.history.push("/home")
         })
     }
 
@@ -53,6 +97,10 @@ class LoginForm extends React.Component {
                     <input type="text" placeholder="Username" value={this.state.username} onChange={this.handleInput('username')} />
                     <input type="text" placeholder="Password" value={this.state.password} onChange={this.handleInput('password')} />
                     <button onClick={this.handleSignIn} >Login</button>
+                    <button onClick={this.demo1} >demo1</button>
+                    <button onClick={this.demo2} >demo2</button>
+                    <button onClick={this.demo3} >demo3</button>
+                    <button onClick={this.demo4} >demo4</button>
 
                 </form>
                 <Link to={'/signup'}>Signup</Link>
