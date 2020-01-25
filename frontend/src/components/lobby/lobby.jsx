@@ -145,21 +145,27 @@ class Lobby extends React.Component{
 
     joinRoom(roomId){
         console.log('im joining room')
-        console.log(this.state.myChatters)
-        return e => {
-            e.preventDefault();
-            if (roomId === this.state.myRoomId) return null
-            let {myRoomId, username, myId, myRoomName} = this.state
-            let data = {
-                roomId, 
-                oldRoomId: myRoomId, 
-                username: username, 
-                myId: myId,
-                oldRoomName: myRoomName
+        if (Object.values(this.state.rooms[roomId].chatters).length===4){
+            this.setState({
+                
+            })
+        } else {
+            return e => {
+                e.preventDefault();
+                if (roomId === this.state.myRoomId) return null
+                let { myRoomId, username, myId, myRoomName } = this.state
+                let data = {
+                    roomId,
+                    oldRoomId: myRoomId,
+                    username: username,
+                    myId: myId,
+                    oldRoomName: myRoomName
+                }
+                console.log(data)
+                this.socket.emit('joinRoom', data)
             }
-            console.log(data)
-            this.socket.emit('joinRoom', data)
         }
+
     }
 
     update(key) {
@@ -221,9 +227,10 @@ class Lobby extends React.Component{
             
              <div className="lobby-main">
                  <div className="chat-rooms">
-                    we are chat rooms
+                    Available Chatrooms
                     <form onSubmit={this.requestRoom()} className="room-input-form">
                         <input
+                            placeholder="Create a Room"
                             onChange={this.update("requestedRoomName")}
                             value={this.state.requestedRoomName}
                             className="text-area"
@@ -233,14 +240,15 @@ class Lobby extends React.Component{
                 <ul>
                     {Object.keys(this.state.rooms).map((id) => {
                         return (
-                            <div className="chat-rooms">
-                                <button onClick={this.joinRoom(id)}>Join Room {this.state.rooms[id].roomName}</button>
-                            </div>)
-                    })}
+                            <div className="chat-room-button" onClick={this.joinRoom(id)}>
+                                <p>{this.state.rooms[id].roomName}</p>
+                                <p>{Object.values(this.state.rooms[id].chatters).length} of 4 Players</p>
+                            </div>
+                    )})}
                 </ul>
                  </div>
                  <div className="chat-messages">
-                    <Display messages={this.state.messages} />
+                    <Display messages={this.state.messages} roomName={this.state.myRoomName}/>
                     <div className="chat-input" >
                         <form onSubmit={this.handleSubmit} className="chat-input-form">
                             <input
@@ -254,7 +262,7 @@ class Lobby extends React.Component{
                  </div>
                  <div className="chat-members">
                     <ul>
-                        {this.state.myRoomName}
+                        Current Players
                         {currentPlayers}
                     </ul>
                     {startButton}

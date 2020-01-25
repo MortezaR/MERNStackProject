@@ -21,7 +21,7 @@ class Display extends React.Component {
 
         return (
             <div className="message-list">
-                this is the message list
+                {this.props.roomName === '' ? "Join or create a room" : this.props.roomName}
                 <ul>
                     {messages}
                 </ul>
