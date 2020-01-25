@@ -2,6 +2,7 @@ import React from 'react';
 import io from "socket.io-client";
 import Display from './display';
 import './lobby.scss';
+import GameCanvas from '../gameCanvas'
 
 class Lobby extends React.Component{
     constructor(props){
@@ -16,11 +17,13 @@ class Lobby extends React.Component{
             myRoomName: '',
             myId: '',
             requestedRoomName: '',
-            inLobby: false
+            inLobby: false,
+            inGame: false
         }
         this.socket = io.connect("http://localhost:7000");
         this.handleSubmit = this.handleSubmit.bind(this)
         this.readyPlayer = this.readyPlayer.bind(this)
+        this.startGame = this.startGame.bind(this)
     }
 
     componentDidMount(){
@@ -110,6 +113,9 @@ class Lobby extends React.Component{
             })
         })
 
+        this.socket.on('goToGame', () => {
+            this.setState({inGame: true})
+        })
     }
 
     readyPlayer(id){
@@ -190,86 +196,102 @@ class Lobby extends React.Component{
         }
     }
 
-    render(){
-        if (this.state.myId==='') return null
-        let allPlayersReady = false;
-        let startButton =( <button 
-            onClick={this.dontStartGame} 
-            className="not-ready">Def not time</button>)
-        let currentPlayers = (<div></div>)
-        if(this.state.myRoomId!==''){
-            allPlayersReady = Object.values(this.state.myChatters).every((user) => {
-                return user.ready
-            })
-            startButton = (allPlayersReady && Object.values(this.state.myChatters).length === 4) ?
-                (<button 
-                    onClick={this.startGame} 
-                    className="ready">It's TIME</button>) :
-                (<button 
-                    onClick={this.dontStartGame} 
-                    className="not-ready">Def not time</button>)
-            
-            currentPlayers = (this.state.inLobby) ?
-            (Object.keys(this.state.myChatters).map((id) => {
-                    return (
-                        <div className="chat-member" key={id}>
-                            <p>{this.state.myChatters[id].username}</p>
-                            {this.state.myChatters[id].ready ?
-                                (<button onClick={() => this.readyPlayer(id)} 
-                                    className="ready">Ready</button>) :
-                                (<button onClick={() => this.readyPlayer(id)} 
-                                    className="not-ready">Not Ready</button>)}
-                        </div>)
-                })
-            ) : (<div>No current members</div>)
+    startGame(){
+        if (this.state.myRoomId === this.state.myId){
+            this.socket.emit('allLobbyPlayersReady', this.state.myRoomName)
         }
-        return (
-            
-             <div className="lobby-main">
-                 <div className="chat-rooms">
-                    Available Chatrooms
-                    <form onSubmit={this.requestRoom()} className="room-input-form">
-                        <input
-                            placeholder="Create a Room"
-                            onChange={this.update("requestedRoomName")}
-                            value={this.state.requestedRoomName}
-                            className="text-area"
-                        />
-                        <button type="submit" style={{ display: 'none' }} />
-                    </form>
-                <ul>
-                    {Object.keys(this.state.rooms).map((id) => {
-                        return (
-                            <div className="chat-room-button" onClick={this.joinRoom(id)}>
-                                <p>{this.state.rooms[id].roomName}</p>
-                                <p>{Object.values(this.state.rooms[id].chatters).length} of 4 Players</p>
-                            </div>
-                    )})}
-                </ul>
-                 </div>
-                 <div className="chat-messages">
-                    <Display messages={this.state.messages} roomName={this.state.myRoomName}/>
-                    <div className="chat-input" >
-                        <form onSubmit={this.handleSubmit} className="chat-input-form">
-                            <input
-                                onChange={this.update("currentMessage")}
-                                value={this.state.currentMessage}
-                                className="text-area"
-                            />
-                            <button type="submit" style={{ display: 'none' }} />
-                        </form>
-                    </div>
-                 </div>
-                 <div className="chat-members">
-                    <ul>
-                        Current Players
-                        {currentPlayers}
-                    </ul>
-                    {startButton}
-                 </div>
+    }
 
-             </div>
-        )
+    render(){
+        if (this.state.myId === '') return null
+        if (this.state.inGame){
+            return (
+                <div>
+                    <GameCanvas socket={this.socket} roomName={this.state.myRoomName} roomId={this.state.myRoomId}/>
+                </div>
+            )
+        } else {
+            let allPlayersReady = false;
+            let startButton =( <button 
+                onClick={this.dontStartGame} 
+                className="not-ready">Def not time</button>)
+            let currentPlayers = (<div></div>)
+
+            if(this.state.myRoomId!==''){
+                allPlayersReady = Object.values(this.state.myChatters).every((user) => {
+                    return user.ready
+                })
+                
+                // startButton = (allPlayersReady && Object.values(this.state.myChatters).length === 4) ?
+                startButton = (true) ?
+                    (<button 
+                        onClick={this.startGame} 
+                        className="ready">It's TIME</button>) :
+                    (<button 
+                        onClick={this.dontStartGame} 
+                        className="not-ready">Def not time</button>)
+                
+                currentPlayers = (this.state.inLobby) ?
+                (Object.keys(this.state.myChatters).map((id) => {
+                        return (
+                            <div className="chat-member" key={id}>
+                                <p>{this.state.myChatters[id].username}</p>
+                                {this.state.myChatters[id].ready ?
+                                    (<button onClick={() => this.readyPlayer(id)} 
+                                        className="ready">Ready</button>) :
+                                    (<button onClick={() => this.readyPlayer(id)} 
+                                        className="not-ready">Not Ready</button>)}
+                            </div>)
+                        })
+                        ) : (<div>No current members</div>)
+            }
+                return (
+                    <div className="lobby-main">
+                        <div className="chat-rooms">
+                            Available Chatrooms
+                            <form onSubmit={this.requestRoom()} className="room-input-form">
+                                <input
+                                    placeholder="Create a Room"
+                                    onChange={this.update("requestedRoomName")}
+                                    value={this.state.requestedRoomName}
+                                    className="text-area"
+                                />
+                                <button type="submit" style={{ display: 'none' }} />
+                            </form>
+                        <ul>
+                            {Object.keys(this.state.rooms).map((id) => {
+                                return (
+                                    <div className="chat-room-button" onClick={this.joinRoom(id)}>
+                                        <p>{this.state.rooms[id].roomName}</p>
+                                        <p>{Object.values(this.state.rooms[id].chatters).length} of 4 Players</p>
+                                    </div>
+                            )})}
+                        </ul>
+                        </div>
+                        <div className="chat-messages">
+                            <Display messages={this.state.messages} roomName={this.state.myRoomName}/>
+                            <div className="chat-input" >
+                                <form onSubmit={this.handleSubmit} className="chat-input-form">
+                                    <input
+                                        onChange={this.update("currentMessage")}
+                                        value={this.state.currentMessage}
+                                        className="text-area"
+                                    />
+                                    <button type="submit" style={{ display: 'none' }} />
+                                </form>
+                            </div>
+                        </div>
+                        <div className="chat-members">
+                            <ul>
+                                Current Players
+                                {currentPlayers}
+                            </ul>
+                            {startButton}
+                        </div>
+
+                    </div>
+                )
+            }
     }
 }
 
