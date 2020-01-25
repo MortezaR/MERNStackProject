@@ -8,14 +8,15 @@ const hitBoxTouch = utils.hitBoxTouch;
 
 class moveableObject extends GObject{
 
-    constructor(map, x, y, id){
-        super(map, x, y, id);
+    constructor(game, x, y, id){
+        super(game, x, y, id);
         this.speed = 1;
         this.hitBoxSize = [4,2];
         this.actionCooldown = 1;
         this.moving = null;
         this.getOut = false;
         this.moveDir = 21;
+        this.dead = false;
     }
     move(dX, dY){
         if (dX === this.x && this.y === dY){
@@ -30,7 +31,7 @@ class moveableObject extends GObject{
             this.x += unitX;
             this.y += unitY;
             this.getOut = false;
-            let allObj = this.map.getAllObjects();
+            let allObj = this.game.map.getAllObjects();
             Object.keys(allObj).forEach((key) =>{
                 let obj = allObj[key]
                 if (obj.id !== this.id && obj.phasable === false){
@@ -71,6 +72,9 @@ class moveableObject extends GObject{
             NS = 20;
         }
         this.moveDir = NS + EW;
+    }
+    kill(){
+
     }
 
 }

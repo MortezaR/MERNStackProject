@@ -1,8 +1,8 @@
 
 
 class GObject {
-    constructor(map,x,y,id){
-        this.map = map;
+    constructor(game,x,y,id){
+        this.game = game;
         this.x = x;
         this.y = y;
         this.id = id;

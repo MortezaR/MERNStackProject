@@ -66,18 +66,7 @@ gameServer.on('connection', function (socket) {
     console.log('a game user connected: ', socket.id);
     socket.emit('currentPlayers', game.getPlayers());
     
-    let numPlayers = Object.keys(game.getPlayers()).length;
-    console.log(numPlayers);
-    if (numPlayers < 1){
-        game.addPlayer(socket.id, 'bbw', 200, 200);
-    }else{
-        game.addPlayer(socket.id, 'piglet',
-         200 * (numPlayers + 1), 200 * (numPlayers + 1))
-    }
-
-
-
-    console.log(game.getPlayer(socket.id).toObj())
+    game.addPlayer(socket.id);
     gameServer.emit('newPlayer', game.getPlayer(socket.id).toObj());
 
     socket.on('newClickMove', function (moveData) {
