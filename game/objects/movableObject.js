@@ -25,7 +25,6 @@ class moveableObject extends GObject{
         unitX = unitX * this.speed;
         unitY = unitY * this.speed;
         this.setMoveDir(unitX,unitY);
-        let getOut = false;
         const moveHelper = () => {
             this.x += unitX;
             this.y += unitY;
@@ -33,20 +32,18 @@ class moveableObject extends GObject{
             Object.keys(allObj).forEach((key) =>{
                 let obj = allObj[key]
                 if (obj.id !== this.id && obj.phasable === false){
-                    // if(hitBoxTouch(obj.getHitBox(), this.getHitBox())){
-                    //     this.x -= unitX;
-                    //     this.y -= unitY;
-                    //     clearInterval(this.moving);
-                    // }
                     if(hitBoxTouch(obj.getHitBox(), this.getHitBox())){
                         this.x -= unitX;
                         if (hitBoxTouch(obj.getHitBox(), this.getHitBox())) {
                             this.y -= unitY;
                             this.x += unitX;
+                            dY = this.y;
                             if (hitBoxTouch(obj.getHitBox(), this.getHitBox())) {
                                 this.x -= unitX;
                                 clearInterval(this.moving);
                             }
+                        }else{
+                            dX = this.x;
                         }
 
                     }
@@ -54,8 +51,6 @@ class moveableObject extends GObject{
             })
             if (((this.x >= dX && unitX >= 0) || (this.x <= dX && unitX <= 0)) && 
                 ((this.y >= dY && unitY >= 0) || (this.y <= dY && unitY <= 0))){
-                this.x = dX;
-                this.y = dY;
                 clearInterval(this.moving);
             }
         }

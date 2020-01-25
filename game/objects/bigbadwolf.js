@@ -9,7 +9,7 @@ class BigBadWolf extends movableObject {
 
     constructor(game, x, y, id) {
         super(game, x, y, id);
-        this.speed = 2;
+        this.speed = 5;
         this.hitBoxSize = [50,25];
         this.hitBox = [30, 30];
         this.actionCooldown = 1;
