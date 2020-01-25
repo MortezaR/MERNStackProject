@@ -7,11 +7,13 @@ class Display extends React.Component {
     }
 
     render() {
+        console.log("display receiving msg")
+        console.log(this.props.messages)
         const messages = this.props.messages.map((message, i) => {
             return (
-                <li className="chat-message">
-                    <p key={i}>{message.username}</p>
-                    <p key={i}>{message.currentMessage}</p>
+                <li className="chat-message" key={i}>
+                    <p>{message.username}</p>
+                    <p>{message.currentMessage}</p>
                 </li>
                
             );

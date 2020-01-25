@@ -10,12 +10,13 @@ class Lobby extends React.Component{
             rooms: {},
             messages: [],
             currentMessage: '',
-            username: "greg",
+            username: this.props.currentUser.username,
             myRoomId: '',
             myChatters: {},
             myRoomName: '',
             myId: '',
-            requestedRoomName: ''
+            requestedRoomName: '',
+            inLobby: false
         }
         this.socket = io.connect("http://localhost:7000");
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -32,15 +33,12 @@ class Lobby extends React.Component{
         })
 
         this.socket.on('joinRoomInfo', (data) => {
-            console.log("im receiving my joined room info")
-            console.log(data)
+            console.log("im receiving room info")
             this.setState({
                 myChatters: data.chatters,
                 myRoomName: data.roomName,
                 myRoomId: data.roomId,
-                messages: [],
-                // currentMessage: '',
-                // requestedRoomName: ''
+                inLobby: true
             })
         })
 
@@ -51,11 +49,17 @@ class Lobby extends React.Component{
             })
         })
 
-        this.socket.on('addChatterToRoom', (data) => {
-            console.log("im adding chatter to room")
-            console.log(data)
+        this.socket.on('updateChattersInfo', (data) => {
+            console.log("im updating chatters info")
             this.setState({
-                chatters: data
+                myChatters: data
+            })
+        })
+
+        this.socket.on('clearMsg', () => {
+            console.log("im clearing msg")
+            this.setState({
+                messages: []
             })
         })
 
@@ -69,17 +73,6 @@ class Lobby extends React.Component{
                 myChatters
             })
         })
-
-
-        // this.socket.on('addNewChatter', chatter => {
-        //     let chatters = this.state.myChatters
-        //     chatters[chatter.id] = chatter;
-        //     this.setState({
-        //         chatters: chatters
-        //     })
-        // })
-
-
 
         this.socket.on('newMessage', (data) => {
             console.log(data)
@@ -103,6 +96,20 @@ class Lobby extends React.Component{
             })
         })
 
+        this.socket.on('deleteRoom', () => {
+            console.log('deleting room')
+            this.setState({
+                messages: [],
+                currentMessage: '',
+                username: this.props.currentUser.username,
+                myRoomId: '',
+                myChatters: {},
+                myRoomName: '',
+                requestedRoomName: '',
+                inLobby: false
+            })
+        })
+
     }
 
     readyPlayer(id){
@@ -120,10 +127,14 @@ class Lobby extends React.Component{
 
     requestRoom(){
         return e => {
+            console.log("im requesting room")
             e.preventDefault();
             let data = {
                 roomName: this.state.requestedRoomName, 
-                username: this.state.username
+                username: this.state.username,
+                myId: this.state.myId,
+                oldRoomId: this.state.myRoomId,
+                oldRoomName: this.state.myRoomName
             }
             this.socket.emit('requestRoom', data)
             this.setState({
@@ -134,17 +145,20 @@ class Lobby extends React.Component{
 
     joinRoom(roomId){
         console.log('im joining room')
+        console.log(this.state.myChatters)
         return e => {
             e.preventDefault();
             if (roomId === this.state.myRoomId) return null
-            let {myRoomId, username,myId} = this.state
+            let {myRoomId, username, myId, myRoomName} = this.state
             let data = {
                 roomId, 
                 oldRoomId: myRoomId, 
-                username: username, myId: myId
+                username: username, 
+                myId: myId,
+                oldRoomName: myRoomName
             }
+            console.log(data)
             this.socket.emit('joinRoom', data)
-            this.setState({roomId: roomId})
         }
     }
 
@@ -189,12 +203,11 @@ class Lobby extends React.Component{
                     onClick={this.dontStartGame} 
                     className="not-ready">Def not time</button>)
             
-            currentPlayers = (this.state.myRoomId !=='') ?
+            currentPlayers = (this.state.inLobby) ?
             (Object.keys(this.state.myChatters).map((id) => {
                     return (
-                        <div className="chat-member">
+                        <div className="chat-member" key={id}>
                             <p>{this.state.myChatters[id].username}</p>
-                            <p>hello</p>
                             {this.state.myChatters[id].ready ?
                                 (<button onClick={() => this.readyPlayer(id)} 
                                     className="ready">Ready</button>) :
@@ -204,7 +217,6 @@ class Lobby extends React.Component{
                 })
             ) : (<div>No current members</div>)
         }
-        console.log(this.state.messages)
         return (
             
              <div className="lobby-main">
@@ -242,7 +254,7 @@ class Lobby extends React.Component{
                  </div>
                  <div className="chat-members">
                     <ul>
-                        Current Players
+                        {this.state.myRoomName}
                         {currentPlayers}
                     </ul>
                     {startButton}

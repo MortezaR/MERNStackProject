@@ -119,11 +119,16 @@ chatServer.on('connection', function(socket){
         }
         let newData = data;
         newData["roomId"] = socket.id;
+        console.log('requested room')
+        console.log(data)
         joinRoom(newData)
         chatServer.emit('updateRoomsInfo', rooms)
     })
 
     let addChatterToRoom = (username, roomId, playerId) => {
+        console.log("adding chatter to room")
+        console.log(roomId)
+        console.log(rooms)
         rooms[roomId].chatters[playerId] = {
             id: playerId,
             username: username,
@@ -132,23 +137,42 @@ chatServer.on('connection', function(socket){
     }
 
     let joinRoom = (data) => {
-            if (rooms[data.oldRoomId]){
-                delete rooms[data.oldRoomId].chatters[data.myId]
-                socket.leave(rooms[data.oldRoomId].roomName)
-                if (Object.keys(rooms[data.oldRoomId].chatters).length===0){
-                    delete rooms[data.oldRoomId]
-                    chatServer.emit('updateRoomsInfo', rooms)
-                }
-            }
-            addChatterToRoom(data.username, data.roomId, socket.id, socket)
-            let roomName = rooms[data.roomId].roomName
-            socket.join(roomName)
-            chatServer.in(roomName).emit('joinRoomInfo', { 
-                chatters: rooms[data.roomId].chatters, 
-                roomName: rooms[data.roomId].roomName, 
-                roomId: data.roomId 
-            })
+        console.log("player joining room")
+        console.log(data)
+        if (data.oldRoomId !== ''){
+            leaveRoom(data)
         }
+        addChatterToRoom(data.username, data.roomId, socket.id)
+        let roomName = rooms[data.roomId].roomName
+        socket.join(roomName)
+        chatServer.in(roomName).emit('joinRoomInfo', {
+            chatters: rooms[data.roomId].chatters,
+            roomName: rooms[data.roomId].roomName,
+            roomId: data.roomId
+        })
+        socket.emit('clearMsg')
+    }
+
+    let leaveRoom = (data) => {
+        console.log("player leaving room")
+        console.log(rooms)
+        delete rooms[data.oldRoomId].chatters[data.myId]
+        socket.leave(data.oldRoomName)
+        console.log(data)
+        if (data.oldRoomId === data.myId) {  //client was hosting room and left
+            chatServer.to(data.oldRoomName).emit('deleteRoom')
+            if (data.oldRoomId !== data.roomId){ //client is joining a new room and not hosting
+                delete rooms[data.oldRoomId]
+                chatServer.emit('updateRoomsInfo', rooms)
+            } else { //client is hosting a new room
+                chatServer.emit('updateRoomsInfo', rooms)
+            }
+        } else { //client was not hosting 
+            let chatters = rooms[data.oldRoomId].chatters
+            chatServer.emit('updateRoomsInfo', rooms)
+            chatServer.to(data.oldRoomName).emit('updateChattersInfo', chatters)
+        }
+    }
 
     socket.on('joinRoom', data => joinRoom(data))
 
@@ -158,33 +182,16 @@ chatServer.on('connection', function(socket){
         chatServer.emit('disconnectUser', socket.id)
     })
 
-    
-    // setTimeout(()=> {
-    //     socket.emit('setupCurrentChatters', chatters)
-    // }, 2000)
-
-    // setTimeout(()=> {
-    //     chatters[socket.id] = { id: socket.id, username: "Fred", ready: false }
-    //     socket.emit('setupNewChatter', {rooms, user: chatters[socket.id]}) 
-    // }, 500)
-
-    // socket.on('newChatterConnected', (chatter) => {
-    //     socket.broadcast.emit('addNewChatter', chatter)
-    // })
-
-
-
     socket.on('chatMessage', (data) => {
         console.log("im receiving msg")
-        chatServer.in(data.roomName).emit('newMessage', data)
+        chatServer.to(data.roomName).emit('newMessage', data)
     })
 
     socket.on('playerReady', (data) => {
         console.log('player is ready')
-        console.log(data)
         rooms[data.roomId].chatters[data.id].ready = data.ready
         let newData = {id: socket.id, ready: data.ready}
-        chatServer.in(data.roomName).emit('playerIsReady', newData)
+        chatServer.to(data.roomName).emit('playerIsReady', newData)
     })
     
 })
