@@ -14,7 +14,6 @@ class moveableObject extends GObject{
         this.hitBoxSize = [4,2];
         this.actionCooldown = 1;
         this.moving = null;
-        this.getOut = false;
         this.moveDir = 21;
         this.dead = false;
     }
@@ -26,26 +25,33 @@ class moveableObject extends GObject{
         unitX = unitX * this.speed;
         unitY = unitY * this.speed;
         this.setMoveDir(unitX,unitY);
-        this.getOut = false;
+        let getOut = false;
         const moveHelper = () => {
             this.x += unitX;
             this.y += unitY;
-            this.getOut = false;
             let allObj = this.game.map.getAllObjects();
             Object.keys(allObj).forEach((key) =>{
                 let obj = allObj[key]
                 if (obj.id !== this.id && obj.phasable === false){
+                    // if(hitBoxTouch(obj.getHitBox(), this.getHitBox())){
+                    //     this.x -= unitX;
+                    //     this.y -= unitY;
+                    //     clearInterval(this.moving);
+                    // }
                     if(hitBoxTouch(obj.getHitBox(), this.getHitBox())){
-                        this.getOut = true;
+                        this.x -= unitX;
+                        if (hitBoxTouch(obj.getHitBox(), this.getHitBox())) {
+                            this.y -= unitY;
+                            this.x += unitX;
+                            if (hitBoxTouch(obj.getHitBox(), this.getHitBox())) {
+                                this.x -= unitX;
+                                clearInterval(this.moving);
+                            }
+                        }
+
                     }
                 }
             })
-            if (this.getOut === true) {
-                clearInterval(this.moving);
-                this.x -= unitX;
-                this.y -= unitY;
-                return true;
-            }
             if (((this.x >= dX && unitX >= 0) || (this.x <= dX && unitX <= 0)) && 
                 ((this.y >= dY && unitY >= 0) || (this.y <= dY && unitY <= 0))){
                 this.x = dX;
