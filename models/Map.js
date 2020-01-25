@@ -19,7 +19,8 @@ const MapSchema = new Schema({
         required: true
     },
     url: {
-        type: String
+        type: String,
+        default: 'default.png'
     }
 });
 

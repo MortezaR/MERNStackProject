@@ -10,6 +10,7 @@ import MapEditor from './map_editor/map_editor'
 import TopNav from './top_nav/top_nav'
 import LoginFormContainer from './session/login_form_container'
 import SignupFormContainer from './session/signup_form_container'
+import ProfileContainer from './profile/profile_container.js'
 import '../App.scss'
 
 const App = () => (
@@ -22,11 +23,12 @@ const App = () => (
       <AuthRoute exact path="/signup" component={SignupFormContainer} />
       <ProtectedRoute exact path="/game" component={UsersIndexContainer} /> */}
       <Route exact path="/map" component={MapEditor} />
+      <Route exact path="/map/:mapId" component={MapEditor} />
       <Route exact path="/login" component={LoginFormContainer} />
       <Route exact path="/lobby" component={Lobby} />
       <Route exact path="/game" component={gameCanvas} />
       <Route exact path="/signup" component={SignupFormContainer} />
-      <Route path="/" component={Lobby} />
+      <Route exact path="/profile" component={ProfileContainer} />
       {/* <ProtectedRoute exact path="/editor" component={ProfileContainer} /> */}
 
     </Switch>

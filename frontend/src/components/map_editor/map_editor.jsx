@@ -1,6 +1,6 @@
 import React from 'react';
 import TopNav from '../top_nav/top_nav';
-import Canvas from '../canvas/canvas';
+import CanvasContainer from '../canvas/canvas_container.js';
 import './map_editor.scss'
 
 class MapEditor extends React.Component {
@@ -64,8 +64,8 @@ class MapEditor extends React.Component {
     render () {
         return (
             <div className="map-editor">
-                <TopNav clickEffect={this.state.clickEffect} handleClickEffect={this.handleClickEffect}/>
-                <Canvas clickEffect={this.state.clickEffect} handleClickEffect={this.handleClickEffect} handleOverlap={this.handleOverlap}/>
+                
+                <CanvasContainer  clickEffect={this.state.clickEffect} handleClickEffect={this.handleClickEffect} handleOverlap={this.handleOverlap}/>
                 <div className={`overlap ${this.state.hidden}`}>
                   <span>Cannot place object on starting position</span>
                 </div>

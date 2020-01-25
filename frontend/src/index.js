@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // If a returning user has a session token stored in localStorage
     if (localStorage.jwtToken) {
-        // debugger;
 
         // Set the token as a common header for all axios requests
         setAuthToken(localStorage.jwtToken);
@@ -36,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // If this is a first time user, start with an empty store
         store = configureStore({});
     }
-    // debugger;
     Window.getState = store.getState();
     // Render our root component and pass in the store as a prop
     const root = document.getElementById('root');

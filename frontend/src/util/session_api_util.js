@@ -6,7 +6,6 @@ export const setAuthToken = token => {
         const result = axios.defaults.headers.common
         result['Authorization'] = token;
     } else {
-        // debugger;
         delete axios.defaults.headers.common['Authorization'];
     }
 };

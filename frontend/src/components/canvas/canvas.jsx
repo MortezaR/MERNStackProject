@@ -4,9 +4,11 @@ import foodIcon from '../../assets/images/food_icon.png'
 import rockIcon from '../../assets/images/rock_icon.png'
 import houseIcon from '../../assets/images/house_icon.png'
 import worldMap from '../../assets/images/worldmap1.png';
+import TopNavContainer from '../top_nav/top_nav_container.js';
 
 import Sound from 'react-sound';
 import worldMusic from '../../assets/sound/gflop.mp3';
+import axios from 'axios';
 
 
 const GAME_DIMENSIONX = 5000;
@@ -20,8 +22,6 @@ class Canvas extends React.Component {
       this.image = new Image();
       this.image.src = worldMap;
       this.state = {
-        positionX: 750,
-        positionY: 350,
         canvas: this.refs.canvas,
         rockCount: 0,
         foodCount: 0,
@@ -29,7 +29,10 @@ class Canvas extends React.Component {
         rocks: {},
         houses: {},
         radius: 70,
-        imgLoaded: false
+        imgLoaded: false,
+        title: '',
+        url: '',
+        mapId: ''
 
       };
       this.getCursorPosition = this.getCursorPosition.bind(this);
@@ -37,13 +40,22 @@ class Canvas extends React.Component {
       this.callbackTest = this.callbackTest.bind(this);
   }
   componentDidMount() {
-        this.canvas = this.refs.canvas
-        this.ctx = this.canvas.getContext("2d")
-
-        
-        
-        this.ctx.drawImage(this.image, 0, 0);
-        
+    this.canvas = this.refs.canvas
+    this.ctx = this.canvas.getContext("2d")
+    this.ctx.drawImage(this.image, 0, 0);
+    axios.get(`/api/maps/${this.props.mapId}`)
+    .then(map => {
+      console.log(map)
+      this.setState({
+        rockCount: map.data.objects.rockCount,
+        foodCount: map.data.objects.foodCount,
+        foods: map.data.objects.foods,
+        rocks: map.data.objects.rocks,
+        houses: map.data.objects.houses,
+        title: map.data.title,
+        url: map.data.url
+      })
+    })
   }
 
   callbackTest () {
@@ -118,7 +130,6 @@ class Canvas extends React.Component {
   }
 
     render() {
-      // debugger;
 
       if (this.ctx) {
         this.ctx.clearRect(0,0,GAME_DIMENSIONX, GAME_DIMENSIONY);
@@ -138,7 +149,18 @@ class Canvas extends React.Component {
       }
         return(
           <div className="testsize">
-
+            <TopNavContainer 
+              clickEffect={this.props.clickEffect} 
+              handleClickEffect={this.props.handleClickEffect}
+              rockCount={this.state.rockCount}
+              foodCount={this.state.foodCount}
+              foods={this.state.foods}
+              rocks={this.state.rocks}
+              houses={this.state.houses}
+              title={this.state.title}
+              url={this.state.url}
+              mapId={this.props.mapId}
+            />
             <canvas id="canvas" onKeyPress={this.handleKey} onClick={this.getCursorPosition} ref="canvas" className={this.props.clickEffect} width={5000} height={5500} />
 
             <img ref="foodIcon" alt="" src={foodIcon} className="hidden" />

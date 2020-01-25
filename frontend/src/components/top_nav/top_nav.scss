@@ -60,16 +60,21 @@
   left: -53%;
   width: 100%;
   min-width: 200px;
+
   li {
     padding: 10px;
     &:hover {
       background-color: #ddd;
       color: black;
     }
+
     &:nth-last-child(1):hover {
       background-color: rgb(236, 183, 8);
       color: black;
       cursor: pointer;
+    }
+    .topnav-name {
+      color: blue;
     }
     .topnav-wins {
       color: green;
