@@ -13,6 +13,7 @@ class TopNav extends React.Component {
         }
         this.profileDropdown = this.profileDropdown.bind(this)
         this.handleDropdown = this.handleDropdown.bind(this)
+        this.handleLogout = this.handleLogout.bind(this)
         this.myRef = React.createRef();
         // this.saveMapForm = this.saveMapForm.bind(this)
     }
@@ -40,6 +41,10 @@ class TopNav extends React.Component {
     //     }
     // }
 
+    handleLogout () {
+        this.props.logout()
+        this.props.history.push('/login')
+    }
     handleDropdown (e) {
         if (this.myRef.current.contains(e.target)) {
             this.profileDropdown();
@@ -106,7 +111,7 @@ class TopNav extends React.Component {
                     <li className="topnav-dropdown-item">
                         <Link to='/profile'><i class="fas fa-cog"></i> Settings</Link>
                     </li>
-                    <li className="topnav-dropdown-item">
+                    <li onClick={this.handleLogout}className="topnav-dropdown-item">
                         <Link to='/profile'><i class="fas fa-sign-out-alt"></i> Logout</Link>
                     </li>
                 </ul>

@@ -93,7 +93,6 @@ class Canvas extends React.Component {
             houses: this.state.houses
         }
     }
-    debugger;
     axios.post('/api/maps/', map)
     }
   }

@@ -31,7 +31,6 @@ class UpdateMapForm extends React.Component {
                 houses: this.props.houses
             }
         }
-        debugger;
         axios.put(`/api/maps/${this.props.mapId}`, map)
     }
     render () {

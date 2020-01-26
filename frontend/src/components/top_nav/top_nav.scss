@@ -43,6 +43,7 @@
       color: #f2f2f2;
       text-align: center;
       padding: 0rem 4rem;
+      max-width: 166px;
       text-decoration: none;
       font-size: 20px;
       cursor: pointer;
@@ -61,55 +62,14 @@
   }
 }
 
-/* Style the links inside the navigation bar */
-// .topnav a {
-//   color: #f2f2f2;
-//   text-align: center;
-//   padding: 14px 16px;
-//   text-decoration: none;
-//   font-size: 20px;
-//   cursor: pointer;
-//   &:hover {
-//     background-color: #fcd03f;
-//     color: black;
-//   }
-//   .topnav-middle-nav{
-//     max-width: 318px;
-//   }
-//   .topnav-left-nav a {
-//     &:hover {
-//       background-color: #fcd03f;
-//       color: black;
-//     }
-//   }
-//   .topnav-middle-nav a {
-//     cursor: pointer;
-//   }
-//   .topnav-right-nav a {
-//     &:hover {
-//       background-color: #fcd03f;
-//       color: black;
-//     }
-//   }
-// }
-
-/* Add a color to the active/current link */
-// .topnav a.active {
-//   background-color: #04afc3;
-//   color: black;
-// }
-
-// .topnav-right-nav {
-//   position: relative;
-// }
-
+//Dropdown
 .topnav-dropdown {
   background-color: white;
   position: absolute;
   top: 100%;
-  left: 93.35%;
-  width: 100%;
-  max-width: 166px;
+  left: 91.2%;
+  width: 166px;
+  // max-width: 166px;
   font-size: 20px;
   display: flex;
   flex-direction: column;
