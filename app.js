@@ -12,6 +12,7 @@ const passport = require('passport');
 //added for sockets
 const io = require("socket.io");
 const chatServer = io.listen(7000);
+
 // 
 
 mongoose
@@ -51,7 +52,44 @@ app.get('/index.html', function (req, res) {
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
+//
+//-------------------
 
+// let game = new Game();
+
+// gameServer.on('connection', function (socket) {
+    
+//     console.log('a game user connected: ', socket.id);
+//     socket.emit('currentPlayers', game.getPlayers());
+    
+//     game.addPlayer(socket.id);
+//     gameServer.emit('newPlayer', game.getPlayer(socket.id).toObj());
+
+//     socket.on('newClickMove', function (moveData) {
+//         game.getPlayer(socket.id).getObject()
+//             .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
+//     });
+
+//     socket.on('disconnect', function () {
+//         console.log('user disconnected: ', socket.id);
+//         game.deletePlayer(socket.id);
+//         gameServer.emit('disconnect', socket.id);
+//         clearInterval(interval)
+//     });
+
+//     let interval = () => {
+//         console.log("im setting an interval");
+//         setInterval(() => {
+            
+//         }, 1000 / 60)
+//     }
+
+//     interval()
+// });
+
+//-------------------
+
+// let chatters;
 let rooms = {}
 let games = {}
 
@@ -212,7 +250,8 @@ chatServer.on('connection', function(socket){
         interval = () => {
             console.log("im setting an interval");
             setInterval(() => {
-                chatServer.to(currentRoomName).emit("updatePlayer", game.getPlayers())
+                // chatServer.to(currentRoomName).emit("updatePlayer", game.getPlayers())
+                chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects());
                 // chatServer.emit("updatePlayer", game.getPlayers())
             }, 1000 / 60)
         }

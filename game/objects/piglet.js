@@ -1,5 +1,5 @@
 
-const movableObject = require( './movableObject.js')
+const movableObject = require('./movableObject.js')
 const utils = require('../util.js')
 const getDir = utils.getDir;
 const calcHitBox = utils.calcHitBox;
@@ -9,7 +9,7 @@ class Piglet extends movableObject{
     constructor(game, x, y, id) {
         super(game, x, y, id);
         this.speed = 2;
-        this.hitBoxSize = [50, 25];
+        this.hitBoxSize = [100, 50];
         this.hitBox = [30, 30];
         this.actionCooldown = 1;
         this.resource = 0;
@@ -21,7 +21,12 @@ class Piglet extends movableObject{
         }
         switch (type) {
             case 'attack':
-                const hB = calcHitBox(getDir(this.x, this.y, dX, dY), this.hitBoxSize,
+                let dir = getDir(this.x, this.y, dX, dY)
+                this.setMoveDir(dir[0], dir[1]);
+                if (this.moveDir / 100 < 1) {
+                    this.moveDir *= 10;
+                }
+                const hB = calcHitBox(dir, this.hitBoxSize,
                     this.x, this.y);
                 let hitObjects = this.game.map.getObjects(hB);
                 Object.keys(hitObjects).forEach(objId => {

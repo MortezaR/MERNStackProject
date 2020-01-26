@@ -63,8 +63,7 @@ class MapEditor extends React.Component {
 
     render () {
         return (
-            <div className="map-editor">
-                
+            <div className="map-editor"> 
                 <CanvasContainer  clickEffect={this.state.clickEffect} handleClickEffect={this.handleClickEffect} handleOverlap={this.handleOverlap}/>
                 <div className={`overlap ${this.state.hidden}`}>
                   <span>Cannot place object on starting position</span>
