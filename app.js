@@ -58,7 +58,6 @@ app.get('/', function (req, res) {
 //
 
 
-
 let game = new Game();
 
 gameServer.on('connection', function (socket) {

@@ -16,6 +16,7 @@ class moveableObject extends GObject{
         this.moving = null;
         this.moveDir = 21;
         this.dead = false;
+        this.cI = this.cI.bind(this);
     }
     move(dX, dY){
         if (dX === this.x && this.y === dY){
@@ -40,7 +41,7 @@ class moveableObject extends GObject{
                             dY = this.y;
                             if (hitBoxTouch(obj.getHitBox(), this.getHitBox())) {
                                 this.x -= unitX;
-                                clearInterval(this.moving);
+                                this.cI();
                             }
                         }else{
                             dX = this.x;
@@ -51,7 +52,7 @@ class moveableObject extends GObject{
             })
             if (((this.x >= dX && unitX >= 0) || (this.x <= dX && unitX <= 0)) && 
                 ((this.y >= dY && unitY >= 0) || (this.y <= dY && unitY <= 0))){
-                clearInterval(this.moving);
+                this.cI();
             }
         }
         if(this.moving){
@@ -73,6 +74,13 @@ class moveableObject extends GObject{
             NS = 20;
         }
         this.moveDir = NS + EW;
+    }
+    cI(){
+        clearInterval(this.moving);
+        this.moving = null;
+        if(this.moveDir / 100 < 1){ 
+            this.moveDir *= 10;
+        }
     }
     kill(){
 

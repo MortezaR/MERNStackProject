@@ -1,4 +1,5 @@
-import raikouSprites from '../assets/images/raikou_sprites.png'
+// import raikouSprites from '../assets/images/raikou_sprites.png'
+import Sprite from './sprite.js'
 
 export default class Player{
     constructor(id, x, y, width, height, moveDir) {
@@ -8,6 +9,16 @@ export default class Player{
         this.width = width;
         this.height = height;
         this.moveDir = moveDir;
+        this.sprites = {
+            south: new Sprite('https://i.imgur.com/f0z68qE.png'),
+            southWest: new Sprite('https://i.imgur.com/lhoTJgR.png'),
+            southEast: new Sprite('https://i.imgur.com/xS8gjpo.png'),
+            west: new Sprite('https://i.imgur.com/Ezs7gZN.png'),
+            east: new Sprite('https://i.imgur.com/YrRWLp0.png'),
+            north: new Sprite('https://i.imgur.com/YnQohoW.png'),
+            northWest: new Sprite('https://i.imgur.com/hmMZtGz.png'),
+            northEast: new Sprite('https://i.imgur.com/HNeHTjo.png')
+        };
     }
 
     update(x, y, moveDir) {
@@ -21,35 +32,64 @@ export default class Player{
         // context.fillStyle = "black";
         // context.fillRect((this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, this.width, this.height);
         // context.restore();
+        // all movement images -> https://imgur.com/a/jYhF28e
         this.image = new Image();
-        this.image.src = 'https://i.imgur.com/8kVKWdE.png'
+        this.image.src = 'https://i.imgur.com/f0z68qE.png'
+        
+        
         // YOU NOW HAVE ACCESS TO THIS.MOVEDIR
         //Move dir: 21 S, 31 N, 12 E, 13 W, 22 SE, 23 SW, 32 NE, 33 NW
         switch(this.moveDir) {
             //South
             case 31:
-                context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
-             //North East
+                this.sprites.south.step(context, this, xView, yView);
+                break;
+             //south East
             case 32:
-                context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.southWest.step(context, this, xView, yView);
                 break;
             case 12:
-                context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.west.step(context, this, xView, yView);
                 break;
             case 22:
-                context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.northWest.step(context, this, xView, yView);
                 break;
             case 21:
-                context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.north.step(context, this, xView, yView);
                 break;
             case 23:
-                context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.northEast.step(context, this, xView, yView);
                 break;
             case 13:
-                context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.east.step(context, this, xView, yView);
                 break;
             case 33:
-                context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.southEast.step(context, this, xView, yView);
+                break;
+            case 310:
+                this.sprites.south.drawFFrame(context, this, xView, yView);
+                break;
+             //south East
+            case 320:
+                this.sprites.southWest.drawFFrame(context, this, xView, yView);
+                break;
+            case 120:
+                this.sprites.west.drawFFrame(context, this, xView, yView);
+                break;
+            case 220:
+                this.sprites.northWest.drawFFrame(context, this, xView, yView);
+                break;
+            case 210:
+                this.sprites.north.drawFFrame(context, this, xView, yView);
+                break;
+            case 230:
+                this.sprites.northEast.drawFFrame(context, this, xView, yView);
+                break;
+            case 130:
+                this.sprites.east.drawFFrame(context, this, xView, yView);
+                break;
+            case 330:
+                this.sprites.southEast.drawFFrame(context, this, xView, yView);
                 break;
             default: return null;
              
