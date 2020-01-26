@@ -14,7 +14,7 @@ class moveableObject extends GObject{
         this.hitBoxSize = [4,2];
         this.actionCooldown = 1;
         this.moving = null;
-        this.moveDir = 21;
+        this.moveDir = 310;
         this.dead = false;
         this.cI = this.cI.bind(this);
     }

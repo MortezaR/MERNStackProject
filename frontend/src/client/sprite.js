@@ -9,8 +9,8 @@ export default class Spirte {
         // this.cycleLoop = [0, 1, 2, 3];
         this.loopC = 0;
         this.frameCount = 0;
-        this.height = 33;
-        this.width = 33;
+        this.height = 32;
+        this.width = 32;
         this.step = this.step.bind(this);
         this.drawFrame = this.drawFrame.bind(this);
     }
