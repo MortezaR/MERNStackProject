@@ -26,6 +26,10 @@ class Lobby extends React.Component{
         this.startGame = this.startGame.bind(this)
     }
 
+    componentWillUnmount(){
+        this.socket.emit('disconnect')
+    }
+
     componentDidMount(){
         this.socket.on('setupNewChatter', (data) => {
             console.log("im receiving my own info")
@@ -150,15 +154,20 @@ class Lobby extends React.Component{
     }
 
     joinRoom(roomId){
-        console.log('im joining room')
-        if (Object.values(this.state.rooms[roomId].chatters).length===4){
-            this.setState({
-                
-            })
-        } else {
-            return e => {
-                e.preventDefault();
-                if (roomId === this.state.myRoomId) return null
+        return e => {
+            e.preventDefault();
+            if (roomId === this.state.myRoomId) return null
+            if (Object.values(this.state.rooms[roomId].chatters).length === 4) {
+                let messages = this.state.messages
+                let message = {
+                    currentMessage: "That room is too full",
+                    username: "ErrorBot"
+                }
+                messages.push(message)
+                this.setState({
+                    messages
+                })
+            } else {
                 let { myRoomId, username, myId, myRoomName } = this.state
                 let data = {
                     roomId,
@@ -207,7 +216,12 @@ class Lobby extends React.Component{
         if (this.state.inGame){
             return (
                 <div>
-                    <GameCanvas socket={this.socket} roomName={this.state.myRoomName} roomId={this.state.myRoomId}/>
+                    <GameCanvas 
+                        socket={this.socket} 
+                        roomName={this.state.myRoomName} 
+                        roomId={this.state.myRoomId} 
+                        host={this.state.myRoomId===this.state.myId}
+                    />
                 </div>
             )
         } else {

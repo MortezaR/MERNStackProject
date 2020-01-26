@@ -55,58 +55,17 @@ gameServer.listen(pear, () => {
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
-//
 
 
-
-
-
-// gameServer.on('connection', function (socket) {
-    
-//     console.log('a game user connected: ', socket.id);
-//     socket.emit('currentPlayers', game.getPlayers());
-    
-//     let numPlayers = Object.keys(game.getPlayers()).length;
-//     console.log(numPlayers);
-//     if (numPlayers < 1){
-//         game.addPlayer(socket.id, 'bbw', 200, 200);
-//     }else{
-//         game.addPlayer(socket.id, 'piglet',
-//          200 * (numPlayers + 1), 200 * (numPlayers + 1))
-//     }
-
-//     console.log(game.getPlayer(socket.id).toObj())
-//     gameServer.emit('newPlayer', game.getPlayer(socket.id).toObj());
-
-//     socket.on('newClickMove', function (moveData) {
-//         game.getPlayer(socket.id).getObject()
-//             .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
-//     });
-
-//     socket.on('disconnect', function () {
-//         console.log('user disconnected: ', socket.id);
-//         game.deletePlayer(socket.id);
-//         gameServer.emit('disconnect', socket.id);
-//         clearInterval(interval)
-//     });
-
-//     let interval = () => {
-//         console.log("im setting an interval");
-//         setInterval(() => {
-//             socket.emit("updatePlayer", game.getPlayers())
-//         }, 1000 / 60)
-//     }
-
-//     interval()
-// });
-
-// let chatters;
 let rooms = {}
 let games = {}
 
 chatServer.on('connection', function(socket){
     let game = {};
     let inGame = false;
+    let currentRoomId = '';
+    let currentRoomName = '';
+    let interval;
 
     console.log('a chat user connected: ', socket.id);
     setTimeout(() => {
@@ -122,15 +81,14 @@ chatServer.on('connection', function(socket){
         let newData = data;
         newData["roomId"] = socket.id;
         console.log('requested room')
-        console.log(data)
+        currentRoomId = socket.id;
+        currentRoomName = data.roomName;
         joinRoom(newData)
         chatServer.emit('updateRoomsInfo', rooms)
     })
 
-    let addChatterToRoom = (username, roomId, playerId) => {
+    let addChatterToRoomsObj = (username, roomId, playerId) => {
         console.log("adding chatter to room")
-        console.log(roomId)
-        console.log(rooms)
         rooms[roomId].chatters[playerId] = {
             id: playerId,
             username: username,
@@ -140,49 +98,41 @@ chatServer.on('connection', function(socket){
 
     let joinRoom = (data) => {
         console.log("player joining room")
-        console.log(data)
+        socket.leave(data.oldRoomName)
+        currentRoomId = data.roomId;
         if (data.oldRoomId !== ''){
-            leaveRoom(data)
+            leaveRoom(data) // maybe problem
         }
-        addChatterToRoom(data.username, data.roomId, socket.id)
-        let roomName = rooms[data.roomId].roomName
-        socket.join(roomName)
-        chatServer.in(roomName).emit('joinRoomInfo', {
-            chatters: rooms[data.roomId].chatters,
-            roomName: rooms[data.roomId].roomName,
-            roomId: data.roomId
+        addChatterToRoomsObj(data.username, currentRoomId, socket.id)
+        currentRoomName = rooms[currentRoomId].roomName
+        socket.join(currentRoomName)
+        chatServer.emit('updateRoomsInfo', rooms)
+        chatServer.in(currentRoomName).emit('joinRoomInfo', {
+            chatters: rooms[currentRoomId].chatters,
+            roomName: currentRoomName,
+            roomId: currentRoomId
         })
         socket.emit('clearMsg')
     }
 
     let leaveRoom = (data) => {
         console.log("player leaving room")
-        console.log(rooms)
-        delete rooms[data.oldRoomId].chatters[data.myId]
-        socket.leave(data.oldRoomName)
-        console.log(data)
-        if (data.oldRoomId === data.myId) {  //client was hosting room and left
+        if (data.oldRoomId === data.myId) {//host leaving hosted room
             chatServer.to(data.oldRoomName).emit('deleteRoom')
-            if (data.oldRoomId !== data.roomId){ //client is joining a new room and not hosting
+            if (data.oldRoomId !== data.roomId){//host leaving to other room
                 delete rooms[data.oldRoomId]
-                chatServer.emit('updateRoomsInfo', rooms)
-            } else {
-                chatServer.emit('updateRoomsInfo', rooms)
+            } 
+        } else {//nonhost leaving room
+            if (rooms[data.oldRoomId]) {//the room im leaving still exists
+                delete rooms[data.oldRoomId].chatters[socket.id]
+                let chatters = rooms[data.oldRoomId].chatters
+                chatServer.to(data.oldRoomName).emit('updateChattersInfo', chatters)
             }
-        } else {
-            let chatters = rooms[data.oldRoomId].chatters
-            chatServer.emit('updateRoomsInfo', rooms)
-            chatServer.to(data.oldRoomName).emit('updateChattersInfo', chatters)
         }
+        chatServer.emit('updateRoomsInfo', rooms)
     }
 
     socket.on('joinRoom', data => joinRoom(data))
-
-    // socket.on('disconnect', () => {
-    //     delete rooms[socket.id]
-    //     chatServer.emit('updateRoomsInfo', rooms)
-    //     chatServer.emit('disconnectUser', socket.id)
-    // })
 
     socket.on('chatMessage', (data) => {
         console.log("im receiving msg")
@@ -202,23 +152,34 @@ chatServer.on('connection', function(socket){
     })
 
     socket.on('newClickMove', function (moveData) {
-        if (!inGame) return null
-        game.getPlayer(socket.id).getObject()
+        console.log(moveData)
+        games[moveData.gameId].getPlayer(socket.id).getObject()
             .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
     });
 
     socket.on('disconnect', function () {
-        if (inGame){
-            console.log('user disconnected: ', socket.id);
-            game.deletePlayer(socket.id);
-            chatServer.to(roomName).emit('disconnect', socket.id);
-        } else {
-            delete rooms[socket.id]
+        console.log('user disconnected: ', socket.id);
+        if (inGame) {//in game
+            if (socket.id===currentRoomId){//hosting game
+                chatServer.to(currentRoomName).emit('disconnectHost');
+                game
+            } else {
+                game.deletePlayer(socket.id);
+                chatServer.to(currentRoomName).emit('disconnectUser', socket.id);
+            }
+        } else {//in chat lobby
+            if (rooms[socket.id]){//hosting chat
+                delete rooms[socket.id]
+            } else {//not hosting vhat
+                delete rooms[currentRoomId].chatters[socket.id]
+            }
             chatServer.emit('updateRoomsInfo', rooms)
             chatServer.emit('disconnectUser', socket.id)
         }
-        // clearInterval(interval)
+        clearInterval(interval)
+        socket.disconnect()
     });
+
 
     socket.on('playersAllReady', (data) => {
         console.log(data)
@@ -228,6 +189,7 @@ chatServer.on('connection', function(socket){
             return players[key].id
         })
         game = new Game();
+        games[data.roomId] = game;
         console.log('the game host connected: ', socket.id);
         chatServer.to(data.roomName).emit('currentPlayers', game.getPlayers());
 
@@ -241,11 +203,9 @@ chatServer.on('connection', function(socket){
             chatServer.to(`${playerIds[i]}`).emit('newPlayer', game.getPlayer(playerIds[i]).toObj());
         }
         console.log(game.getPlayer(socket.id).toObj())
-
-        let interval = () => {
+        interval = () => {
             console.log("im setting an interval");
             setInterval(() => {
-                // socket.emit("updatePlayer", game.getPlayers())
                 chatServer.to(data.roomName).emit("updatePlayer", game.getPlayers())
             }, 1000 / 60)
         }

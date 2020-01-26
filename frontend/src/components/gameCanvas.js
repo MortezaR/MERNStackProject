@@ -3,6 +3,7 @@ import Game from '../client/game'
 import io from "socket.io-client";
 import Sound from 'react-sound';
 import worldMusic from '../assets/sound/gflop.mp3';
+import { withRouter } from 'react-router';
 
 
 class gameCanvas extends React.Component {
@@ -23,26 +24,33 @@ class gameCanvas extends React.Component {
     this.game = new Game();
     this.socket.on('newPlayer', (playerData) => this.game.addNewPlayer(playerData))
     this.socket.on('currentPlayers', (playersData) => this.game.addCurrentPlayers(playersData))
-    this.socket.on('disconnect', (id) => this.game.disconnectPlayer(id))
+    this.socket.on('disconnectUser', (id) => this.game.disconnectPlayer(id))
+    this.socket.on('disconnectHost', () => this.disconnectHost())
     this.socket.on('updatePlayer', (playerData) => this.game.gameLoop(playerData))
     console.log(this.game)
     setTimeout(() => {
       console.log("players are all ready timeout")
       let data = {roomName: this.props.roomName, roomId: this.props.roomId}
-      this.socket.emit('playersAllReady', data)
+      if (this.props.host) this.socket.emit('playersAllReady', data)
     }, 1000);
+  }
+
+  disconnectHost(){
+    this.props.history.push('/lobby')
   }
 
   handleClick(e) {
     let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
-    let moveData = { clickPos, type: "move" }
+    let moveData = { clickPos, type: "move", gameId: this.props.roomId}
     this.socket.emit('newClickMove', moveData)
+    console.log(moveData)
+    console.log("movedata")
   }
 
   handleRightClick(e) {
     e.preventDefault();
     let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
-    let moveData = { clickPos, type: "attack" }
+    let moveData = { clickPos, type: "attack", gameId: this.props.roomId }
     this.socket.emit('newClickMove', moveData)
   }
 
@@ -74,4 +82,4 @@ class gameCanvas extends React.Component {
   }
 }
 
-export default gameCanvas
+export default withRouter(gameCanvas)
