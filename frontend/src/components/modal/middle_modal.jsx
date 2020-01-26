@@ -3,7 +3,7 @@ import { closeModal } from '../../actions/modal_actions';
 import { connect } from 'react-redux';
 import SignupModalContainer from '../forms/signup_modal_container';
 
-const Modal = ({modal, closeModal}) => {
+const MiddleModal = ({modal, closeModal}) => {
   if (!modal) {
     return null;
   }
@@ -32,4 +32,4 @@ const mapDispatch = dispatch => ({
   closeModal: () => dispatch(closeModal())
 })
 
-export default connect(mapState, mapDispatch)(Modal);
+export default connect(mapState, mapDispatch)(MiddleModal);

@@ -20,14 +20,19 @@
     left: 43%;
     background-color: rgba(131, 75, 75, 0.658);
     width: 300px;
-    height: 50px;
-    border-radius: 50px;
+    height: 25px;
+    border-radius: 5px;
     text-align: center;
+    vertical-align: middle;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    align-content: center;
+    text-align: center;
     color: white;
     padding: 20px;
+    font-size: 20px;
   }
 
 
@@ -42,13 +47,13 @@
   }
 
   .fadein {
-    display: block;
+    display: flex;
     animation-name: fade-in;
     animation-duration: 0.5s;
   }
 
   .fadeout {
-    display: block;
+    display: flex;
     animation-name: fade-out;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
