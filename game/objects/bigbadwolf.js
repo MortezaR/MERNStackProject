@@ -10,7 +10,7 @@ class BigBadWolf extends movableObject {
     constructor(game, x, y, id) {
         super(game, x, y, id);
         this.speed = 5;
-        this.hitBoxSize = [50,25];
+        this.hitBoxSize = [100,50];
         this.hitBox = [35, 35];
         this.actionCooldown = 1;
         this.increaseSpeed = this.increaseSpeed.bind(this);
@@ -43,7 +43,7 @@ class BigBadWolf extends movableObject {
     increaseSpeed(){
         this.speed += 1;
         console.log(this.speed);
-        if(this.speed > 100){
+        if(this.speed > 50){
             clearInterval(this.speedInterval);
         }
     }

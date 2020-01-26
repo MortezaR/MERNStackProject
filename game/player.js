@@ -1,5 +1,5 @@
-const BigBadWolf = require( './objects/bigbadwolf.js')
-const Piglet = require( './objects/piglet.js')
+const BigBadWolf = require('./objects/bigbadwolf.js')
+const Piglet = require('./objects/piglet.js')
 class Player {
     constructor(id, playerType, game, x, y) {
         this.id = id;

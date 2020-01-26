@@ -1,5 +1,5 @@
 
-const movableObject = require( './movableObject.js')
+const movableObject = require('./movableObject.js')
 const utils = require('../util.js')
 const getDir = utils.getDir;
 const calcHitBox = utils.calcHitBox;
@@ -9,7 +9,7 @@ class Piglet extends movableObject{
     constructor(game, x, y, id) {
         super(game, x, y, id);
         this.speed = 2;
-        this.hitBoxSize = [50, 25];
+        this.hitBoxSize = [100, 50];
         this.hitBox = [30, 30];
         this.actionCooldown = 1;
         this.resource = 0;

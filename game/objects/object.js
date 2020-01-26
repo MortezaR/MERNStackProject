@@ -20,7 +20,8 @@ class GObject {
             id: this.id,
             x: this.x, y: this.y,
             width: this.hitBox[0],
-            height: this.hitBox[1]
+            height: this.hitBox[1],
+            params: {}
         }
     }
 }

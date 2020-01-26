@@ -66,23 +66,13 @@ export default class Game{
   updateObjects(objectsData){
     Object.values(objectsData).forEach((data) => {
       if (data.id in this.objects){
-        this.objects[data.id].update(data.x, data.y);
+        this.objects[data.id].update(data.x, data.y, data.params);
       }else{
         this.objects[data.id] = new GObject(data.id, data.x, data.y,
-           data.width, data.height);
+           data.width, data.height, data.params);
       }}
       )
   }
-
-  // draw(){
-  //   this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  //   this.room.map.draw(this.context, this.camera.xView, this.camera.yView);
-  //   this.player.draw(this.context, this.camera.xView, this.camera.yView)
-  //   Object.keys(this.otherPlayers).forEach(key => {
-  //     this.otherPlayers[key].draw(this.context, this.camera.xView, this.camera.yView)
-  //   })
-  // }
-
   gameLoop(playerData, gameData){
     // console.log(gameData);
     this.updatePlayers(playerData);

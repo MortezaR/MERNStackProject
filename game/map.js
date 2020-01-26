@@ -1,15 +1,16 @@
 const Food = require( './objects/food.js')
 const Wall = require('./objects/wall')
+const HTerminal = require('./objects/hterminal')
 const BigBadWolf = require( './objects/bigbadwolf.js')
 const Piglet = require( './objects/piglet.js')
 const utils = require('./util.js')
 const hitBoxTouch = utils.hitBoxTouch;
 
 class Map {
-    constructor(height, width, game){
+    constructor(height, width, spawnLocation, game){
         this.height = height;
         this.width = width;
-        this.spawnLocation = [2500,2500];
+        this.spawnLocation = spawnLocation;
         this.game = game;
         this.gameObjects = {};
         this.playerObjects = {};
@@ -44,6 +45,9 @@ class Map {
             case 'wall':
                 obj = new Wall(...objParams)
                 break;
+            case 'hTerminal':
+                obj = new HTerminal(...objParams)
+                break;
             default:
                 return null;
 
@@ -61,11 +65,18 @@ class Map {
     }
 
     generateDefaultMap(){
-        this.addObject('food', this.game, 2000, 2000, 1);
-        this.addObject('wall', this.game, 2100, 2000, 2);
-        this.addObject('wall', this.game, 2100, 2100, 3);
-        this.addObject('wall', this.game, 2000, 2100, 4);
-        this.addObject('wall', this.game, 1900, 2100, 5);
+        this.addObject('wall', this.game, 2100, 2000, 10001);
+        this.addObject('wall', this.game, 2100, 2100, 10002);
+        this.addObject('wall', this.game, 2000, 2100, 10003);
+        this.addObject('wall', this.game, 1900, 2100, 10004);
+
+        
+        this.addObject('food', this.game, 2000, 2000, 20001);
+
+
+        this.addObject('hTerminal', this.game, 2700, 2700, 30001);
+
+
     }
 }
 

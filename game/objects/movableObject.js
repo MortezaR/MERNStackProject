@@ -1,6 +1,7 @@
 
 const GObject = require( './object.js')
 const utils = require('../util.js')
+const HTerminal = require('./hterminal.js')
 const getDir = utils.getDir;
 const hitBoxTouch = utils.hitBoxTouch;
 //S - 21 , SW - 22, W - 12, NW - 32, N - 31, NE - 33, E - 13, SE - 23
@@ -23,17 +24,18 @@ class moveableObject extends GObject{
             return null;
         }
         let [unitX, unitY] = getDir(this.x,this.y,dX,dY);
+        this.setMoveDir(unitX,unitY);
         unitX = unitX * this.speed;
         unitY = unitY * this.speed;
-        this.setMoveDir(unitX,unitY);
         const moveHelper = () => {
             this.x += unitX;
             this.y += unitY;
             let allObj = this.game.map.getAllObjects();
             Object.keys(allObj).forEach((key) =>{
-                let obj = allObj[key]
+                let obj = allObj[key];
+                let touching = hitBoxTouch(obj.getHitBox(), this.getHitBox());
                 if (obj.id !== this.id && obj.phasable === false){
-                    if(hitBoxTouch(obj.getHitBox(), this.getHitBox())){
+                    if(touching){
                         this.x -= unitX;
                         if (hitBoxTouch(obj.getHitBox(), this.getHitBox())) {
                             this.y -= unitY;
@@ -46,8 +48,10 @@ class moveableObject extends GObject{
                         }else{
                             dX = this.x;
                         }
-
                     }
+                }
+                if (obj instanceof HTerminal && touching) {
+                    obj.hack(this);
                 }
             })
             if (((this.x >= dX && unitX >= 0) || (this.x <= dX && unitX <= 0)) && 
@@ -63,14 +67,14 @@ class moveableObject extends GObject{
     setMoveDir(x,y){
         let NS = 10;
         let EW = 1;
-        if (x > 1/2) {
+        if (x > .45) {
             EW = 3;
-        }else if( x < -1/2){
+        }else if( x < -.45){
             EW = 2;
         }
-        if (y > 1/2) {
+        if (y > .45) {
             NS = 30;
-        }else if( y < -1/2){
+        }else if( y < -.45){
             NS = 20;
         }
         this.moveDir = NS + EW;

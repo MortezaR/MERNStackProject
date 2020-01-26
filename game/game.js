@@ -3,12 +3,12 @@ const Map = require('./map.js')
 
 class Game {
     constructor(){
-        this.map = new Map(5000, 5000, this);
+        this.map = new Map(5000, 5000, [2500, 2500], this);
         this.players = {};
     }
     addPlayer(id){
         console.log('added_player')
-        
+
         let numPlayers = Object.keys(this.players).length;
         switch (numPlayers) {
             case 0:
@@ -67,7 +67,6 @@ class Game {
     }
     deletePlayer(playerId){
         delete this.map.playerObjects[playerId];
-        //delete player from the map
         delete this.players[playerId];
     }
 }
