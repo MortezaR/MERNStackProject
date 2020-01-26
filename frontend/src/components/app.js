@@ -4,7 +4,7 @@ import { AuthRoute, ProtectedRoute } from '../util/route_util';
 import { Route, Switch } from 'react-router-dom';
 // import LoginFormContainer from './session/login_form_container';
 // import SignupFormContainer from './session/signup_form_container';
-import Lobby from './lobby/lobby'
+import LobbyContainer from './lobby/lobby_container'
 import gameCanvas from './gameCanvas'
 import MapEditor from './map_editor/map_editor'
 import TopNavTwoContainer from './top_nav_two/top_nav__two_container'
