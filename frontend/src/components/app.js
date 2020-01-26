@@ -28,7 +28,11 @@ const App = () => (
       <Route exact path="/lobby" component={Lobby} />
       <Route exact path="/game" component={gameCanvas} />
       <Route exact path="/signup" component={SignupFormContainer} />
+<<<<<<< HEAD
+      {/* <Route path="/" component={Lobby} /> */}
+=======
       <Route exact path="/profile" component={ProfileContainer} />
+>>>>>>> 577c89a17d9a64db7be31b582c201cbcde20d9fe
       {/* <ProtectedRoute exact path="/editor" component={ProfileContainer} /> */}
 
     </Switch>
