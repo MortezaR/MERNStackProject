@@ -117,7 +117,7 @@ class Canvas extends React.Component {
       const canvasx = event.clientX - rect.left
       const canvasy = event.clientY - rect.top
       console.log("x: " + canvasx + " y: " + canvasy)
-      switch(this.props.clickEffect) {
+      switch(this.state.clickEffect) {
         case 'remove':
             Object.keys(this.state.rocks).forEach(rockKey => {
               if (Math.sqrt((canvasx-this.state.rocks[rockKey].x)*(canvasx-this.state.rocks[rockKey].x) + (canvasy-this.state.rocks[rockKey].y)*(canvasy-this.state.rocks[rockKey].y)) < this.state.radius) {
@@ -202,7 +202,7 @@ class Canvas extends React.Component {
               url={this.state.url}
               mapId={this.props.mapId}
             />
-            <canvas id="canvas" onKeyPress={this.handleKey} onClick={this.getCursorPosition} ref="canvas" className={this.props.clickEffect} width={5000} height={5000} />
+            <canvas id="canvas" onKeyPress={this.handleKey} onClick={this.getCursorPosition} ref="canvas" className={this.state.clickEffect} width={5000} height={5000} />
 
             <img ref="foodIcon" alt="" src={foodIcon} className="hidden" />
             <img ref="rockIcon" alt="" src={rockIcon} className="hidden" />

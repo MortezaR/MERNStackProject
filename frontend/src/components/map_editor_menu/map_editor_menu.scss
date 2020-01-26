@@ -8,7 +8,7 @@
     z-index: 10;
     width: 100%;
     max-width: 270px;
-    height: 350px;
+    height: 400px;
     display: flex;
     top: 37%;
     left: 87%;
@@ -27,6 +27,9 @@
         .map-editor-menu-item {
             padding: 5px;
             margin-top: 10px;
+            &:nth-of-type(1) {
+                margin-top: 0px;
+            }
         }
     }
     .map-editor-menu-caption {

@@ -13,7 +13,7 @@ class MapEditorMenu extends React.Component {
     handleUpdate(field) {
       return e => this.setState({
           [field]: e.currentTarget.value
-          
+
       })
     }
     render () {
@@ -36,17 +36,22 @@ class MapEditorMenu extends React.Component {
                 </div>
                 <div className="map-editor-menu-item">
                   <div className="map-editor-menu-item-wrapper">
-                      <span>Obstacle</span>
+                      <span onClick={()=>this.props.handleClickEffect('obstacle')}>Obstacle</span>
                   </div>
                 </div>
                 <div className="map-editor-menu-item">
                   <div className="map-editor-menu-item-wrapper">
-                      <span>Food</span>
+                      <span onClick={()=>this.props.handleClickEffect('food')}>Food</span>
                   </div>
                 </div>
-                  <div className="map-editor-menu-item">
+                <div className="map-editor-menu-item">
                   <div className="map-editor-menu-item-wrapper">
-                      <span>Spawn</span>
+                      <span onClick={()=>this.props.handleClickEffect('house')}>Spawn</span>
+                  </div>
+                </div>
+                <div className="map-editor-menu-item">
+                  <div className="map-editor-menu-item-wrapper">
+                      <span onClick={()=>this.props.handleClickEffect('remove')}>Eraser</span>
                   </div>
                 </div>
               </fieldset>
