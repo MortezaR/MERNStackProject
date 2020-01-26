@@ -15,5 +15,14 @@ class GObject {
         return [[(-x/2 + this.x), (-y/2 + this.y)], [(x/2 + this.x), (-y/2 + this.y)],
             [(x/2 + this.x), (y/2 + this.y)], [(-x/2 + this.x), (y/2 + this.y)]]
     }
+    toObj() {
+        return {
+            id: this.id,
+            x: this.x, y: this.y,
+            width: this.hitBox[0],
+            height: this.hitBox[1],
+            params: {}
+        }
+    }
 }
 module.exports = GObject;

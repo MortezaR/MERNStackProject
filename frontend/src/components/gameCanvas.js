@@ -23,7 +23,7 @@ class GameCanvas extends React.Component {
     this.socket.on('currentPlayers', (playersData) => this.game.addCurrentPlayers(playersData))
     this.socket.on('disconnectUser', (id) => this.game.disconnectPlayer(id))
     this.socket.on('disconnectHost', () => this.disconnectHost())
-    this.socket.on('updatePlayer', (playerData) => this.game.gameLoop(playerData))
+    this.socket.on('updateGame', (playerData, gameData) => this.game.gameLoop(playerData, gameData))
     console.log(this.game)
     setTimeout(() => {
       console.log("players are all ready timeout")
