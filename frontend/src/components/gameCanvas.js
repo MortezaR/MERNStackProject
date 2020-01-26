@@ -1,18 +1,15 @@
 import React from 'react';
 import Game from '../client/game'
-import io from "socket.io-client";
 import Sound from 'react-sound';
 import worldMusic from '../assets/sound/gflop.mp3';
-import { withRouter } from 'react-router';
 
 
-class gameCanvas extends React.Component {
+class GameCanvas extends React.Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleRightClick = this.handleRightClick.bind(this)
     this.game = null;
-    // this.socket = io.connect("http://localhost:8000");
     this.socket = this.props.socket;
     this.state = {
       sound: 'Sound.status.MUTED'
@@ -36,7 +33,7 @@ class gameCanvas extends React.Component {
   }
 
   disconnectHost(){
-    this.props.history.push('/lobby')
+    this.props.backToLobby();
   }
 
   handleClick(e) {
@@ -82,4 +79,4 @@ class gameCanvas extends React.Component {
   }
 }
 
-export default withRouter(gameCanvas)
+export default GameCanvas

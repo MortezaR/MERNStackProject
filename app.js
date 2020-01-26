@@ -11,7 +11,6 @@ const passport = require('passport');
 
 //added for sockets
 const io = require("socket.io");
-const gameServer = io.listen(8000);
 const chatServer = io.listen(7000);
 // 
 
@@ -48,14 +47,10 @@ app.get('/index.html', function (req, res) {
     res.sendFile(__dirname + '/frontend/public/index.html');
 });
 
-gameServer.listen(pear, () => {
-    console.log(`gameServer started on port ${pear}`);
-});
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
-
 
 let rooms = {}
 let games = {}
@@ -66,6 +61,7 @@ chatServer.on('connection', function(socket){
     let currentRoomId = '';
     let currentRoomName = '';
     let interval;
+
 
     console.log('a chat user connected: ', socket.id);
     setTimeout(() => {
@@ -89,6 +85,8 @@ chatServer.on('connection', function(socket){
 
     let addChatterToRoomsObj = (username, roomId, playerId) => {
         console.log("adding chatter to room")
+        console.log(roomId)
+        console.log(rooms)
         rooms[roomId].chatters[playerId] = {
             id: playerId,
             username: username,

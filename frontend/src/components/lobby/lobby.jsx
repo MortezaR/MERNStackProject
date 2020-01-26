@@ -24,6 +24,7 @@ class Lobby extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this)
         this.readyPlayer = this.readyPlayer.bind(this)
         this.startGame = this.startGame.bind(this)
+        this.backToLobby = this.backToLobby.bind(this)
     }
 
     componentWillUnmount(){
@@ -119,6 +120,20 @@ class Lobby extends React.Component{
 
         this.socket.on('goToGame', () => {
             this.setState({inGame: true})
+        })
+    }
+
+    backToLobby(){
+        this.setState({
+            messages: [],
+            currentMessage: '',
+            username: this.props.currentUser.username,
+            myRoomId: '',
+            myChatters: {},
+            myRoomName: '',
+            requestedRoomName: '',
+            inLobby: false,
+            inGame: false
         })
     }
 
@@ -221,6 +236,7 @@ class Lobby extends React.Component{
                         roomName={this.state.myRoomName} 
                         roomId={this.state.myRoomId} 
                         host={this.state.myRoomId===this.state.myId}
+                        backToLobby={this.backToLobby}
                     />
                 </div>
             )
