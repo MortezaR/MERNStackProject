@@ -2,7 +2,7 @@
 
 /* Add a black background color to the top navigation */
 .topnav {
-  background-color: #1f1f1f;
+  background-color: #212121;
   /* overflow: hidden; */
   position: fixed;
   top: 0;
@@ -23,7 +23,7 @@
   font-size: 17px;
   cursor: pointer;
   &:hover {
-    background-color: #ddd;
+    background-color: #fcd03f;
     color: black;
   }
   .topnav-middle-nav{
@@ -31,7 +31,7 @@
   }
   .topnav-left-nav a {
     &:hover {
-      background-color: #ddd;
+      background-color: #fcd03f;
       color: black;
     }
   }
@@ -40,7 +40,7 @@
   }
   .topnav-right-nav a {
     &:hover {
-      background-color: #ddd;
+      background-color: #fcd03f;
       color: black;
     }
   }
@@ -48,7 +48,7 @@
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: rgb(76, 175, 158);
+  background-color: #04afc3;
   color: black;
 }
 

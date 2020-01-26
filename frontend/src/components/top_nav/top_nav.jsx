@@ -85,7 +85,7 @@ class TopNav extends React.Component {
             <div className="topnav">
                 <div className="topnav-left-nav">
                     <Link to='/lobby'>Lobby</Link>
-                    <a onClick={() => this.props.openModal('signup')} className="active">Create map</a>
+                    <Link to='/map'>Create a Map</Link>
                 </div>
                 <div className="topnav-middle-nav">
                     <a onClick={()=>this.props.handleClickEffect('obstacle')}>Obstacle</a>

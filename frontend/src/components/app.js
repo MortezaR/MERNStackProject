@@ -12,11 +12,11 @@ import LoginFormContainer from './session/login_form_container'
 import SignupFormContainer from './session/login_form_container';
 import ProfileContainer from './profile/profile_container.js'
 import '../App.scss'
-import Modal from './modal/modal.jsx';
+import MiddleModal from './modal/middle_modal.jsx';
 
 const App = () => (
   <div>
-    <Modal />
+    <MiddleModal />
  
 {/*       
       <AuthRoute exact path="/" component={MainPage} />
@@ -29,7 +29,7 @@ const App = () => (
         <Route path="/" component={TopNavTwoContainer} />
       </Switch>
       <AuthRoute exact path="/login" component={LoginFormContainer} />
-      <ProtectedRoute exact path="/lobby" component={Lobby} />
+      <ProtectedRoute exact path="/lobby" component={LobbyContainer} />
       <ProtectedRoute exact path="/game" component={gameCanvas} />
       <AuthRoute exact path="/signup" component={SignupFormContainer} />
       <ProtectedRoute exact path="/profile" component={ProfileContainer} />

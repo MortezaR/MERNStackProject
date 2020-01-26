@@ -5,14 +5,14 @@ import rockIcon from '../../assets/images/rock_icon.png'
 import houseIcon from '../../assets/images/house_icon.png'
 import worldMap from '../../assets/images/worldmap1.png';
 import TopNavContainer from '../top_nav/top_nav_container.js';
-
+import MapEditorMenu from '../map_editor_menu/map_editor_menu_container';
 import Sound from 'react-sound';
 import worldMusic from '../../assets/sound/gflop.mp3';
 import axios from 'axios';
 
 
 const GAME_DIMENSIONX = 5000;
-const GAME_DIMENSIONY = 5500;
+const GAME_DIMENSIONY = 5000;
 
 class Canvas extends React.Component {
   constructor (props) {
@@ -32,12 +32,17 @@ class Canvas extends React.Component {
         imgLoaded: false,
         title: '',
         url: '',
-        mapId: ''
+        mapId: '',
+        clickEffect: 'obstacle',
+        hidden: 'hidden'
 
       };
       this.getCursorPosition = this.getCursorPosition.bind(this);
       this.intersectRect = this.intersectRect.bind(this);
       this.callbackTest = this.callbackTest.bind(this);
+      this.handleSave = this.handleSave.bind(this);
+      this.handleClickEffect = this.handleClickEffect.bind(this);
+      this.handleOverlap = this.handleOverlap.bind(this);
   }
   componentDidMount() {
     this.canvas = this.refs.canvas
@@ -58,6 +63,40 @@ class Canvas extends React.Component {
     })
   }
 
+  handleOverlap() {
+    this.setState({
+      hidden: 'fadein'
+    })
+    setTimeout(()=>this.setState({
+      hidden: 'fadeout'
+    }), 2000)
+  }
+
+  handleClickEffect(clickEffect) {
+    this.setState({
+        clickEffect: clickEffect
+    })
+  }
+
+  handleSave (title, url) {
+    return e => {
+      e.preventDefault();
+      const map = {
+        user: this.props.currentUser.id,
+        title: title,
+        url: url,
+        objects: {
+            rockCount: this.state.rockCount,
+            foodCount: this.state.foodCount,
+            foods: this.state.foods,
+            rocks: this.state.rocks,
+            houses: this.state.houses
+        }
+    }
+    axios.post('/api/maps/', map)
+    }
+  }
+
   callbackTest () {
     this.setState({
       imgLoaded: true
@@ -70,6 +109,8 @@ class Canvas extends React.Component {
              r2.y-130 > clickY+70 ||
              r2.y+130 < clickY-70);
   }
+
+
 
   getCursorPosition(event) {
       const rect = this.canvas.getBoundingClientRect()
@@ -96,7 +137,7 @@ class Canvas extends React.Component {
         case 'obstacle':
           if (this.state.houses[0] && this.intersectRect(canvasx, canvasy, this.state.houses[0])) {
               console.log('overlapped')
-              this.props.handleOverlap();
+              this.handleOverlap();
               break;
           }
           else {
@@ -109,7 +150,7 @@ class Canvas extends React.Component {
         case 'food':
           if (this.state.houses[0] && this.intersectRect(canvasx, canvasy, this.state.houses[0])) {
             console.log('overlapped')
-            this.props.handleOverlap();
+            this.handleOverlap();
             break;
           }
           else {
@@ -161,15 +202,16 @@ class Canvas extends React.Component {
               url={this.state.url}
               mapId={this.props.mapId}
             />
-            <canvas id="canvas" onKeyPress={this.handleKey} onClick={this.getCursorPosition} ref="canvas" className={this.props.clickEffect} width={5000} height={5500} />
+            <canvas id="canvas" onKeyPress={this.handleKey} onClick={this.getCursorPosition} ref="canvas" className={this.props.clickEffect} width={5000} height={5000} />
 
             <img ref="foodIcon" alt="" src={foodIcon} className="hidden" />
             <img ref="rockIcon" alt="" src={rockIcon} className="hidden" />
             <img ref="houseIcon" alt="" src={houseIcon} className="hidden" />
             <img ref="worldMap" alt="" onLoad={this.callbackTest} src={worldMap} className="hidden" />
-
-
-            
+            <div className={`overlap ${this.state.hidden}`}>
+                  <span>Cannot place object on starting position</span>
+            </div>
+            <MapEditorMenu handleClickEffect={this.handleClickEffect} handleSave={this.handleSave}/>
          </div> 
         )
       }
