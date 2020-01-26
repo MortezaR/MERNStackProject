@@ -19,7 +19,7 @@ class MapEditorMenu extends React.Component {
     render () {
         return (
             <div className="map-editor-menu">
-            <form onSubmit={this.props.handleSave(this.state.title, this.state.background)}>
+            <form onSubmit={this.props.handleSave(this.state.title, this.state.url)}>
               <section className="map-editor-typed-fields">
                 <div className="map-editor-menu-item">
                   <label>Title<br/></label>
@@ -34,24 +34,24 @@ class MapEditorMenu extends React.Component {
                 <div className="map-editor-menu-caption">
                   <hr/><label>Map Items</label><hr/>
                 </div>
-                <div className="map-editor-menu-item">
+                <div className="map-editor-menu-item" onClick={()=>this.props.handleClickEffect('obstacle')}>
                   <div className="map-editor-menu-item-wrapper">
-                      <span onClick={()=>this.props.handleClickEffect('obstacle')}>Obstacle</span>
+                      <span>Obstacle</span>
                   </div>
                 </div>
-                <div className="map-editor-menu-item">
+                <div className="map-editor-menu-item" onClick={()=>this.props.handleClickEffect('food')}>
                   <div className="map-editor-menu-item-wrapper">
-                      <span onClick={()=>this.props.handleClickEffect('food')}>Food</span>
+                      <span>Food</span>
                   </div>
                 </div>
-                <div className="map-editor-menu-item">
+                <div className="map-editor-menu-item" onClick={()=>this.props.handleClickEffect('house')}>
                   <div className="map-editor-menu-item-wrapper">
-                      <span onClick={()=>this.props.handleClickEffect('house')}>Spawn</span>
+                      <span>Spawn</span>
                   </div>
                 </div>
-                <div className="map-editor-menu-item">
+                <div className="map-editor-menu-item" onClick={()=>this.props.handleClickEffect('remove')}>
                   <div className="map-editor-menu-item-wrapper">
-                      <span onClick={()=>this.props.handleClickEffect('remove')}>Eraser</span>
+                      <span>Eraser</span>
                   </div>
                 </div>
               </fieldset>

@@ -30,6 +30,15 @@
             &:nth-of-type(1) {
                 margin-top: 0px;
             }
+            input[type=text], select {
+                width: 100%;
+                padding: 6px 10px;
+                margin-top: 3px;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+              }
         }
     }
     .map-editor-menu-caption {

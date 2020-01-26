@@ -126,7 +126,7 @@ button {
 
 button:hover,
 button:focus {
-  background: #ecb708 radial-gradient(circle, transparent 1%, #ecb708 1%) center/15000%;
+  background: #fcd03f radial-gradient(circle, transparent 1%, #fcd03f 1%) center/15000%;
   color: #333333;
 }
 
@@ -135,7 +135,7 @@ button:focus {
 }
 
 button:active {
-  background-color: #fcd03f;
+  background-color: #ecb708;
   background-size: 100%;
   transition: background 0s;
 }

@@ -8,43 +8,59 @@ class TopNav extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            hidden: 'hidden',
+            profileDropdown: 'hidden',
             saveMapForm: 'hidden'
         }
+        this.profileDropdown = this.profileDropdown.bind(this)
         this.handleDropdown = this.handleDropdown.bind(this)
-        this.saveMapForm = this.saveMapForm.bind(this)
+        this.myRef = React.createRef();
+        // this.saveMapForm = this.saveMapForm.bind(this)
     }
+
+    
 
     componentDidMount () {
+        document.addEventListener('mousedown', this.handleDropdown, false)
     }
 
-    handleDropdown () {
-        if (this.state.hidden === 'hidden') {
-            this.setState({
-                hidden: 'show'
-            })
-        }
-        else {
-            this.setState({
-                hidden: 'hidden'
-            })
-        }
+    componentWillUnmount () {
+        document.removeEventListener('mousedown', this.handleDropdown, false)
     }
 
-    saveMapForm () {
-        if (this.state.saveMapForm === 'hidden') {
+    // handleDropdown () {
+    //     if (this.state.hidden === 'hidden') {
+    //         this.setState({
+    //             hidden: 'show'
+    //         })
+    //     }
+    //     else {
+    //         this.setState({
+    //             hidden: 'hidden'
+    //         })
+    //     }
+    // }
+
+    handleDropdown (e) {
+        if (this.myRef.current.contains(e.target)) {
+            this.profileDropdown();
+        }
+        return null;
+    }
+
+    profileDropdown () {
+        if (this.state.profileDropdown === 'hidden') {
             this.setState({
-                saveMapForm: 'fadein'
+                profileDropdown: 'fadein'
             })
         }
-        else if (this.state.saveMapForm === 'fadein') {
+        else if (this.state.profileDropdown === 'fadein') {
             this.setState({
-                saveMapForm: 'fadeout'
+                profileDropdown: 'fadeout'
             })
         }
-        else if (this.state.saveMapForm === 'fadeout') {
+        else if (this.state.profileDropdown === 'fadeout') {
             this.setState({
-                saveMapForm: 'fadein'
+                profileDropdown: 'fadein'
             })
         }
     }
@@ -80,45 +96,40 @@ class TopNav extends React.Component {
         )
         let pickedForm;
         this.props.mapId ? pickedForm = updateForm : pickedForm = saveForm
-        if (!this.props.currentUser) return null;
+        const loggedIn = (
+            <div className="topnav-right-nav">
+                <a onClick={this.profileDropdown}>{this.props.currentUser.username}</a>
+                <ul ref={this.myRef} onClick={this.handleDropdown} className={`topnav-dropdown ${this.state.profileDropdown}`}>
+                    <li className="topnav-dropdown-item">
+                        <Link to='/profile'><i class="fas fa-user-circle"></i> Profile</Link>
+                    </li>
+                    <li className="topnav-dropdown-item">
+                        <Link to='/profile'><i class="fas fa-cog"></i> Settings</Link>
+                    </li>
+                    <li className="topnav-dropdown-item">
+                        <Link to='/profile'><i class="fas fa-sign-out-alt"></i> Logout</Link>
+                    </li>
+                </ul>
+            </div>
+        )
+
+        const loggedOut = (
+            <div className="topnav-right-nav">
+                <Link to='/login'>Sign Up</Link>
+                <Link to='/login'>Login</Link>
+            </div>
+        )
+
+        let rightNav = this.props.currentUser ? loggedIn : loggedOut
         return (
             <div className="topnav">
                 <div className="topnav-left-nav">
                     <Link to='/lobby'>Lobby</Link>
                     <Link to='/map'>Create a Map</Link>
                 </div>
-                <div className="topnav-middle-nav">
-                    <a onClick={()=>this.props.handleClickEffect('obstacle')}>Obstacle</a>
-                    <a onClick={()=>this.props.handleClickEffect('food')}>Food</a>
-                    <a onClick={()=>this.props.handleClickEffect('remove')}>Erase</a>
-                    <a  onClick={()=>this.props.handleClickEffect('house')}>Start Position</a>
-                    <a onClick={this.saveMapForm}>Save</a>
-                </div>
-                <div className="topnav-right-nav">
-
-                    {/* <a  onBlur={() => console.log('hi')}>Profile</a> */}
-                    <a  onBlur={() => {
-                        return this.setState({hidden: 'hidden'})
-                        }} 
-                        onClick={this.handleDropdown}>Profile</a>
-                    <ul className={`topnav-dropdown ${this.state.hidden}`}>
-                        <li className="topnav-dropdown-item">
-                            <span className="topnav-name">{this.props.currentUser.username}</span>
-                        </li>
-                        <li className="topnav-dropdown-item">
-                            <span className="topnav-wins">Wins: 100</span>
-                        </li>
-                        <li className="topnav-dropdown-item">
-                            <span className="topnav-losses">Losses: 0</span>
-                        </li>
-                        <li className="topnav-dropdown-item">
-                            <span className="topnav-logout">Logout</span>
-                        </li>
-                    </ul>
-                    {
-                        pickedForm
-                    }
-                </div>
+                {
+                    rightNav
+                }
             </div>
         )
 
