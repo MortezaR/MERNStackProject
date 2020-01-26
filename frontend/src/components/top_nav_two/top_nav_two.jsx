@@ -1,10 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import './top_nav.scss';
+import './top_nav_two.scss';
 import SaveMapForm from '../save_map_form/save_map_form.jsx';
 import UpdateMapForm from '../save_map_form/update_map_form';
 
-class TopNav extends React.Component {
+class TopNavTwo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -82,47 +82,38 @@ class TopNav extends React.Component {
         this.props.mapId ? pickedForm = updateForm : pickedForm = saveForm
         if (!this.props.currentUser) return null;
         return (
-            <div className="topnav">
-                <div className="topnav-left-nav">
-                    <a href="#home">Lobby</a>
-                    <a onClick={() => this.props.openModal('signup')} className="active">Create map</a>
+            <div className="topnavtwo">
+                <div className="topnavtwo-left-nav">
+                        <a className="active" href="#home">Lobby</a>
+                        <a href="#/map">Create map</a>
+                    </div>
+                <div className="topnavtwo-middle-nav hidden-topnav">
                 </div>
-                <div className="topnav-middle-nav">
-                    <a onClick={()=>this.props.handleClickEffect('obstacle')}>Obstacle</a>
-                    <a onClick={()=>this.props.handleClickEffect('food')}>Food</a>
-                    <a onClick={()=>this.props.handleClickEffect('remove')}>Erase</a>
-                    <a  onClick={()=>this.props.handleClickEffect('house')}>Start Position</a>
-
-                </div>
-                <div className="topnav-right-nav">
-                    <a onClick={this.saveMapForm}>Save</a>
-                    {/* <a  onBlur={() => console.log('hi')}>Profile</a> */}
-                    <a  onBlur={() => {
-                        return this.setState({hidden: 'hidden'})
-                        }} 
-                        onClick={this.handleDropdown}>Profile</a>
-                    <ul className={`topnav-dropdown ${this.state.hidden}`}>
-                        <li className="topnav-dropdown-item">
-                            <span className="topnav-name">{this.props.currentUser.username}</span>
-                        </li>
-                        <li className="topnav-dropdown-item">
-                            <span className="topnav-wins">Wins: 100</span>
-                        </li>
-                        <li className="topnav-dropdown-item">
-                            <span className="topnav-losses">Losses: 0</span>
-                        </li>
-                        <li className="topnav-dropdown-item">
-                            <span className="topnav-logout">Logout</span>
-                        </li>
-                    </ul>
-                    {
-                        pickedForm
-                    }
-                </div>
+                    <div className="topnavtwo-right-nav">
+                        <a onClick={this.saveMapForm}>Save</a>
+                        <a onClick={this.handleDropdown}>Profile</a>
+                        <ul className={`topnavtwo-dropdown ${this.state.hidden}`}>
+                            <li className="topnavtwo-dropdown-item">
+                                <span className="topnavtwo-name">{this.props.currentUser.username}</span>
+                            </li>
+                            <li className="topnavtwo-dropdown-item">
+                                <span className="topnavtwo-wins">Wins: 100</span>
+                            </li>
+                            <li className="topnavtwo-dropdown-item">
+                                <span className="topnavtwo-losses">Losses: 0</span>
+                            </li>
+                            <li className="topnavtwo-dropdown-item">
+                                <span className="topnavtwo-logout">Logout</span>
+                            </li>
+                        </ul>
+                        {
+                            pickedForm
+                        }
+                    </div>
             </div>
         )
 
     }
 }
 
-export default TopNav;
+export default TopNavTwo;

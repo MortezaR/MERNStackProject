@@ -17,10 +17,6 @@ export default class Player{
     }
 
     draw(context, xView, yView){
-        // context.save();
-        // context.fillStyle = "black";
-        // context.fillRect((this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, this.width, this.height);
-        // context.restore();
         this.image = new Image();
         this.image.src = 'https://i.imgur.com/8kVKWdE.png'
         // YOU NOW HAVE ACCESS TO THIS.MOVEDIR
@@ -51,38 +47,9 @@ export default class Player{
             case 33:
                 context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
                 break;
-            default: return null;
-             
+            default:
+                context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
         }
-        // var shift = 0;
-        // var frameWidth = 77;
-        // var frameHeight = 33;
-        // var totalFrames = 24;
-        // var currentFrame = 0;
-
-        // function animate() {
-        //     context.clearRect(120, 25, 300, 300);
-           
-        //     //draw each frame + place them in the middle
-        //     context.drawImage(this.image, shift, 0, frameWidth, frameHeight,
-        //                       120, 25, frameWidth, frameHeight);
-           
-        //     shift += frameWidth + 1;
-           
-        //     /*
-        //       Start at the beginning once you've reached the
-        //       end of your sprite!
-        //     */
-        //     if (currentFrame == totalFrames) {
-        //       shift = 0;
-        //       currentFrame = 0;
-        //     }
-           
-        //     currentFrame++;
-           
-        //     requestAnimationFrame(animate);
-        //   }
-        
-        // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
     }
 }

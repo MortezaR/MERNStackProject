@@ -1,7 +1,7 @@
 
 
 /* Add a black background color to the top navigation */
-.topnav {
+.topnavtwo {
   background-color: #1f1f1f;
   /* overflow: hidden; */
   position: fixed;
@@ -14,7 +14,7 @@
 }
 
 /* Style the links inside the navigation bar */
-.topnav a {
+.topnavtwo a {
   float: left;
   color: #f2f2f2;
   text-align: center;
@@ -26,19 +26,19 @@
     background-color: #ddd;
     color: black;
   }
-  .topnav-middle-nav{
+  .topnavtwo-middle-nav{
     max-width: 318px;
   }
-  .topnav-left-nav a {
+  .topnavtwo-left-nav a {
     &:hover {
       background-color: #ddd;
       color: black;
     }
   }
-  .topnav-middle-nav a {
+  .topnavtwo-middle-nav a {
     cursor: pointer;
   }
-  .topnav-right-nav a {
+  .topnavtwo-right-nav a {
     &:hover {
       background-color: #ddd;
       color: black;
@@ -47,16 +47,16 @@
 }
 
 /* Add a color to the active/current link */
-.topnav a.active {
+.topnavtwo a.active {
   background-color: rgb(76, 175, 158);
   color: black;
 }
 
-.topnav-right-nav {
+.topnavtwo-right-nav {
   position: relative;
 }
 
-.topnav-dropdown {
+.topnavtwo-dropdown {
   background-color: white;
   position: absolute;
   top: 100%;
@@ -76,16 +76,16 @@
       color: black;
       cursor: pointer;
     }
-    .topnav-name {
+    .topnavtwo-name {
       color: blue;
     }
-    .topnav-wins {
+    .topnavtwo-wins {
       color: green;
     }
-    .topnav-losses {
+    .topnavtwo-losses {
       color: red;
     }
-    .topnav-logout {
+    .topnavtwo-logout {
       cursor: pointer;
     }
   }

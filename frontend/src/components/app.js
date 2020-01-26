@@ -8,13 +8,16 @@ import Lobby from './lobby/lobby'
 import gameCanvas from './gameCanvas'
 import MapEditor from './map_editor/map_editor'
 import TopNav from './top_nav/top_nav'
+import TopNavTwoContainer from './top_nav_two/top_nav__two_container'
 import LoginFormContainer from './session/login_form_container'
 import SignupFormContainer from './session/signup_form_container'
 import ProfileContainer from './profile/profile_container.js'
 import '../App.scss'
+import Modal from './modal/modal.jsx';
 
 const App = () => (
   <div>
+    <Modal />
     <TopNav />
     <Switch>
 {/*       
@@ -22,8 +25,11 @@ const App = () => (
       <AuthRoute exact path="/login" component={LoginFormContainer} />
       <AuthRoute exact path="/signup" component={SignupFormContainer} />
       <ProtectedRoute exact path="/game" component={UsersIndexContainer} /> */}
-      <Route exact path="/map" component={MapEditor} />
-      <Route exact path="/map/:mapId" component={MapEditor} />
+      <Switch>
+        <Route exact path="/map/:mapId" component={MapEditor} />
+        <Route exact path="/map" component={MapEditor} />
+        <Route path="/" component={TopNavTwoContainer} />
+      </Switch>
       <Route exact path="/login" component={LoginFormContainer} />
       <Route exact path="/lobby" component={Lobby} />
       <Route exact path="/game" component={gameCanvas} />

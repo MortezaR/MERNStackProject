@@ -13,7 +13,7 @@ class gameCanvas extends React.Component {
     this.game = null;
     this.socket = io.connect("http://localhost:8000");
     this.state = {
-      sound: 'Sound.status.MUTED'
+      sound: 'Sound.status.PAUSED'
     }
   }
 
@@ -57,10 +57,10 @@ class gameCanvas extends React.Component {
         <Sound
           url={worldMusic}
           onClick={this.handleSoundClick}
-          playStatus={`${this.state.sound}`}
+          playStatus={`PLAYING`}
           playFromPosition={30 /* in milliseconds */}
-          loop="true"
-          volume="50"
+          loop={true}
+          volume={1}
         />
       </div>
     )

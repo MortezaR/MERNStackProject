@@ -1,0 +1,194 @@
+
+
+.signup-container {
+    background-color: white;
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    max-height: 810px;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    border-radius: 3px;
+    margin: auto;
+}
+
+.signup-sm-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+    color: darkslategrey;
+}
+
+.signup-divider-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.signup-divider-label-wrapper {
+    text-align: center;
+}
+
+.signup-form-birthday-container {
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+}
+
+.signup-birthday-dropdown-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 70%;
+}
+
+.signup-form-field-container {
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    margin-top: 30px;
+}
+
+//Direct Elements
+
+.signup-sm-wrapper {
+    height: 46px;
+    border-radius: .25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    border: 2px solid lightgray;
+    margin: 5px;
+}
+
+.signup-form-input-wrapper {
+    vertical-align: center;
+    height: 46px;
+    width: 100%;
+    border: 2px solid gray;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    border-radius: 3px;
+}
+
+.signup-form-input {
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+.signup-birthday-dropdown-month {
+    height: 46px;
+    border-radius: .25rem;
+    width: 140px;
+    margin-right: 20px;
+    border: 2px solid gray;
+}
+
+.signup-birthday-dropdown-day {
+    height: 46px;
+    border-radius: .25rem;
+    width: 80px;
+    margin-right: 20px;
+    border: 2px solid gray;
+}
+
+
+.signup-birthday-dropdown-year {
+    height: 46px;
+    border-radius: .25rem;
+    width: 100px;
+    margin-right: 20px;
+    border: 2px solid gray;
+}
+
+.signup-form-submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    margin-top: 30px;
+    border-radius: 5px;
+    background-color: turquoise;
+    color: white
+
+}
+
+.signup-form-submit:hover {
+    background-color: mediumvioletred;
+    // background: linear-gradient(170deg, #abf9f3, #fb9ef7);
+    // background-size: 400% 400%;
+  
+    // -webkit-animation: colormation 1s ease infinite;
+    // -moz-animation: colormation 1s ease infinite;
+    // -o-animation: colormation 1s ease infinite;
+    // animation: colormation 1s ease infinite;
+}
+
+.signup-form-submit button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    height: 46px;
+    width: 536px;
+}
+
+
+
+//Fonts
+
+legend.signup-form-field-label {
+    color: lightgray;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: .75rem;
+    letter-spacing: .0625rem;
+    line-height: 1.333333333333333;
+    margin-bottom: 10px;
+}
+
+legend.signup-form-birthday-label {
+    color: lightgray;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: .75rem;
+    letter-spacing: .0625rem;
+    line-height: 1.333333333333333;
+    margin-bottom: 10px;
+}
+
+.signup-divider-label-wrapper {
+    color: lightgray;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: .75rem;
+    letter-spacing: .0625rem;
+    line-height: 1.333333333333333;
+}
+
+select {
+    color: turquoise;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+option {
+    font-family: 'Cabin', sans-serif;
+    font-weight: 700;
+    color: darkslategrey;
+}
+
+.fa-google {
+    color:red;
+}
+
+.fa-facebook-square {
+    color: #6699ff
+}

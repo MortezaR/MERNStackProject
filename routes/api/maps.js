@@ -84,7 +84,15 @@ router.put('/:id',
 )
 
 
-
+router.get('/user/:user_id', (req, res) => {
+    Maps.find({user: req.params.user_id})
+        .sort({ date: -1 })
+        .then(maps => res.json(maps))
+        .catch(err =>
+            res.status(404).json({ nomaps: 'No maps found from that user' }
+        )
+    );
+});
 
 module.exports = router;
 

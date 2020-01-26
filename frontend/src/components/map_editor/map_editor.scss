@@ -44,12 +44,12 @@
   .fadein {
     display: block;
     animation-name: fade-in;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
   }
 
   .fadeout {
     display: block;
     animation-name: fade-out;
-    animation-duration: 2s;
+    animation-duration: 0.5s;
     animation-fill-mode: forwards;
   }
