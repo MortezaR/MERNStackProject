@@ -19,6 +19,16 @@ router.get('/', (req, res) => {
         .catch(err => res.status(404).json({nomaps: 'No maps found!'}))
 })
 
+router.get('/user/:user_id', (req, res) => {
+    Maps.find({user: req.params.user_id})
+        .sort({ date: -1 })
+        .then(maps => res.json(maps))
+        .catch(err =>
+            res.status(404).json({ nomaps: 'No maps found from that user' }
+        )
+    );
+});
+
 router.get('/:id', (req, res) => {
     Maps
         .findById(req.params.id)
@@ -53,7 +63,8 @@ router.post('/',
         const newMap = new Maps({
             title: req.body.title,
             user: req.user.id,
-            objects: req.body.objects
+            objects: req.body.objects,
+            url: req.body.url
         });
         newMap.save().then(map => res.json(map))
         .catch(err => res.status(400).json(err));

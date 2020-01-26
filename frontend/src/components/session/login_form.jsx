@@ -48,17 +48,21 @@ class LoginForm extends React.Component {
     render() {
 
         return (
+        <div className="login-page">
             <div className="login-box">
-                <form>
+                <h2 className='login-title'><p>Big</p> <p>Bad</p> <p>Wolf</p> </h2>
+                <form className="login-form">
                     <input type="text" placeholder="Username" value={this.state.username} onChange={this.handleInput('username')} />
                     <input type="text" placeholder="Password" value={this.state.password} onChange={this.handleInput('password')} />
-                    <button onClick={this.handleSignIn} >Login</button>
-
                 </form>
-                <Link to={'/signup'}>Signup</Link>
+                <div className="login-row">
+                    <Link className="login-link" to={'/signup'}>Signup instead</Link>
+                    <button onClick={this.handleSignIn} >Login</button>
+                </div>
                 <button onClick={this.handleLogout}>Logout</button>
                 <h6>{this.showErrors()}</h6>
             </div>
+        </div>
         )
     }
 }
