@@ -20,8 +20,12 @@ const MapSchema = new Schema({
     },
     url: {
         type: String,
+<<<<<<< HEAD
         // default: 'https://i.imgur.com/iHtlhrb.png',
         default: 'hello.png'
+=======
+        default: 'default.png'
+>>>>>>> 577c89a17d9a64db7be31b582c201cbcde20d9fe
     }
 });
 

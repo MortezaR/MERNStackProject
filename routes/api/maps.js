@@ -60,13 +60,18 @@ router.post('/',
         if (!isValid) {
             return res.status(400).json(errors)
         }
+        debugger;
+        console.log('hello')
         const newMap = new Maps({
             title: req.body.title,
             user: req.user.id,
             objects: req.body.objects,
             url: req.body.url
         });
-        newMap.save().then(map => res.json(map))
+        newMap.save().then(map => {
+            console.log('success')
+            return res.json(map)
+        })
         .catch(err => res.status(400).json(err));
     }
 )
@@ -95,7 +100,6 @@ module.exports = router;
 
             // const newArr = [];
         // console.log(req.body.title)
-        // debugger
         // req.body.objects.forEach(obj => {
         //     let temp = new Object({
         //         name: obj.name,
@@ -104,4 +108,3 @@ module.exports = router;
         //     })
         //     newArr.push(temp)
         // })
-        // debugger

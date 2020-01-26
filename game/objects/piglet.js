@@ -1,22 +1,36 @@
 
 const movableObject = require( './movableObject.js')
+const utils = require('../util.js')
+const getDir = utils.getDir;
+const calcHitBox = utils.calcHitBox;
+const Food = require('./food.js')
 
 class Piglet extends movableObject{
-    constructor(map, x, y, id) {
-        super(map, x, y, id);
+    constructor(game, x, y, id) {
+        super(game, x, y, id);
         this.speed = 2;
         this.hitBoxSize = [50, 25];
-        this.hitBox = [112, 112];
+        this.hitBox = [30, 30];
         this.actionCooldown = 1;
+        this.resource = 0;
     }
 
     performAction(type, dX, dY) {
+        if( this.dead){
+            return 'you are dead mate';
+        }
         switch (type) {
             case 'attack':
                 const hB = calcHitBox(getDir(this.x, this.y, dX, dY), this.hitBoxSize,
                     this.x, this.y);
-                let hitObjects = this.map.getObjects(hB);
-                delete hitObjects[this.id];
+                let hitObjects = this.game.map.getObjects(hB);
+                Object.keys(hitObjects).forEach(objId => {
+                    if (hitObjects[objId] instanceof Food
+                        && hitObjects[objId].resource > 0) {
+                        hitObjects[objId].mine(1);
+                        this.resource += 1;
+                    }
+                })
                 break;
             case 'move':
                 this.move(dX, dY);
@@ -24,6 +38,10 @@ class Piglet extends movableObject{
             default:
                 break;
         }
+    }
+    kill(){
+        console.log('piglet down')
+        this.dead = true;
     }
 }
 
