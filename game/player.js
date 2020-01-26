@@ -24,9 +24,14 @@ class Player {
         return this.object;
     }
     toObj(){
+        let res = 0;
+        if(this.object instanceof Piglet){
+            res = this.object.resource;
+        }
         return {id: this.id, x: this.getObject().x,
              y: this.getObject().y, width: this.object.hitBox[0],
-              height: this.object.hitBox[1] , moveDir: this.object.moveDir}
+            height: this.object.hitBox[1] , moveDir: this.object.moveDir,
+            resource: res}
     }
 }
 

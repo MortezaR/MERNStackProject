@@ -28,23 +28,13 @@ export default class Player{
     }
 
     draw(context, xView, yView){
-        // context.save();
-        // context.fillStyle = "black";
-        // context.fillRect((this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, this.width, this.height);
-        // context.restore();
         // all movement images -> https://imgur.com/a/jYhF28e
-        this.image = new Image();
-        this.image.src = 'https://i.imgur.com/f0z68qE.png'
-        
         
         // YOU NOW HAVE ACCESS TO THIS.MOVEDIR
-        //Move dir: 21 S, 31 N, 12 E, 13 W, 22 SE, 23 SW, 32 NE, 33 NW
         switch(this.moveDir) {
-            //South
             case 31:
                 this.sprites.south.step(context, this, xView, yView);
                 break;
-             //south East
             case 32:
                 this.sprites.southWest.step(context, this, xView, yView);
                 break;
@@ -69,7 +59,6 @@ export default class Player{
             case 310:
                 this.sprites.south.drawFFrame(context, this, xView, yView);
                 break;
-             //south East
             case 320:
                 this.sprites.southWest.drawFFrame(context, this, xView, yView);
                 break;

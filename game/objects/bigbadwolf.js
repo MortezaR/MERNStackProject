@@ -9,7 +9,7 @@ class BigBadWolf extends movableObject {
 
     constructor(game, x, y, id) {
         super(game, x, y, id);
-        this.speed = 2;
+        this.speed = 5;
         this.hitBoxSize = [50,25];
         this.hitBox = [35, 35];
         this.actionCooldown = 1;
@@ -19,6 +19,11 @@ class BigBadWolf extends movableObject {
     performAction(type, dX, dY) {
         switch (type) {
             case 'attack':
+                let dir = getDir(this.x, this.y, dX, dY)
+                this.setMoveDir(dir[0], dir[1]);
+                if (this.moveDir / 100 < 1) {
+                    this.moveDir *= 10;
+                }
                 const hB = calcHitBox(getDir(this.x, this.y, dX, dY), this.hitBoxSize,
                 this.x, this.y);
                 let hitObjects = this.game.map.getObjects(hB);

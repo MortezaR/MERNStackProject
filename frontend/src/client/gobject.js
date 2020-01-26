@@ -25,8 +25,8 @@ export default class GObject {
         this.image.src = 'https://i.imgur.com/f0z68qE.png';
         context.drawImage(
             this.image, 0, 0, 32, 32,
-            this.x - this.width/2 - xView,
-            this.y - this.height/2 -yView,
-            this.width, this.height);
+            this.x - this.width - xView,
+            this.y - this.height -yView,
+            this.width*2, this.height*2);
     }
 }

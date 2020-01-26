@@ -21,7 +21,12 @@ class Piglet extends movableObject{
         }
         switch (type) {
             case 'attack':
-                const hB = calcHitBox(getDir(this.x, this.y, dX, dY), this.hitBoxSize,
+                let dir = getDir(this.x, this.y, dX, dY)
+                this.setMoveDir(dir[0], dir[1]);
+                if (this.moveDir / 100 < 1) {
+                    this.moveDir *= 10;
+                }
+                const hB = calcHitBox(dir, this.hitBoxSize,
                     this.x, this.y);
                 let hitObjects = this.game.map.getObjects(hB);
                 Object.keys(hitObjects).forEach(objId => {
