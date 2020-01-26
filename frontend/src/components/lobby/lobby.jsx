@@ -183,6 +183,8 @@ class Lobby extends React.Component{
                     messages
                 })
             } else {
+                console.log(roomId)
+                console.log(this.state.myRoomId)
                 let { myRoomId, username, myId, myRoomName } = this.state
                 let data = {
                     roomId,

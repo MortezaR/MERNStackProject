@@ -26,23 +26,23 @@ export default class Game{
     this.room.map.generate();
     if (this.myId === null) {
       console.log("new player created")
-      console.log(playerData)
       let { id, x, y, width, height } = playerData;
       this.myId = playerData.id;
       this.player = new Player(id, x, y, width, height);
       this.camera = new Camera(0, 0, this.vWidth, this.vHeight, this.room.width, this.room.height);
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)
-      console.log(this.player)
-      console.log(this.camera)
     } else {
-      let { id, x, y, width, height } = playerData;
-      let player = new Player(id, x, y, width, height);
-      this.otherPlayers[player.id] = player;
+      // console.log("other player created")
+      // debugger
+      // let { id, x, y, width, height } = playerData;
+      // let player = new Player(id, x, y, width, height);
+      // this.otherPlayers[player.id] = player;
     } 
   }
 
   addCurrentPlayers(playersData){
     console.log("im adding current players")
+    debugger
     Object.values(playersData).forEach(playerData => {
       let { id, x, y, width, height } = playerData
       let player = new Player(id, x, y, width, height)
@@ -57,6 +57,7 @@ export default class Game{
         this.camera.update();
       } else if (this.otherPlayers[data.id]) {
         this.otherPlayers[data.id].update(data.x, data.y, data.moveDir);
+        console.log(this.otherPlayers)
       }
     })
     }
