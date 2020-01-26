@@ -172,7 +172,9 @@ chatServer.on('connection', function(socket){
             if (rooms[socket.id]){//hosting chat
                 delete rooms[socket.id]
             } else {//not hosting vhat
-                delete rooms[currentRoomId].chatters[socket.id]
+                if (rooms[currentRoomId]){
+                    delete rooms[currentRoomId].chatters[socket.id]
+                }
             }
             chatServer.emit('updateRoomsInfo', rooms)
             chatServer.emit('disconnectUser', socket.id)
