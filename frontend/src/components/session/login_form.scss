@@ -1,3 +1,96 @@
-.login-box {
-    margin-top: 100px
+.login-page {
+    height: 100vh;
+    background-color: rgba($color: #95b855, $alpha: 1.0);
+    background-image: url('https://i.imgur.com/KuaWfh7.png');
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', cursive;
+
 }
+
+.login-box {
+    // margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 450px;
+    height: 300px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: rgba($color: #fcfcfc, $alpha: 1.0);
+}
+
+.login-box h2 {
+    margin-bottom: 35px;
+    font-size: 45px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.login-form input {
+    border: 1px solid black;
+    border-radius: 4px;
+    width: 200px;
+    height: 25px;
+    margin: 5px;
+}
+
+.login-row {
+    display: flex;
+    justify-content: space-around;
+    width: 280px
+}
+
+.login-row button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 40px;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba($color: #FFFFFF, $alpha: 1.0);
+    background-color: rgba($color: rgb(56, 90, 16), $alpha: 1.0);
+    border-radius: 3px;
+    border: 1px solid black;
+    font-family: 'Bebas Neue', cursive;
+    padding: 0px;
+}
+
+.login-row button:hover {
+    cursor: pointer;
+    background-color: black;
+}
+
+.login-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    font-size: 14px;
+    width: 80px;
+    font-weight: 500;
+    color: rgba($color: #FFFFFF, $alpha: 1.0);
+    background-color: rgba($color: #3E78AD, $alpha: 1.0);
+    border-radius: 3px;
+    text-decoration: none;
+    border: 1px solid black
+}
+
+.login-link:hover{
+    background-color: black;
+}
+
+// h2 p 
