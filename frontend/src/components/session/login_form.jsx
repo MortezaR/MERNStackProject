@@ -17,6 +17,10 @@ class LoginForm extends React.Component {
         this.demo2 = this.demo2.bind(this);
         this.demo3 = this.demo3.bind(this);
         this.demo4 = this.demo4.bind(this);
+        this.demo5 = this.demo5.bind(this);
+        this.demo6 = this.demo6.bind(this);
+        this.demo7 = this.demo7.bind(this);
+        this.demo8 = this.demo8.bind(this);
     }
 
     handleInput(kind) {
@@ -28,7 +32,7 @@ class LoginForm extends React.Component {
     handleSignIn(e) {
         e.preventDefault();
         this.props.login(this.state).then(() => {
-            if (this.props.currentUser) this.props.history.push("/map")
+            if (this.props.currentUser) this.props.history.push("/home")
         })
     }
 
@@ -72,6 +76,51 @@ class LoginForm extends React.Component {
         })
     }
 
+
+    demo8(e) {
+        e.preventDefault();
+        this.props.login({
+            username: 'myqueen8',
+            password: 'demo123'
+        }).then(() => {
+            if (this.props.currentUser) this.props.history.push("/home")
+        })
+    }
+
+    demo5(e) {
+        e.preventDefault();
+        this.props.login({
+            username: 'myqueen5',
+            password: 'demo123'
+        }).then(() => {
+            if (this.props.currentUser) this.props.history.push("/home")
+        })
+    }
+
+
+    demo6(e) {
+        e.preventDefault();
+        this.props.login({
+            username: 'myqueen6',
+            password: 'demo123'
+        }).then(() => {
+            if (this.props.currentUser) this.props.history.push("/home")
+        })
+    }
+
+    demo7(e) {
+        e.preventDefault();
+        this.props.login({
+            username: 'myqueen7',
+            password: 'demo123'
+        }).then(() => {
+            if (this.props.currentUser) this.props.history.push("/home")
+        })
+    }
+
+
+
+
     handleLogout(e) {
         e.preventDefault();
         this.props.logout();
@@ -103,6 +152,10 @@ class LoginForm extends React.Component {
                     <button onClick={this.demo2} >demo2</button>
                     <button onClick={this.demo3} >demo3</button>
                     <button onClick={this.demo4} >demo4</button>
+                    <button onClick={this.demo5} >demo5</button>
+                    <button onClick={this.demo6} >demo6</button>
+                    <button onClick={this.demo7} >demo7</button>
+                    <button onClick={this.demo8} >demo8</button>
 
                 </form>
                 <div className="login-row">
