@@ -10,15 +10,20 @@ class BigBadWolf extends movableObject {
     constructor(game, x, y, id) {
         super(game, x, y, id);
         this.speed = 5;
-        this.hitBoxSize = [50,25];
-        this.hitBox = [30, 30];
+        this.hitBoxSize = [100,50];
+        this.hitBox = [35, 35];
         this.actionCooldown = 1;
         this.increaseSpeed = this.increaseSpeed.bind(this);
-        setInterval(this.increaseSpeed, 10000);
+        this.speedInterval = setInterval(this.increaseSpeed, 10000);
     }
     performAction(type, dX, dY) {
         switch (type) {
             case 'attack':
+                let dir = getDir(this.x, this.y, dX, dY)
+                this.setMoveDir(dir[0], dir[1]);
+                if (this.moveDir / 100 < 1) {
+                    this.moveDir *= 10;
+                }
                 const hB = calcHitBox(getDir(this.x, this.y, dX, dY), this.hitBoxSize,
                 this.x, this.y);
                 let hitObjects = this.game.map.getObjects(hB);
@@ -36,8 +41,11 @@ class BigBadWolf extends movableObject {
         }
     }
     increaseSpeed(){
-        console.log(this.speed);
         this.speed += 1;
+        console.log(this.speed);
+        if(this.speed > 50){
+            clearInterval(this.speedInterval);
+        }
     }
 }
 

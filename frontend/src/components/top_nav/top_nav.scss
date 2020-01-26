@@ -2,88 +2,96 @@
 
 /* Add a black background color to the top navigation */
 .topnav {
-  background-color: #1f1f1f;
-  /* overflow: hidden; */
+  background-color: #212121;
+  box-sizing: border-box;
+  height: 55px;
   position: fixed;
   top: 0;
   z-index: 10;
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
-
-}
-
-/* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  cursor: pointer;
-  &:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  .topnav-left-nav a {
-    &:hover {
-      background-color: #ddd;
-      color: black;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  .topnav-left-nav {
+    display: flex;
+    align-items: center;
+    & > a {
+      color: #f2f2f2;
+      text-align: center;
+      padding: 0rem 4rem;
+      text-decoration: none;
+      font-size: 20px;
+      cursor: pointer;
+      margin: 0 auto;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      border-bottom: 3px solid transparent;
+      transition: border-bottom ease-in-out 0.3s;
+        &:hover {
+          // background-color: #fcd03f;
+          // color: black;
+          border-bottom: 3px solid#fcd03f;
+        }
     }
   }
-  .topnav-middle-nav a {
-    cursor: pointer;
-  }
-  .topnav-right-nav a {
-    &:hover {
-      background-color: #ddd;
-      color: black;
+  .topnav-right-nav {
+    display: flex;
+    align-items: center;
+    & > a {
+      color: #f2f2f2;
+      text-align: center;
+      padding: 0rem 4rem;
+      max-width: 166px;
+      text-decoration: none;
+      font-size: 20px;
+      cursor: pointer;
+      margin: 0 auto;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      &:nth-child(1) {
+        background-color: #04afc3;
+      }
+      &:hover {
+        background-color: #fcd03f;
+        color: black;
+      }
     }
   }
 }
 
-/* Add a color to the active/current link */
-.topnav a.active {
-  background-color: rgb(76, 175, 158);
-  color: black;
-}
-
-.topnav-right-nav {
-  position: relative;
-}
-
+//Dropdown
 .topnav-dropdown {
   background-color: white;
   position: absolute;
   top: 100%;
-  left: -53%;
-  width: 100%;
-  min-width: 200px;
-
-  li {
-    padding: 10px;
+  left: 91.2%;
+  width: 166px;
+  // max-width: 166px;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: flex-start;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  overflow: hidden;
+  text-decoration: none;
+  .topnav-dropdown-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    align-self:flex-start;
+    padding-left: 15px;
+    width: 100%;
+    text-decoration: none;
     &:hover {
-      background-color: #ddd;
-      color: black;
-    }
-
-    &:nth-last-child(1):hover {
-      background-color: rgb(236, 183, 8);
-      color: black;
+      background-color: #ecb708;
       cursor: pointer;
     }
-    .topnav-name {
-      color: blue;
-    }
-    .topnav-wins {
-      color: green;
-    }
-    .topnav-losses {
-      color: red;
-    }
-    .topnav-logout {
-      cursor: pointer;
+    a {
+      text-decoration: none;
+      color: #333333;
     }
   }
 }

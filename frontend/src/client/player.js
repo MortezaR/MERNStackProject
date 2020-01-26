@@ -1,4 +1,5 @@
-import raikouSprites from '../assets/images/raikou_sprites.png'
+// import raikouSprites from '../assets/images/raikou_sprites.png'
+import Sprite from './sprite.js'
 
 export default class Player{
     constructor(id, x, y, width, height, moveDir) {
@@ -8,6 +9,16 @@ export default class Player{
         this.width = width;
         this.height = height;
         this.moveDir = moveDir;
+        this.sprites = {
+            south: new Sprite('https://i.imgur.com/f0z68qE.png', 32 , 32, 4),
+            southWest: new Sprite('https://i.imgur.com/lhoTJgR.png', 32, 32, 4),
+            southEast: new Sprite('https://i.imgur.com/xS8gjpo.png', 32, 32, 4),
+            west: new Sprite('https://i.imgur.com/Ezs7gZN.png', 32, 32, 4),
+            east: new Sprite('https://i.imgur.com/YrRWLp0.png', 32, 32, 4),
+            north: new Sprite('https://i.imgur.com/YnQohoW.png', 32, 32, 4),
+            northWest: new Sprite('https://i.imgur.com/hmMZtGz.png', 32, 32, 4),
+            northEast: new Sprite('https://i.imgur.com/HNeHTjo.png', 32, 32, 4)
+        };
     }
 
     update(x, y, moveDir) {
@@ -17,72 +28,61 @@ export default class Player{
     }
 
     draw(context, xView, yView){
-        // context.save();
-        // context.fillStyle = "black";
-        // context.fillRect((this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, this.width, this.height);
-        // context.restore();
-        this.image = new Image();
-        this.image.src = 'https://i.imgur.com/8kVKWdE.png'
+        // all movement images -> https://imgur.com/a/jYhF28e
+        
         // YOU NOW HAVE ACCESS TO THIS.MOVEDIR
-        //Move dir: 21 S, 31 N, 12 E, 13 W, 22 SE, 23 SW, 32 NE, 33 NW
         switch(this.moveDir) {
-            //South
             case 31:
-                context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
-             //North East
+                this.sprites.south.step(context, this, xView, yView, 2, 2);
+                break;
             case 32:
-                context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.southWest.step(context, this, xView, yView, 2, 2);
                 break;
             case 12:
-                context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.west.step(context, this, xView, yView, 2, 2);
                 break;
             case 22:
-                context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.northWest.step(context, this, xView, yView, 2, 2);
                 break;
             case 21:
-                context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.north.step(context, this, xView, yView, 2, 2);
                 break;
             case 23:
-                context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.northEast.step(context, this, xView, yView, 2, 2);
                 break;
             case 13:
-                context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.east.step(context, this, xView, yView, 2, 2);
                 break;
             case 33:
-                context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                this.sprites.southEast.step(context, this, xView, yView, 2, 2);
                 break;
-            default: return null;
-             
+            case 310:
+                this.sprites.south.drawFFrame(context, this, xView, yView, 2, 2);
+                break;
+            case 320:
+                this.sprites.southWest.drawFFrame(context, this, xView, yView, 2, 2);
+                break;
+            case 120:
+                this.sprites.west.drawFFrame(context, this, xView, yView, 2, 2);
+                break;
+            case 220:
+                this.sprites.northWest.drawFFrame(context, this, xView, yView, 2, 2);
+                break;
+            case 210:
+                this.sprites.north.drawFFrame(context, this, xView, yView, 2, 2);
+                break;
+            case 230:
+                this.sprites.northEast.drawFFrame(context, this, xView, yView, 2, 2);
+                break;
+            case 130:
+                this.sprites.east.drawFFrame(context, this, xView, yView, 2, 2);
+                break;
+            case 330:
+                this.sprites.southEast.drawFFrame(context, this, xView, yView, 2, 2);
+                break;
+            default:
+                context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
         }
-        // var shift = 0;
-        // var frameWidth = 77;
-        // var frameHeight = 33;
-        // var totalFrames = 24;
-        // var currentFrame = 0;
-
-        // function animate() {
-        //     context.clearRect(120, 25, 300, 300);
-           
-        //     //draw each frame + place them in the middle
-        //     context.drawImage(this.image, shift, 0, frameWidth, frameHeight,
-        //                       120, 25, frameWidth, frameHeight);
-           
-        //     shift += frameWidth + 1;
-           
-        //     /*
-        //       Start at the beginning once you've reached the
-        //       end of your sprite!
-        //     */
-        //     if (currentFrame == totalFrames) {
-        //       shift = 0;
-        //       currentFrame = 0;
-        //     }
-           
-        //     currentFrame++;
-           
-        //     requestAnimationFrame(animate);
-        //   }
-        
-        // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
     }
 }
