@@ -83,7 +83,8 @@ gameServer.on('connection', function (socket) {
     let interval = () => {
         console.log("im setting an interval");
         setInterval(() => {
-            socket.emit("updatePlayer", game.getPlayers())
+            socket.emit("updateGame", game.getPlayers(), game.getObjects());
+            // socket.emit("updateGame", game.getObjects());
         }, 1000 / 60)
     }
 

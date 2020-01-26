@@ -6,15 +6,9 @@ class Game {
         this.map = new Map(5000, 5000, this);
         this.players = {};
     }
-    // addPlayer(id, playerType, x, y){
-    //     this.players[id] = (new Player(id, playerType, this, x, y));
-    //     console.log('added_player')
-    // }
     addPlayer(id){
-        // this.players[id] = (new Player(id, playerType, this, x, y));
         console.log('added_player')
-
-
+        
         let numPlayers = Object.keys(this.players).length;
         switch (numPlayers) {
             case 0:
@@ -42,6 +36,13 @@ class Game {
         let retVal = {};
         Object.keys(this.players).forEach(player => {
             retVal[player] = this.players[player].toObj();
+        })
+        return retVal;
+    }
+    getObjects(){
+        let retVal = {};
+        Object.keys(this.map.gameObjects).forEach(objId => {
+            retVal[objId] = this.map.gameObjects[objId].toObj();
         })
         return retVal;
     }

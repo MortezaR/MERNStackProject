@@ -22,7 +22,8 @@ class gameCanvas extends React.Component {
     this.socket.on('newPlayer', (playerData) => this.game.addNewPlayer(playerData))
     this.socket.on('currentPlayers', (playersData) => this.game.addCurrentPlayers(playersData))
     this.socket.on('disconnect', (id) => this.game.disconnectPlayer(id))
-    this.socket.on('updatePlayer', (playerData) => this.game.gameLoop(playerData))
+    this.socket.on('updateGame', (playerData, gameData) => this.game.gameLoop(playerData, gameData))
+    // this.socket.on('updateGame', (gameData) => this.game.gameLoop(playerData))
 
   }
 

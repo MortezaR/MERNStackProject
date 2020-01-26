@@ -1,6 +1,7 @@
 import Map from './map'
 import Camera from './camera'
 import Player from './player'
+import GObject from './gobject';
 
 export default class Game{
   constructor(){
@@ -58,7 +59,17 @@ export default class Game{
         this.otherPlayers[data.id].update(data.x, data.y, data.moveDir);
       }
     })
-    }
+  }
+  updateObjects(objectsData){
+    Object.values(objectsData).forEach((data) => {
+      if (data.id in this.objects){
+        this.objects[data.id].update(data.x, data.y);
+      }else{
+        this.objects[data.id] = new GObject(data.id, data.x, data.y,
+           data.width, data.height);
+      }}
+      )
+  }
 
   // draw(){
   //   this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -69,14 +80,19 @@ export default class Game{
   //   })
   // }
 
-  gameLoop(gameData){
-    this.updatePlayers(gameData);
+  gameLoop(playerData, gameData){
+    // console.log(gameData);
+    this.updatePlayers(playerData);
+    this.updateObjects(gameData);
     if (this.player){
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.room.map.draw(this.context, this.camera.xView, this.camera.yView);
       this.player.draw(this.context, this.camera.xView, this.camera.yView)
       Object.keys(this.otherPlayers).forEach(key => {
         this.otherPlayers[key].draw(this.context, this.camera.xView, this.camera.yView)
+      })
+      Object.keys(this.objects).forEach(key => {
+        this.objects[key].draw(this.context, this.camera.xView, this.camera.yView)
       })
     }
     
