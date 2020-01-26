@@ -45,15 +45,20 @@ class SignupForm extends React.Component {
 
     render() {
         return (
-            <div>
-                <form>
+            <div className="signup-page">
+            <div className="signup-box">
+                <h2 className='signup-title'><p>Big</p> <p>Bad</p> <p>Wolf</p> </h2>
+                <form className="signup-form">
                     <input type="text" placeholder="username" value={this.state.username} onChange={this.handleInput('username')}/>
-                    <input type="text" placeholder="enter password" value={this.state.password} onChange={this.handleInput('password')}/>
-                    <input type="text" placeholder="re-enter password" value={this.state.password2} onChange={this.handleInput('password2')}/>
-                    <button onClick={this.handleSubmit}>Sign Up!</button>
+                    <input type="password" placeholder="enter password" value={this.state.password} onChange={this.handleInput('password')}/>
+                    <input type="password" placeholder="re-enter password" value={this.state.password2} onChange={this.handleInput('password2')}/>
                 </form>
-                <Link to={'/login'}>Login</Link>
+                <div className="signup-row">
+                    <Link className="signup-link" to={'/login'}>Login instead</Link>
+                    <button onClick={this.handleSubmit}>Sign Up</button>
+                </div>
                 <h6>{this.showErrors()}</h6>
+            </div>
             </div>
         )
     }
