@@ -50,47 +50,17 @@ class TopNavTwo extends React.Component {
     }
 
     render () {
-        const saveForm = (
-                <SaveMapForm  
-                saveMapForm={this.state.saveMapForm}
-                rockCount={this.props.rockCount}
-                foodCount={this.props.foodCount}
-                foods={this.props.foods}
-                rocks={this.props.rocks}
-                houses={this.props.houses}
-                title={this.props.title}
-                url={this.props.url} 
-                currentUser={this.props.currentUser}
-                mapId={this.props.mapId}
-            />
-        ) 
-        const updateForm = (
-            <UpdateMapForm  
-            saveMapForm={this.state.saveMapForm}
-            rockCount={this.props.rockCount}
-            foodCount={this.props.foodCount}
-            foods={this.props.foods}
-            rocks={this.props.rocks}
-            houses={this.props.houses}
-            title={this.props.title}
-            url={this.props.url} 
-            currentUser={this.props.currentUser}
-            mapId={this.props.mapId}
-            />
-        )
-        let pickedForm;
-        this.props.mapId ? pickedForm = updateForm : pickedForm = saveForm
         if (!this.props.currentUser) return null;
+        let name = this.props.currentUser.username ? this.props.currentUser.username : 'Sign In'
         return (
             <div className="topnavtwo">
                 <div className="topnavtwo-left-nav">
-                        <a className="active" href="#home">Lobby</a>
+                        <Link className="active" to='/lobby'>Lobby</Link>
                         <a href="#/map">Create map</a>
                     </div>
                 <div className="topnavtwo-middle-nav hidden-topnav">
                 </div>
                     <div className="topnavtwo-right-nav">
-                        <a onClick={this.saveMapForm}>Save</a>
                         <a onClick={this.handleDropdown}>Profile</a>
                         <ul className={`topnavtwo-dropdown ${this.state.hidden}`}>
                             <li className="topnavtwo-dropdown-item">
@@ -106,9 +76,6 @@ class TopNavTwo extends React.Component {
                                 <span className="topnavtwo-logout">Logout</span>
                             </li>
                         </ul>
-                        {
-                            pickedForm
-                        }
                     </div>
             </div>
         )

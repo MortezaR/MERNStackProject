@@ -60,9 +60,12 @@
   background-color: white;
   position: absolute;
   top: 100%;
-  left: -53%;
+  left: -201%;
   width: 100%;
-  min-width: 200px;
+  min-width: 220px;
+  font-size: 16px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  text-align: right;
 
   li {
     padding: 10px;

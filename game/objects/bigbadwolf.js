@@ -11,11 +11,7 @@ class BigBadWolf extends movableObject {
         super(game, x, y, id);
         this.speed = 5;
         this.hitBoxSize = [50,25];
-<<<<<<< HEAD
-        this.hitBox = [35, 35];
-=======
         this.hitBox = [30, 30];
->>>>>>> 14a8ddef8baeb461893a0018101d846fb56b75ae
         this.actionCooldown = 1;
         this.increaseSpeed = this.increaseSpeed.bind(this);
         setInterval(this.increaseSpeed, 10000);

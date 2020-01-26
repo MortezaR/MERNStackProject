@@ -84,7 +84,7 @@ class TopNav extends React.Component {
         return (
             <div className="topnav">
                 <div className="topnav-left-nav">
-                    <a href="#home">Lobby</a>
+                    <Link to='/lobby'>Lobby</Link>
                     <a onClick={() => this.props.openModal('signup')} className="active">Create map</a>
                 </div>
                 <div className="topnav-middle-nav">
@@ -92,10 +92,10 @@ class TopNav extends React.Component {
                     <a onClick={()=>this.props.handleClickEffect('food')}>Food</a>
                     <a onClick={()=>this.props.handleClickEffect('remove')}>Erase</a>
                     <a  onClick={()=>this.props.handleClickEffect('house')}>Start Position</a>
-
+                    <a onClick={this.saveMapForm}>Save</a>
                 </div>
                 <div className="topnav-right-nav">
-                    <a onClick={this.saveMapForm}>Save</a>
+
                     {/* <a  onBlur={() => console.log('hi')}>Profile</a> */}
                     <a  onBlur={() => {
                         return this.setState({hidden: 'hidden'})
