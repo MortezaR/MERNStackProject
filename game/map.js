@@ -1,8 +1,8 @@
 const Food = require( './objects/food.js')
 const Wall = require('./objects/wall')
 const HTerminal = require('./objects/hterminal')
-const BigBadWolf = require( './objects/bigbadwolf.js')
-const Piglet = require( './objects/piglet.js')
+const Teleporter = require('./objects/teleporter.js')
+const Trap = require('./objects/trap.js')
 const utils = require('./util.js')
 const hitBoxTouch = utils.hitBoxTouch;
 
@@ -16,6 +16,7 @@ class Map {
         this.playerObjects = {};
         this.getObjects = this.getObjects.bind(this);
         this.generateDefaultMap();
+        this.trapIndex = 100000;
     }
     getDim(){
         return [this.width,this.height];
@@ -48,6 +49,14 @@ class Map {
             case 'hTerminal':
                 obj = new HTerminal(...objParams)
                 break;
+            case 'teleporter':
+                obj = new Teleporter(...objParams)
+                break;
+            case 'trap':
+                this.trapIndex += 1;
+                objParams.push(this.trapIndex);
+                obj = new Trap(...objParams)
+                break;
             default:
                 return null;
 
@@ -55,7 +64,6 @@ class Map {
         if(obj) {
             this.gameObjects[obj.id] = obj;
         }
-        console.log(this.gameObjects);
     }
     addPlayerObject(obj){
         this.playerObjects[obj.id] = obj;
@@ -75,6 +83,9 @@ class Map {
 
 
         this.addObject('hTerminal', this.game, 2700, 2700, 30001);
+
+
+        this.addObject('teleporter', this.game, 2000, 2500, 40001, 2500, 3000);
 
 
     }

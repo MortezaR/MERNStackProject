@@ -1,30 +1,26 @@
 
-
-
-// const Piglet = require('./piglet.js')
 const GObject = require('./object.js')
-// const BigBadWolf = require('./bigbadwolf.js')
 
-class HTerminal extends GObject {
+class Trap extends GObject {
 
     constructor(game, x, y, id) {
         super(game, x, y, id);
-        this.hitBox = [200, 200];
+        this.hitBox = [100, 100];
         this.phasable = true;
-        this.hp = 10000;
+        this.sprung = false;
     }
-    hack(){
-        this.hp -= 1;
+    trigger(){
+        this.sprung = true;
     }
-    toObj() {
+    toObj(){
         return {
             id: this.id,
             x: this.x, y: this.y,
             width: this.hitBox[0],
             height: this.hitBox[1],
-            params: { hp: this.hp }
+            params: { resource: this.resource }
         }
     }
 }
 
-module.exports = HTerminal;
+module.exports = Trap;

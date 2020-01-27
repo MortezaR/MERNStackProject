@@ -4,6 +4,7 @@ const utils = require('../util.js')
 const getDir = utils.getDir;
 const calcHitBox = utils.calcHitBox;
 const Food = require('./food.js')
+const Trap = require('./trap.js')
 
 class Piglet extends movableObject{
     constructor(game, x, y, id) {
@@ -37,12 +38,22 @@ class Piglet extends movableObject{
                     }
                 })
                 break;
+            case 'trap':
+                if(this.resource >= 5) {
+                    this.resource -= 5;
+                    this.game.map.addObject('trap', this.game,
+                    this.x, this.y);
+                }
+                break;
             case 'move':
                 this.move(dX, dY);
                 break;
             default:
                 break;
         }
+    }
+    hack(obj){
+        obj.hack();
     }
     kill(){
         console.log('piglet down')

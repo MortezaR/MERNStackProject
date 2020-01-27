@@ -7,9 +7,10 @@ import worldMusic from '../assets/sound/gflop.mp3';
 
 class gameCanvas extends React.Component {
   constructor(props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleRightClick = this.handleRightClick.bind(this)
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleRightClick = this.handleRightClick.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.game = null;
     this.socket = io.connect("http://localhost:8000");
     this.state = {
@@ -40,9 +41,16 @@ class gameCanvas extends React.Component {
     this.socket.emit('newClickMove', moveData)
   }
 
+  handleKeyPress(e) {
+    e.preventDefault();
+    let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
+    let moveData = { clickPos, type: "trap" }
+    this.socket.emit('newClickMove', moveData)
+  }
+
   componentDidMount() {
     this.playGame();
-
+    window.addEventListener('keypress', this.handleKeyPress);
     this.setState({
       sound: 'Sound.status.PLAYING'
     })

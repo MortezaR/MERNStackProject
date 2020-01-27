@@ -40,6 +40,16 @@ class BigBadWolf extends movableObject {
                 break;
         }
     }
+    teleport(obj){
+        this.x = obj.newX;
+        this.y = obj.newY;
+        if (this.moving) {
+            clearInterval(this.moving);
+            if (this.moveDir / 100 < 1) {
+                this.moveDir *= 10;
+            }
+        }
+    }
     increaseSpeed(){
         this.speed += 1;
         console.log(this.speed);
