@@ -65,7 +65,14 @@ class GameCanvas extends React.Component {
   render() {
     return (
       <div>
-        <canvas id="canvas" onClick={this.handleClick} onContextMenu={this.handleRightClick} width={1000} height={1000}></canvas>
+        <canvas 
+          id="canvas" 
+          className="game-canvas"
+          onClick={this.handleClick} 
+          onContextMenu={this.handleRightClick} 
+          width={1200} 
+          height={600}>
+        </canvas>
         <Sound
           url={worldMusic}
           onClick={this.handleSoundClick}
