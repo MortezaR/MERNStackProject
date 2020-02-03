@@ -17,6 +17,17 @@ class Game {
             })
         }
         this.players = {};
+        this.winner = null;
+        this.timer = 100;
+        this.tick = this.tick.bind(this);
+        this.clock = setInterval(this.tick, 1000)
+    }
+    tick(){
+        this.timer -= 1;
+        if(this.timer <= 0){
+            clearInterval(this.clock);
+            this.win('time');
+        }
     }
     addPlayer(id){
         console.log('added_player')
@@ -80,6 +91,25 @@ class Game {
     deletePlayer(playerId){
         delete this.map.playerObjects[playerId];
         delete this.players[playerId];
+    }
+
+    win(val){
+        if(this.winner !== null){
+            return `the winner is ${this.winner}`;
+        }
+        switch (val) {
+            case 'deposit':
+                this.winner = 'piglet';
+
+                break;
+            case 'time':
+                this.winner = 'wolf';
+                break;
+        
+            default:
+                break;
+        }
+        console.log(this.winner);
     }
 }
 

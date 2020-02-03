@@ -9,8 +9,11 @@ class Trap extends GObject {
         this.phasable = true;
         this.sprung = false;
     }
-    trigger(){
-        this.sprung = true;
+    trigger(wolf){
+        if(!this.sprung){
+            wolf.kill();
+            this.sprung = true;
+        }
     }
     toObj(){
         return {

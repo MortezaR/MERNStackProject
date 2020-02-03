@@ -40,7 +40,6 @@ export default class GObject {
                 break;
             case 3:
                 this.sprites.hTerminal.step(context, this, xView, yView, 1, 1);
-                console.log(this.params.hp);
                 break;
             case 4:
                 this.sprites.teleporter.step(context, this, xView, yView, 1, 1);

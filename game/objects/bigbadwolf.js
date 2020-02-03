@@ -15,8 +15,14 @@ class BigBadWolf extends movableObject {
         this.actionCooldown = 1;
         this.increaseSpeed = this.increaseSpeed.bind(this);
         this.speedInterval = setInterval(this.increaseSpeed, 10000);
+
+        //uncomment for actual game
+        // this.kill(10000);
     }
     performAction(type, dX, dY) {
+        if (this.dead) {
+            return 'you are dead mate';
+        }
         switch (type) {
             case 'attack':
                 let dir = getDir(this.x, this.y, dX, dY)
@@ -50,12 +56,19 @@ class BigBadWolf extends movableObject {
             }
         }
     }
+    stun(obj){
+        obj.trigger(this);
+    }
     increaseSpeed(){
         this.speed += 1;
         console.log(this.speed);
         if(this.speed > 50){
             clearInterval(this.speedInterval);
         }
+    }
+    kill(time = 5000){
+        setTimeout(() => this.dead = false, time);
+        this.dead = true;
     }
 }
 

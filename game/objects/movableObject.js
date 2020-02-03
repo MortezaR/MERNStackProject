@@ -3,6 +3,7 @@ const GObject = require( './object.js')
 const utils = require('../util.js')
 const HTerminal = require('./hterminal.js')
 const Teleporter = require('./teleporter.js')
+const Trap = require('./trap')
 const getDir = utils.getDir;
 const hitBoxTouch = utils.hitBoxTouch;
 //S - 21 , SW - 22, W - 12, NW - 32, N - 31, NE - 33, E - 13, SE - 23
@@ -57,6 +58,9 @@ class moveableObject extends GObject{
                 if (obj instanceof Teleporter && touching) {
                     this.teleport(obj);
                 }
+                if (obj instanceof Trap && touching) {
+                    this.stun(obj);
+                }
             })
             if (((this.x >= dX && unitX >= 0) || (this.x <= dX && unitX <= 0)) && 
                 ((this.y >= dY && unitY >= 0) || (this.y <= dY && unitY <= 0))){
@@ -72,6 +76,12 @@ class moveableObject extends GObject{
 
     }
     teleport(){
+
+    }
+    stun(){
+
+    }
+    kill(){
 
     }
     setMoveDir(x,y){
@@ -95,9 +105,6 @@ class moveableObject extends GObject{
         if(this.moveDir / 100 < 1){ 
             this.moveDir *= 10;
         }
-    }
-    kill(){
-
     }
 
 }

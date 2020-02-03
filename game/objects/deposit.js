@@ -1,15 +1,21 @@
+
 const GObject = require('./object.js')
 
-class HTerminal extends GObject {
+class Deposit extends GObject {
 
     constructor(game, id, x, y) {
         super(game, id, x, y);
         this.hitBox = [200, 200];
         this.phasable = true;
-        this.hp = 10000;
+        this.hp = 20;
     }
-    hack(){
-        this.hp -= 1;
+    damage(num) {
+        this.hp -= num;
+        if(this.hp <= 0){
+            this.game.win('deposit');
+        }
+        console.log('deposit hp -> ',this.hp);
+        return this.hp <= 0 ? true : false;
     }
     toObj() {
         return {
@@ -22,4 +28,4 @@ class HTerminal extends GObject {
     }
 }
 
-module.exports = HTerminal;
+module.exports = Deposit;
