@@ -10,8 +10,8 @@ const hitBoxTouch = utils.hitBoxTouch;
 
 class moveableObject extends GObject{
 
-    constructor(game, x, y, id){
-        super(game, x, y, id);
+    constructor(game, id, x, y){
+        super(game, id, x, y);
         this.speed = 1;
         this.hitBoxSize = [4,2];
         this.actionCooldown = 1;

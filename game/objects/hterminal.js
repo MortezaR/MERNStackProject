@@ -7,8 +7,8 @@ const GObject = require('./object.js')
 
 class HTerminal extends GObject {
 
-    constructor(game, x, y, id) {
-        super(game, x, y, id);
+    constructor(game, id, x, y) {
+        super(game, id, x, y);
         this.hitBox = [200, 200];
         this.phasable = true;
         this.hp = 10000;

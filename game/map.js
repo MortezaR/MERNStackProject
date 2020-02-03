@@ -15,8 +15,14 @@ class Map {
         this.gameObjects = {};
         this.playerObjects = {};
         this.getObjects = this.getObjects.bind(this);
+        this.objCounts ={
+            wall: 10000,
+            food: 20000,
+            hTerminal: 30000,
+            teleporter:40000,
+            trap: 100000
+        }
         this.generateDefaultMap();
-        this.trapIndex = 100000;
     }
     getDim(){
         return [this.width,this.height];
@@ -41,20 +47,29 @@ class Map {
         let obj;
         switch (objType) {
             case 'food':
+                this.objCounts.food += 1;
+                objParams.push(this.objCounts.food);
                 obj = new Food(...objParams)
                 break;
             case 'wall':
+                this.objCounts.wall += 1;
+                objParams.push(this.objCounts.wall);
                 obj = new Wall(...objParams)
                 break;
             case 'hTerminal':
+                this.objCounts.hTerminal += 1;
+                objParams.push(this.objCounts.hTerminal);
                 obj = new HTerminal(...objParams)
                 break;
             case 'teleporter':
+                this.objCounts.teleporter += 1;
+                objParams.push(this.objCounts.teleporter);
+                obj = new HTerminal(...objParams)
                 obj = new Teleporter(...objParams)
                 break;
             case 'trap':
-                this.trapIndex += 1;
-                objParams.push(this.trapIndex);
+                this.objCounts.trap += 1;
+                objParams.push(this.objCounts.trap);
                 obj = new Trap(...objParams)
                 break;
             default:
@@ -73,19 +88,19 @@ class Map {
     }
 
     generateDefaultMap(){
-        this.addObject('wall', this.game, 2100, 2000, 10001);
-        this.addObject('wall', this.game, 2100, 2100, 10002);
-        this.addObject('wall', this.game, 2000, 2100, 10003);
-        this.addObject('wall', this.game, 1900, 2100, 10004);
+        this.addObject('wall', this.game, 10001, 2100, 2000);
+        this.addObject('wall', this.game, 10002, 2100, 2100);
+        this.addObject('wall', this.game, 10003, 2000, 2100);
+        this.addObject('wall', this.game, 10004, 1900, 2100);
 
         
-        this.addObject('food', this.game, 2000, 2000, 20001);
+        this.addObject('food', this.game, 20001, 2000, 2000);
 
 
-        this.addObject('hTerminal', this.game, 2700, 2700, 30001);
+        this.addObject('hTerminal', this.game, 30001, 2700, 2700);
 
 
-        this.addObject('teleporter', this.game, 2000, 2500, 40001, 2500, 3000);
+        this.addObject('teleporter', this.game, 2000, 40001, 2500, 2500, 3000);
 
 
     }

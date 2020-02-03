@@ -7,8 +7,8 @@ const Piglet = require('./piglet')
 
 class BigBadWolf extends movableObject {
 
-    constructor(game, x, y, id) {
-        super(game, x, y, id);
+    constructor(game, id, x, y) {
+        super(game, id, x, y);
         this.speed = 5;
         this.hitBoxSize = [100,50];
         this.hitBox = [35, 35];

@@ -6,11 +6,11 @@ class Player {
         this.object;
         switch (playerType) {
             case 'bbw':
-                this.object = new BigBadWolf(game, x, y, id);
+                this.object = new BigBadWolf(game, id, x, y);
                 game.map.addPlayerObject(this.object);
                 break;
             case 'piglet':
-                this.object = new Piglet(game, x, y, id);
+                this.object = new Piglet(game, id, x, y);
                 game.map.addPlayerObject(this.object);
                 break;
             default:

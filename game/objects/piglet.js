@@ -7,8 +7,8 @@ const Food = require('./food.js')
 const Trap = require('./trap.js')
 
 class Piglet extends movableObject{
-    constructor(game, x, y, id) {
-        super(game, x, y, id);
+    constructor(game, id, x, y) {
+        super(game, id, x, y);
         this.speed = 2;
         this.hitBoxSize = [100, 50];
         this.hitBox = [30, 30];

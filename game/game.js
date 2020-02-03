@@ -2,8 +2,20 @@ const Player = require('./player.js')
 const Map = require('./map.js')
 
 class Game {
-    constructor(){
+    constructor(map){
         this.map = new Map(5000, 5000, [2500, 2500], this);
+        if(map){
+            const sl = this.map.getObjects.houses[0];
+            this.map = new Map(5000,5000, [sl.x, sl.y], this);
+            const allObjs = this.map.objects;
+            Object.keys(allObjs).forEach(objsKey => {
+                if(!(objsKey.includes('Count'))){
+                    Object.keys(allObjs[objsKey]).forEach(objKey => {
+                        this.map.addObject(objKey, allObjs[objsKey][objKey])
+                    })
+                }
+            })
+        }
         this.players = {};
     }
     addPlayer(id){
