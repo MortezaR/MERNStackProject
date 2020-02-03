@@ -28,7 +28,9 @@ class Lobby extends React.Component{
     }
 
     componentWillUnmount(){
-        this.socket.emit('disconnect')
+        console.log("component is unmounting")
+        this.socket.emit('disconnect', this.state.myId)
+        this.socket.disconnect();
     }
 
     componentDidMount(){
@@ -172,7 +174,7 @@ class Lobby extends React.Component{
         return e => {
             e.preventDefault();
             if (roomId === this.state.myRoomId) return null
-            if (Object.values(this.state.rooms[roomId].chatters).length === 4) {
+            if (Object.values(this.state.rooms[roomId].chatters).length === 1) {
                 let messages = this.state.messages
                 let message = {
                     currentMessage: "That room is too full",
@@ -232,7 +234,7 @@ class Lobby extends React.Component{
         if (this.state.myId === '') return null
         if (this.state.inGame){
             return (
-                <div>
+                <div className="game-canvas-div">
                     <GameCanvas 
                         socket={this.socket} 
                         roomName={this.state.myRoomName} 

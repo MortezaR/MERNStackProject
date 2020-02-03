@@ -112,7 +112,7 @@ chatServer.on('connection', function(socket){
     console.log('a chat user connected: ', socket.id);
     setTimeout(() => {
         socket.emit('setupNewChatter', { rooms, id: socket.id }) 
-    }, 2000)
+    }, 1000)
     
     socket.on('requestRoom', (data) => {
         rooms[socket.id] = {
@@ -204,26 +204,26 @@ chatServer.on('connection', function(socket){
             .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
     });
 
-    socket.on('disconnect', function () {
-        console.log('user disconnected: ', socket.id);
+    socket.on('disconnect', function (id) {
+        id = socket.id || id
+        console.log('user disconnected: ', id);
         if (inGame) {//in game
-            if (socket.id===currentRoomId){//hosting game
+            if (id===currentRoomId){//hosting game
                 chatServer.to(currentRoomName).emit('disconnectHost');
                 game
             } else {
-                game.deletePlayer(socket.id);
-                chatServer.to(currentRoomName).emit('disconnectUser', socket.id);
+                game.deletePlayer(id);
+                chatServer.to(currentRoomName).emit('disconnectUser', id);
             }
-        } else {//in chat lobby
-            if (rooms[socket.id]){//hosting chat
-                delete rooms[socket.id]
+        } 
+        if (rooms[id]){//hosting chat
+            delete rooms[id]
             } else {//not hosting vhat
                 if (rooms[currentRoomId]){
-                    delete rooms[currentRoomId].chatters[socket.id]
+                    delete rooms[currentRoomId].chatters[id]
                 }
-            }
             chatServer.emit('updateRoomsInfo', rooms)
-            chatServer.emit('disconnectUser', socket.id)
+            chatServer.emit('disconnectUser', id)
         }
         clearInterval(interval)
         socket.disconnect()
@@ -248,11 +248,11 @@ chatServer.on('connection', function(socket){
         //initial player setups
         game.addPlayer(playerIds[0], 'bbw', 200, 200);
         chatServer.to(`${playerIds[0]}`).emit('newPlayer', game.getPlayer(playerIds[0]).toObj());
-        for (let i = 1; i < 4; i++) {
-            game.addPlayer(playerIds[i], 'piglet',
-            200 * (numPlayers + 1), 200 * (numPlayers + 1))
-            chatServer.to(`${playerIds[i]}`).emit('newPlayer', game.getPlayer(playerIds[i]).toObj());
-        }
+        // for (let i = 1; i < 4; i++) {
+        //     game.addPlayer(playerIds[i], 'piglet',
+        //     200 * (numPlayers + 1), 200 * (numPlayers + 1))
+        //     chatServer.to(`${playerIds[i]}`).emit('newPlayer', game.getPlayer(playerIds[i]).toObj());
+        // }
         chatServer.to(currentRoomName).emit('currentPlayers', game.getPlayers());
         console.log(game.getPlayer(socket.id).toObj())
         interval = () => {
