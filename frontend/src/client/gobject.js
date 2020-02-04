@@ -18,9 +18,10 @@ export default class GObject {
             food4: new Sprite('https://i.imgur.com/R8JxMrQ.png', 80, 80, 1, [320, 0], this),
             food5: new Sprite('https://i.imgur.com/R8JxMrQ.png', 80, 80, 1, [400, 0], this),
             wall: new Sprite(rockIcon, 135, 135, 1, [0, 0], this),
-            hTerminal: new Sprite(rockIcon, 135, 135, 1, [0, 0], this),
-            teleporter: new Sprite(foodIcon, 135, 135, 1, [0, 0], this),
-            trap: new Sprite('https://i.imgur.com/f0z68qE.png', 135, 135, 1, this),
+            hTerminal: new Sprite('https://i.imgur.com/MNkGnTs.png', 80, 80, 16, [0, 0], this, 10),
+            teleporter: new Sprite('https://i.imgur.com/PODFsc5.png', 100, 100, 5, [0, 0], this),
+            trap: new Sprite('https://i.imgur.com/AAjfnGl.png', 50,150, 5, [0,0], this),
+            deposit: new Sprite('https://i.imgur.com/4JWVKGU.png', 100,50, 10, [0,0], this),
         };
         this.attacking = false;
     }
@@ -39,33 +40,39 @@ export default class GObject {
             case 2:
                 switch (this.params.resource) {
                     case 0:
-                        this.sprites.food0.step(context, this, xView, yView, 1, 1);
+                        this.sprites.food0.drawFirstFrame(context, this, xView, yView, 2,2);
                         break;
                     case 1:
-                        this.sprites.food1.step(context, this, xView, yView, 1, 1);
+                        this.sprites.food1.drawFirstFrame(context, this, xView, yView, 2,2);
                         break;
                     case 2:
-                        this.sprites.food2.step(context, this, xView, yView, 1, 1);
+                        this.sprites.food2.drawFirstFrame(context, this, xView, yView, 2,2);
                         break;
                     case 3:
-                        this.sprites.food3.step(context, this, xView, yView, 1, 1);
+                        this.sprites.food3.drawFirstFrame(context, this, xView, yView, 2,2);
                         break;
                     case 4:
-                        this.sprites.food4.step(context, this, xView, yView, 1, 1);
+                        this.sprites.food4.drawFirstFrame(context, this, xView, yView, 2,2);
                         break;
                     case 5:
-                        this.sprites.food5.step(context, this, xView, yView, 1, 1);
+                        this.sprites.food5.drawFirstFrame(context, this, xView, yView, 2,2);
                         break;
                     default:
                         break;
                 }
+                break;
             case 3:
                 this.sprites.hTerminal.step(context, this, xView, yView, 1, 1);
                 break;
             case 4:
-                this.sprites.teleporter.step(context, this, xView, yView, 1, 1);
+                this.sprites.teleporter.step(context, this, xView, yView, 2, 2);
+                break;
+            case 5:
+                this.sprites.deposit.step(context, this, xView, yView, 1, 1);
+                break;
             case 10:
                 this.sprites.trap.step(context, this, xView, yView, 1, 1);
+                break;
             default:
                 break;
         }

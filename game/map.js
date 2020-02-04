@@ -91,10 +91,10 @@ class Map {
     }
 
     generateDefaultMap(){
-        this.addObject('wall', 2100, 2000);
-        this.addObject('wall', 2100, 2100);
-        this.addObject('wall', 2000, 2100);
-        this.addObject('wall', 1900, 2100);
+        // this.addObject('wall', 2100, 2000);
+        // this.addObject('wall', 2100, 2100);
+        // this.addObject('wall', 2000, 2100);
+        // this.addObject('wall', 1900, 2100);
 
         
         this.addObject('food', 2000, 2000);
@@ -102,10 +102,11 @@ class Map {
 
         this.addObject('hTerminal', 2700, 2700);
 
-
         this.addObject('teleporter', 2000, 2500, 2500, 3000);
+        this.addObject('trap', 3000, 2500);
+        this.addObject('deposit', 2600, 2800);
 
-        this.addObject('deposit', 2700, 2700);
+        // this.addObject('deposit', 2700, 2700);
 
 
     }

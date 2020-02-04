@@ -79,7 +79,6 @@ export default class Piglet extends Player {
             }
             // context.
         } else {
-            this.moveDir = 0;
             if (this.moveDir === 0) {
                 this.trapped = true;
                 this.sprites.ko.step(context, this, xView, yView, 2, 2, this.trapped);

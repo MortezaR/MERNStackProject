@@ -19,7 +19,6 @@ export default class Sprite {
     step(ctx, object, xView, yView, heightMultiplier = 1, widthMultiplier = 1, trapped) {
         this.frameCount++;
         if(this.loopC>= this.loopLeng && trapped){
-            debugger
             this.drawFinalFrame(ctx, object, xView, yView, heightMultiplier, widthMultiplier);
         } else {
             this.drawFrame(ctx, object, xView, yView, heightMultiplier, widthMultiplier);
@@ -31,7 +30,9 @@ export default class Sprite {
         this.loopC++;
         if (this.loopC >= this.loopLeng && !trapped) {
             this.loopC = 0;
-            this.parentObj.attacking = false;
+            if (this.parentObj){
+                this.parentObj.attacking = false;
+            }
         }
     }
     drawFrame(ctx, object, xView, yView, heightMultiplier = 1, widthMultiplier = 1) {
@@ -43,21 +44,21 @@ export default class Sprite {
             this.height,
             (object.x - object.width / 2) - xView,
             (object.y - object.height / 2) - yView,
-            this.height * heightMultiplier,
-            this.width * widthMultiplier
+            this.width * widthMultiplier,
+            this.height * heightMultiplier
         );
     }
     drawFirstFrame(ctx, object, xView, yView, heightMultiplier = 1, widthMultiplier = 1) {
         ctx.drawImage(
             this.image,
-            0,
+            this.startFramePos[0],
             this.startFramePos[1],
             this.width,
             this.height,
             (object.x - object.width / 2) - xView,
             (object.y - object.height / 2) - yView,
-            this.height * heightMultiplier,
-            this.width * widthMultiplier
+            this.width * widthMultiplier,
+            this.height * heightMultiplier
         );
     }
     drawFinalFrame(ctx, object, xView, yView, heightMultiplier = 1, widthMultiplier = 1) {
