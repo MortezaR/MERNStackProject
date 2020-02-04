@@ -105,7 +105,11 @@ class Game {
             case 'time':
                 this.winner = 'wolf';
                 break;
-        
+
+            case 'hTerminal':
+                this.winner = 'piglet';
+                break;
+                
             default:
                 break;
         }

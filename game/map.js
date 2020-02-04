@@ -15,6 +15,7 @@ class Map {
         this.game = game;
         this.gameObjects = {};
         this.playerObjects = {};
+        this.hTerminals = 0;
         this.getObjects = this.getObjects.bind(this);
         this.objCounts ={
             wall: 10000,
@@ -50,27 +51,29 @@ class Map {
         switch (objType) {
             case 'food':
                 this.objCounts.food += 1;
-                obj = new Food(this.game, this.objCounts.food, ...objParams)
+                obj = new Food(this.game, this.objCounts.food, ...objParams);
                 break;
             case 'wall':
                 this.objCounts.wall += 1;
-                obj = new Wall(this.game, this.objCounts.wall, ...objParams)
+                obj = new Wall(this.game, this.objCounts.wall, ...objParams);
                 break;
             case 'hTerminal':
                 this.objCounts.hTerminal += 1;
-                obj = new HTerminal(this.game, this.objCounts.hTerminal, ...objParams)
+                obj = new HTerminal(this.game, this.objCounts.hTerminal, ...objParams);
+                this.hTerminals += 1;
                 break;
             case 'teleporter':
                 this.objCounts.teleporter += 1;
-                obj = new Teleporter(this.game, this.objCounts.teleporter, ...objParams)
+                obj = new Teleporter(this.game, this.objCounts.teleporter, ...objParams);
                 break;
             case 'deposit':
                 this.objCounts.deposit += 1;
-                obj = new Deposit(this.game, this.objCounts.deposit, ...objParams)
+                this.numHTerminal += 1;
+                obj = new Deposit(this.game, this.objCounts.deposit, ...objParams);
                 break;
             case 'trap':
                 this.objCounts.trap += 1;
-                obj = new Trap(this.game, this.objCounts.trap, ...objParams)
+                obj = new Trap(this.game, this.objCounts.trap, ...objParams);
                 break;
             default:
                 return null;
