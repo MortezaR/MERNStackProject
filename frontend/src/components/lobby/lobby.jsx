@@ -3,6 +3,8 @@ import io from "socket.io-client";
 import Display from './display';
 import './lobby.scss';
 import GameCanvas from '../gameCanvas'
+import axios from 'axios'
+import {Link} from 'react-router-dom';
 
 class Lobby extends React.Component{
     constructor(props){
@@ -18,13 +20,24 @@ class Lobby extends React.Component{
             myId: '',
             requestedRoomName: '',
             inLobby: false,
-            inGame: false
+            inGame: false,
+            maps: null,
+            pickedMap: null
         }
         this.socket = io.connect("http://localhost:7000");
         this.handleSubmit = this.handleSubmit.bind(this)
         this.readyPlayer = this.readyPlayer.bind(this)
         this.startGame = this.startGame.bind(this)
         this.backToLobby = this.backToLobby.bind(this)
+        this.pickMap = this.pickMap.bind(this);
+    }
+
+    pickMap(map) {
+        console.log(map)
+
+        this.setState({
+            pickedMap: this.state.maps[map._id]
+        })
     }
 
     componentWillUnmount(){
@@ -121,6 +134,18 @@ class Lobby extends React.Component{
         this.socket.on('goToGame', () => {
             this.setState({inGame: true})
         })
+        //Get maps
+        console.log('hi')
+        axios.get('/api/maps/')
+        .then(maps => 
+            
+        {
+            console.log(maps)
+            this.setState({
+                maps: maps.data
+            })
+        }
+        )
     }
 
     backToLobby(){
@@ -229,6 +254,7 @@ class Lobby extends React.Component{
     }
 
     render(){
+        console.log(this.state.pickedMap)
         if (this.state.myId === '') return null
         if (this.state.inGame){
             return (
@@ -239,6 +265,7 @@ class Lobby extends React.Component{
                         roomId={this.state.myRoomId} 
                         host={this.state.myRoomId===this.state.myId}
                         backToLobby={this.backToLobby}
+                        map={this.state.map}
                     />
                 </div>
             )
@@ -278,6 +305,9 @@ class Lobby extends React.Component{
                         ) : (<div>No current members</div>)
             }
                 return (
+                    <div className="lobby-background">
+
+                    
                     <div className="lobby-main">
                         <div className="chat-rooms">
                             Available Chatrooms
@@ -321,6 +351,19 @@ class Lobby extends React.Component{
                             {startButton}
                         </div>
 
+                    </div>
+                    <div>
+                        <h1 className="testingthis">Map Index</h1>
+                        <div className="profile">
+                            <div>
+                            <ul>
+                                {
+                                    this.state.maps.map(map => <li className="testingmap" onClick={() =>this.pickMap(map)}>{map.title}</li>)
+                                }
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 )
             }

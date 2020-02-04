@@ -27,7 +27,7 @@ class GameCanvas extends React.Component {
     console.log(this.game)
     setTimeout(() => {
       console.log("players are all ready timeout")
-      let data = {roomName: this.props.roomName, roomId: this.props.roomId}
+      let data = {roomName: this.props.roomName, roomId: this.props.roomId, map: this.props.map}
       if (this.props.host) this.socket.emit('playersAllReady', data)
     }, 1000);
   }

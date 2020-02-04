@@ -64,7 +64,12 @@ table {
 	border-spacing: 0;
 }
 
-
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
 
 /* Add Modal styling */
 .modal-background {
@@ -149,3 +154,8 @@ button:active {
 .ripple:active {
 
 }
+
+textarea { 
+  overflow:auto; 
+  resize:none; 
+} 

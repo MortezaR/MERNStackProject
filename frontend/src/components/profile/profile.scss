@@ -1,0 +1,16 @@
+.profile {
+    // margin-top: 55px;
+    background-color: #eeeeee;
+    height: 100vh;
+}
+
+.testingthis {
+    font-size: 50px;
+}
+
+.testingmap {
+    cursor: pointer;
+    &:hover {
+        color: orangered;
+    }
+}
