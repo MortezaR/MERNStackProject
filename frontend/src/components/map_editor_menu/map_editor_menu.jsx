@@ -10,10 +10,17 @@ class MapEditorMenu extends React.Component {
           url: ''
         }
     }
+    componentDidMount () {
+      setTimeout(() => {
+        this.setState({
+          title: this.props.title,
+          url: this.props.url
+        })
+      }, 500);
+    }
     handleUpdate(field) {
       return e => this.setState({
           [field]: e.currentTarget.value
-
       })
     }
     render () {
@@ -42,6 +49,21 @@ class MapEditorMenu extends React.Component {
                 <div className="map-editor-menu-item" onClick={()=>this.props.handleClickEffect('food')}>
                   <div className="map-editor-menu-item-wrapper">
                       <span>Food</span>
+                  </div>
+                </div>
+                <div className="map-editor-menu-item" onClick={()=>this.props.handleClickEffect('teleporter')}>
+                  <div className="map-editor-menu-item-wrapper">
+                      <span>Teleporter</span>
+                  </div>
+                </div>
+                <div className="map-editor-menu-item" onClick={()=>this.props.handleClickEffect('hTerminal')}>
+                  <div className="map-editor-menu-item-wrapper">
+                      <span>Terminal</span>
+                  </div>
+                </div>
+                <div className="map-editor-menu-item" onClick={()=>this.props.handleClickEffect('deposit')}>
+                  <div className="map-editor-menu-item-wrapper">
+                      <span>Deposit</span>
                   </div>
                 </div>
                 <div className="map-editor-menu-item" onClick={()=>this.props.handleClickEffect('house')}>

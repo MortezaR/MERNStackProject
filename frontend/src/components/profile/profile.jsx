@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from 'react-router-dom'
 import axios from 'axios';
+import './profile.scss';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -11,21 +12,34 @@ class Profile extends React.Component {
     }
 
     componentDidMount () {
+        console.log('hi')
         axios.get('/api/maps/')
-        .then(maps => this.setState({
-            maps: maps.data
-        }))
+        .then(maps => 
+            
+        {
+            console.log(maps)
+            this.setState({
+                maps: maps.data
+            })
+        }
+        )
     }
 
     render() {
-        console.log(this.state.maps)
         if (!this.state.maps) return null;
         return (
-            <ul>
-                {
-                    this.state.maps.map(map => <Link to={`/map/${map._id}`}>{map.title}</Link>)
-                }
-            </ul>
+            <div className="profile">
+                <div>
+                    <h1 className="testingthis">HEIPWJDOUIQWNDXCKJWHNBDKJWNBDLK2wjn</h1>
+                <ul>
+                    {
+                        this.state.maps.map(map => <Link to={`/map/${map._id}`}>{map.title}</Link>)
+                    }
+                </ul>
+                </div>
+            </div>
+
+
         )
     }
 }

@@ -21,8 +21,9 @@ const MapSchema = new Schema({
     url: {
         type: String,
         default: 'https://i.imgur.com/WjoltrC.png'
-    }
-});
+    },
+    
+}, {minimize: false});
 
 const Maps = mongoose.model('maps', MapSchema)
 module.exports = Maps

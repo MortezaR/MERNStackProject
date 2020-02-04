@@ -38,7 +38,6 @@ export default class Game{
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)  
     } else {
       // console.log("other player created")
-      // debugger
       // let { id, x, y, width, height } = playerData;
       // let player = new Player(id, x, y, width, height);
       // this.otherPlayers[player.id] = player;
@@ -47,7 +46,6 @@ export default class Game{
 
   addCurrentPlayers(playersData){
     console.log("im adding current players")
-    debugger
     Object.values(playersData).forEach(playerData => {
       let { id, x, y, width, height } = playerData
       let player = new Player(id, x, y, width, height)
