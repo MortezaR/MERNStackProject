@@ -36,7 +36,9 @@ class gameCanvas extends React.Component {
 
   handleRightClick(e) {
     e.preventDefault();
-    let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
+    let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView];
+    this.game.player.attacking = true;
+    console.log(this.game.player.attacking)
     let moveData = { clickPos, type: "attack" }
     this.socket.emit('newClickMove', moveData)
   }

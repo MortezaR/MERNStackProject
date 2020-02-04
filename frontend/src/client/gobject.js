@@ -11,13 +11,18 @@ export default class GObject {
         this.height = height;
         this.params = params;
         this.sprites = {
-            food: new Sprite(foodIcon, 135, 135, 1),
-            food2: new Sprite(rockIcon, 135, 135, 1),
-            wall: new Sprite(rockIcon, 135, 135, 1),
-            hTerminal: new Sprite(rockIcon, 135, 135, 1),
-            teleporter: new Sprite(foodIcon, 135, 135, 1),
-            trap: new Sprite('https://i.imgur.com/f0z68qE.png', 135, 135, 1),
+            food0: new Sprite('https://i.imgur.com/R8JxMrQ.png', 80, 80, 1, [0,0], this),
+            food1: new Sprite('https://i.imgur.com/R8JxMrQ.png', 80, 80, 1, [80, 0], this),
+            food2: new Sprite('https://i.imgur.com/R8JxMrQ.png', 80, 80, 1, [160, 0], this),
+            food3: new Sprite('https://i.imgur.com/R8JxMrQ.png', 80, 80, 1, [240, 0], this),
+            food4: new Sprite('https://i.imgur.com/R8JxMrQ.png', 80, 80, 1, [320, 0], this),
+            food5: new Sprite('https://i.imgur.com/R8JxMrQ.png', 80, 80, 1, [400, 0], this),
+            wall: new Sprite(rockIcon, 135, 135, 1, [0, 0], this),
+            hTerminal: new Sprite(rockIcon, 135, 135, 1, [0, 0], this),
+            teleporter: new Sprite(foodIcon, 135, 135, 1, [0, 0], this),
+            trap: new Sprite('https://i.imgur.com/f0z68qE.png', 135, 135, 1, this),
         };
+        this.attacking = false;
     }
 
     update(x, y, params) {
@@ -32,12 +37,28 @@ export default class GObject {
                 this.sprites.wall.step(context, this, xView, yView, 1, 1);
                 break;
             case 2:
-                if(this.params.resource > 0){
-                    this.sprites.food.step(context, this, xView, yView, 1, 1);
-                }else{
-                    this.sprites.food2.step(context, this, xView, yView, 1, 1);
+                switch (this.params.resource) {
+                    case 0:
+                        this.sprites.food0.step(context, this, xView, yView, 1, 1);
+                        break;
+                    case 1:
+                        this.sprites.food1.step(context, this, xView, yView, 1, 1);
+                        break;
+                    case 2:
+                        this.sprites.food2.step(context, this, xView, yView, 1, 1);
+                        break;
+                    case 3:
+                        this.sprites.food3.step(context, this, xView, yView, 1, 1);
+                        break;
+                    case 4:
+                        this.sprites.food4.step(context, this, xView, yView, 1, 1);
+                        break;
+                    case 5:
+                        this.sprites.food5.step(context, this, xView, yView, 1, 1);
+                        break;
+                    default:
+                        break;
                 }
-                break;
             case 3:
                 this.sprites.hTerminal.step(context, this, xView, yView, 1, 1);
                 break;
