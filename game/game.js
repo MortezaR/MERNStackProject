@@ -2,9 +2,32 @@ const Player = require('./player.js')
 const Map = require('./map.js')
 
 class Game {
-    constructor(){
+    constructor(map){
         this.map = new Map(5000, 5000, [2500, 2500], this);
+        if(map){
+            const sl = this.map.getObjects.houses[0];
+            this.map = new Map(5000,5000, [sl.x, sl.y], this);
+            const allObjs = this.map.objects;
+            Object.keys(allObjs).forEach(objsKey => {
+                if(!(objsKey.includes('Count'))){
+                    Object.keys(allObjs[objsKey]).forEach(objKey => {
+                        this.map.addObject(objKey, allObjs[objsKey][objKey])
+                    })
+                }
+            })
+        }
         this.players = {};
+        this.winner = null;
+        this.timer = 100;
+        this.tick = this.tick.bind(this);
+        this.clock = setInterval(this.tick, 1000)
+    }
+    tick(){
+        this.timer -= 1;
+        if(this.timer <= 0){
+            clearInterval(this.clock);
+            this.win('time');
+        }
     }
     addPlayer(id){
         console.log('added_player')
@@ -44,6 +67,7 @@ class Game {
         Object.keys(this.map.gameObjects).forEach(objId => {
             retVal[objId] = this.map.gameObjects[objId].toObj();
         })
+        console.log(this.map.gameObjects)
         return retVal;
     }
     getPlayer(playerId){
@@ -68,6 +92,29 @@ class Game {
     deletePlayer(playerId){
         delete this.map.playerObjects[playerId];
         delete this.players[playerId];
+    }
+
+    win(val){
+        if(this.winner !== null){
+            return `the winner is ${this.winner}`;
+        }
+        switch (val) {
+            case 'deposit':
+                this.winner = 'piglet';
+
+                break;
+            case 'time':
+                this.winner = 'wolf';
+                break;
+
+            case 'hTerminal':
+                this.winner = 'piglet';
+                break;
+                
+            default:
+                break;
+        }
+        console.log(this.winner);
     }
 }
 

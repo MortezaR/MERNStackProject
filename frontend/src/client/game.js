@@ -1,6 +1,8 @@
 import Map from './map'
 import Camera from './camera'
 import Player from './player'
+import Wolf from './wolf'
+import Piglet from './piglet'
 import GObject from './gobject';
 import resBar from './resBar'
 
@@ -31,7 +33,7 @@ export default class Game{
       console.log("new player created")
       let { id, x, y, width, height } = playerData;
       this.myId = playerData.id;
-      this.player = new Player(id, x, y, width, height);
+      this.player = new Piglet (id, x, y, width, height);
       this.camera = new Camera(0, 0, this.vWidth, this.vHeight, this.room.width, this.room.height);
       this.resBar = new resBar();
       let follow = this.camera.follow.bind(this);
@@ -60,7 +62,7 @@ export default class Game{
         this.resBar.update(data.resource);
         this.camera.update();
       } else if (this.otherPlayers[data.id]) {
-        this.otherPlayers[data.id].update(data.x, data.y, data.moveDir, data.resource);
+        // this.otherPlayers[data.id].update(data.x, data.y, data.moveDir, data.resource);
       }
     })
   }

@@ -6,9 +6,10 @@ import worldMusic from '../assets/sound/gflop.mp3';
 
 class GameCanvas extends React.Component {
   constructor(props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleRightClick = this.handleRightClick.bind(this)
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleRightClick = this.handleRightClick.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.game = null;
     this.socket = this.props.socket;
     this.state = {
@@ -46,14 +47,22 @@ class GameCanvas extends React.Component {
 
   handleRightClick(e) {
     e.preventDefault();
+    let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView];
+    this.game.player.attacking = true;
+    let moveData = { clickPos, type: "attack" }
+    this.socket.emit('newClickMove', moveData)
+  }
+
+  handleKeyPress(e) {
+    e.preventDefault();
     let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
-    let moveData = { clickPos, type: "attack", gameId: this.props.roomId }
+    let moveData = { clickPos, type: "trap" }
     this.socket.emit('newClickMove', moveData)
   }
 
   componentDidMount() {
     this.playGame();
-
+    window.addEventListener('keypress', this.handleKeyPress);
     this.setState({
       sound: 'Sound.status.PLAYING'
     })

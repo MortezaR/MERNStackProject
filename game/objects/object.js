@@ -1,7 +1,7 @@
 
 
 class GObject {
-    constructor(game,x,y,id){
+    constructor(game,id, x,y){
         this.game = game;
         this.x = x;
         this.y = y;

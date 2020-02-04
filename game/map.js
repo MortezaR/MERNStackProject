@@ -1,8 +1,9 @@
 const Food = require( './objects/food.js')
 const Wall = require('./objects/wall')
 const HTerminal = require('./objects/hterminal')
-const BigBadWolf = require( './objects/bigbadwolf.js')
-const Piglet = require( './objects/piglet.js')
+const Teleporter = require('./objects/teleporter.js')
+const Trap = require('./objects/trap.js')
+const Deposit = require('./objects/deposit')
 const utils = require('./util.js')
 const hitBoxTouch = utils.hitBoxTouch;
 
@@ -14,7 +15,16 @@ class Map {
         this.game = game;
         this.gameObjects = {};
         this.playerObjects = {};
+        this.hTerminals = 0;
         this.getObjects = this.getObjects.bind(this);
+        this.objCounts ={
+            wall: 10000,
+            food: 20000,
+            hTerminal: 30000,
+            teleporter: 40000,
+            deposit: 50000,
+            trap: 100000
+        }
         this.generateDefaultMap();
     }
     getDim(){
@@ -40,13 +50,30 @@ class Map {
         let obj;
         switch (objType) {
             case 'food':
-                obj = new Food(...objParams)
+                this.objCounts.food += 1;
+                obj = new Food(this.game, this.objCounts.food, ...objParams);
                 break;
             case 'wall':
-                obj = new Wall(...objParams)
+                this.objCounts.wall += 1;
+                obj = new Wall(this.game, this.objCounts.wall, ...objParams);
                 break;
             case 'hTerminal':
-                obj = new HTerminal(...objParams)
+                this.objCounts.hTerminal += 1;
+                obj = new HTerminal(this.game, this.objCounts.hTerminal, ...objParams);
+                this.hTerminals += 1;
+                break;
+            case 'teleporter':
+                this.objCounts.teleporter += 1;
+                obj = new Teleporter(this.game, this.objCounts.teleporter, ...objParams);
+                break;
+            case 'deposit':
+                this.objCounts.deposit += 1;
+                this.numHTerminal += 1;
+                obj = new Deposit(this.game, this.objCounts.deposit, ...objParams);
+                break;
+            case 'trap':
+                this.objCounts.trap += 1;
+                obj = new Trap(this.game, this.objCounts.trap, ...objParams);
                 break;
             default:
                 return null;
@@ -55,7 +82,6 @@ class Map {
         if(obj) {
             this.gameObjects[obj.id] = obj;
         }
-        console.log(this.gameObjects);
     }
     addPlayerObject(obj){
         this.playerObjects[obj.id] = obj;
@@ -65,16 +91,22 @@ class Map {
     }
 
     generateDefaultMap(){
-        this.addObject('wall', this.game, 2100, 2000, 10001);
-        this.addObject('wall', this.game, 2100, 2100, 10002);
-        this.addObject('wall', this.game, 2000, 2100, 10003);
-        this.addObject('wall', this.game, 1900, 2100, 10004);
+        // this.addObject('wall', 2100, 2000);
+        // this.addObject('wall', 2100, 2100);
+        // this.addObject('wall', 2000, 2100);
+        // this.addObject('wall', 1900, 2100);
 
         
-        this.addObject('food', this.game, 2000, 2000, 20001);
+        this.addObject('food', 2000, 2000);
 
 
-        this.addObject('hTerminal', this.game, 2700, 2700, 30001);
+        this.addObject('hTerminal', 2700, 2700);
+
+        this.addObject('teleporter', 2000, 2500, 2500, 3000);
+        this.addObject('trap', 3000, 2500);
+        this.addObject('deposit', 2600, 2800);
+
+        // this.addObject('deposit', 2700, 2700);
 
 
     }
