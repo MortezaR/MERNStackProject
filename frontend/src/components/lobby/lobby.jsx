@@ -24,7 +24,7 @@ class Lobby extends React.Component{
             maps: null,
             pickedMap: null
         }
-        this.socket = io.connect("http://localhost:7000");
+        this.socket = io();
         this.handleSubmit = this.handleSubmit.bind(this)
         this.readyPlayer = this.readyPlayer.bind(this)
         this.startGame = this.startGame.bind(this)
