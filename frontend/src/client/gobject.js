@@ -1,6 +1,6 @@
 // import raikouSprites from '../assets/images/raikou_sprites.png'
 import Sprite from './sprite.js'
-import foodIcon from './../assets/images/food_icon.png'
+// import foodIcon from './../assets/images/food_icon.png'
 import rockIcon from './../assets/images/rock_icon.png'
 export default class GObject {
     constructor(id, x, y, width, height, params) {
