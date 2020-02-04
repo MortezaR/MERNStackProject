@@ -11,17 +11,17 @@ const passport = require('passport');
 const path = require('path');
 
 //added for sockets
-const io = require("socket.io");
-const chatServer = io.listen(7000);
+const server = require('http').Server(app);
+const socket = require('socket.io');
 
 //
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('frontend/build'));
     app.get('/', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
     })
-  }
+}
 
 mongoose
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -46,21 +46,35 @@ app.use("/api/maps", maps);
 
 const port = process.env.PORT || 5000;
 
-
-const pear = require('http').createServer(app);
-
-app.listen(port, () => {console.log(`Listening on port ${port}`)})
-
-//added code for sockets
-app.get('/index.html', function (req, res) {
-    res.sendFile(__dirname + '/frontend/public/index.html');
+//new code
+server.listen(port, () => {
+    console.log(`Listening on port ${port}`)
 });
 
+const chatServer = socket(server);
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
-});
+
+
+// const pear = require('http').createServer(app);
+
+// app.listen(port, () => {console.log(`Listening on port ${port}`)})
+
+// //added code for sockets
+// app.get('/index.html', function (req, res) {
+//     res.sendFile(__dirname + '/frontend/public/index.html');
+// });
+
+
+// app.get('/', function (req, res) {
+//     res.sendFile(__dirname + '/index.html');
+// });
 //
+
+
+
+
+
+
 //-------------------
 
 // let game = new Game();
