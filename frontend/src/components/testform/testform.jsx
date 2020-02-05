@@ -29,17 +29,19 @@ class TestForm extends React.Component {
                         </header>
                         <nav className="lobby-channel-index">
                         {
-                            Object.keys(this.state.rooms).map((id) => {
-                                return (
-                                    <ChannelIndexItem />
-                                )
-                            })
+                            Object.keys(this.state.rooms).map(id => 
+                                <ChannelIndexItem
+                                    onClick={this.joinRoom(id)} id={id} 
+                                    roomName={this.state.rooms[id].roomName} 
+                                    numPlayers={Object.values(this.state.rooms[id].chatters).length}
+                                />
+                            )
                         }
                         </nav>
                         <div className="lobby-channel-index-profile">
                             <div className="lobby-channel-index-profile-username">
-                                <span className="lobby-user-username">MorteazPlz</span>
-                                <span className="lobby-user-id">#4329</span>
+                                <span className="lobby-user-username">{this.props.currentuser.username}</span>
+                                <span className="lobby-user-id">{`#${this.props.currentuser.username.slice(0,4)}`}</span>
                             </div>
                             <div className="lobby-channel-index-profile-icon">
                                 <a><i class="far fa-check-circle fa-lg"></i></a>
@@ -61,7 +63,7 @@ class TestForm extends React.Component {
                             {
                                 this.props.messages.map((message, i) => {
                                     return (
-                                        <LobbyChatMessage />
+                                        <LobbyChatMessage index={i} messages={this.state.messages} roomName={this.state.myRoomName} />
                                     )
                                 })
                             }

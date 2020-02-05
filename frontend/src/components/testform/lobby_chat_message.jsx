@@ -8,9 +8,9 @@ class LobbyChatMessage extends React.Component {
 
     render () {
         return (
-            <div className="chat-message" key={i}>
-                <p>{message.username}</p>
-                <p>{message.currentMessage}</p>
+            <div className="chat-message" key={this.props.index}>
+                <p>{this.props.message.username}</p>
+                <p>{this.props.message.currentMessage}</p>
             </div>
         )
     }
