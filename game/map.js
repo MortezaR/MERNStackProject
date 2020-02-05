@@ -25,7 +25,7 @@ class Map {
             deposit: 50000,
             trap: 100000
         }
-        this.generateDefaultMap();
+        // this.generateDefaultMap();
     }
     getDim(){
         return [this.width,this.height];
@@ -48,12 +48,13 @@ class Map {
     }
     addObject(objType, ...objParams){
         let obj;
+        console.log(objType);
         switch (objType) {
             case 'food':
                 this.objCounts.food += 1;
                 obj = new Food(this.game, this.objCounts.food, ...objParams);
                 break;
-            case 'wall':
+            case 'rock':
                 this.objCounts.wall += 1;
                 obj = new Wall(this.game, this.objCounts.wall, ...objParams);
                 break;
@@ -67,6 +68,7 @@ class Map {
                 obj = new Teleporter(this.game, this.objCounts.teleporter, ...objParams);
                 break;
             case 'deposit':
+                console.log('this is a deposit');
                 this.objCounts.deposit += 1;
                 this.numHTerminal += 1;
                 obj = new Deposit(this.game, this.objCounts.deposit, ...objParams);
@@ -91,10 +93,10 @@ class Map {
     }
 
     generateDefaultMap(){
-        // this.addObject('wall', 2100, 2000);
-        // this.addObject('wall', 2100, 2100);
-        // this.addObject('wall', 2000, 2100);
-        // this.addObject('wall', 1900, 2100);
+        // this.addObject('rock', 2100, 2000);
+        // this.addObject('rock', 2100, 2100);
+        // this.addObject('rock', 2000, 2100);
+        // this.addObject('rock', 1900, 2100);
 
         
         this.addObject('food', 2000, 2000);
