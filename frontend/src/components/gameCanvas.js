@@ -18,11 +18,11 @@ class GameCanvas extends React.Component {
     }
   }
 
-  componentDidMount(){
+  // componentDidMount(){
     // this.canvas = document.getElementById("canvas");
-    this.canvas = document.querySelector("#canvas");
-    console.log(this.canvas)
-  }
+    // this.canvas = document.querySelector("#canvas");
+    // console.log(this.canvas)
+  // }
 
   playGame() {
     console.log("setting up new game")
@@ -46,9 +46,9 @@ class GameCanvas extends React.Component {
   }
 
   handleClick(e) {
-    console.log(this.canvas)
-    if(this.canvas){
-      const rect = this.canvas.getBoundingClientRect()
+    console.log(this.game.canvas)
+    if(this.game.canvas){
+      const rect = this.game.canvas.getBoundingClientRect()
       const canvasX = e.clientX - rect.left
       const canvasY = e.clientY - rect.top
       let clickPos = [canvasX + this.game.camera.xView, canvasY + this.game.camera.yView]
