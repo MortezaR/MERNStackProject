@@ -136,7 +136,6 @@ chatServer.on('connection', function(socket){
         }
         let newData = data;
         newData["roomId"] = socket.id;
-        console.log('requested room')
         currentRoomId = socket.id;
         currentRoomName = data.roomName;
         joinRoom(newData)

@@ -33,7 +33,6 @@ class GameCanvas extends React.Component {
     this.socket.on('disconnectUser', (id) => this.game.disconnectPlayer(id))
     this.socket.on('disconnectHost', () => this.disconnectHost())
     this.socket.on('updateGame', (playerData, gameData) => this.game.gameLoop(playerData, gameData))
-    console.log(this.game)
     setTimeout(() => {
       console.log("players are all ready timeout")
       let data = {roomName: this.props.roomName, roomId: this.props.roomId, map: this.props.map}
@@ -46,7 +45,6 @@ class GameCanvas extends React.Component {
   }
 
   handleClick(e) {
-    console.log(this.game.canvas)
     if(this.game.canvas){
       const rect = this.game.canvas.getBoundingClientRect()
       const canvasX = e.clientX - rect.left
@@ -54,7 +52,6 @@ class GameCanvas extends React.Component {
       let clickPos = [canvasX + this.game.camera.xView, canvasY + this.game.camera.yView]
       let moveData = { clickPos, type: "move", gameId: this.props.roomId }
       this.socket.emit('newClickMove', moveData)
-      console.log(moveData)
     }
   }
 
