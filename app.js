@@ -209,6 +209,8 @@ chatServer.on('connection', function(socket){
     })
 
     socket.on('newClickMove', function (moveData) {
+        console.log(games);
+        console.log(moveData);
         games[moveData.gameId].getPlayer(socket.id).getObject()
             .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
     });

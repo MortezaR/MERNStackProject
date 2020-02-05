@@ -59,14 +59,14 @@ class GameCanvas extends React.Component {
     e.preventDefault();
     let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView];
     this.game.player.attacking = true;
-    let moveData = { clickPos, type: "attack" }
+    let moveData = { clickPos, type: "attack", gameId: this.props.roomId  }
     this.socket.emit('newClickMove', moveData)
   }
 
   handleKeyPress(e) {
     e.preventDefault();
     let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
-    let moveData = { clickPos, type: "trap" }
+    let moveData = { clickPos, type: "trap", gameId: this.props.roomId  }
     this.socket.emit('newClickMove', moveData)
   }
 
