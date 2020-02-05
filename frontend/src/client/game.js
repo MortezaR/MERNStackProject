@@ -75,7 +75,7 @@ export default class Game{
         this.objects[data.id].update(data.x, data.y, data.params);
       }else{
         this.objects[data.id] = new GObject(data.id, data.x, data.y,
-           data.width, data.height, data.params);
+           data.width, data.height, data.params, this.player instanceof Wolf);
       }}
       )
   }

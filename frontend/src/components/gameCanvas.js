@@ -90,8 +90,8 @@ class GameCanvas extends React.Component {
           className="game-canvas"
           onClick={this.handleClick} 
           onContextMenu={this.handleRightClick} 
-          width={1200} 
-          height={600}>
+          width={window.innerWidth} 
+          height={window.innerHeight - 55}>
         </canvas>
         <Sound
           url={worldMusic}

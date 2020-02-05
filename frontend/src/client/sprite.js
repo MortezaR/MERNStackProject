@@ -15,6 +15,7 @@ export default class Sprite {
         this.drawFrame = this.drawFrame.bind(this);
         this.parentObj = parentObj;
         this.maxFrameCount = maxFrameCount;
+        this.invisible = true;
     }
     step(ctx, object, xView, yView, heightMultiplier = 1, widthMultiplier = 1, trapped) {
         this.frameCount++;

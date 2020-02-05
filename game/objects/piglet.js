@@ -9,9 +9,9 @@ const Deposit = require('./deposit')
 class Piglet extends movableObject{
     constructor(game, id, x, y) {
         super(game, id, x, y);
-        this.speed = 2;
+        this.speed = 3;
         this.hitBoxSize = [100, 50];
-        this.hitBox = [30, 30];
+        this.hitBox = [70, 70];
         this.actionCooldown = 1;
         this.resource = 0;
     }
