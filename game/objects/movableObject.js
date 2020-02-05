@@ -70,7 +70,7 @@ class moveableObject extends GObject{
         if(this.moving){
             clearInterval(this.moving);
         }
-        this.moving = setInterval(moveHelper, 1000 / 60);
+        this.moving = setInterval(moveHelper, 1000 / 120);
     }
     hack(){
 

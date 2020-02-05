@@ -11,10 +11,15 @@ class GameCanvas extends React.Component {
     this.handleRightClick = this.handleRightClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.game = null;
+    this.canvas = null;
     this.socket = this.props.socket;
     this.state = {
       sound: 'Sound.status.PAUSED'
     }
+  }
+
+  componentDidMount(){
+    this.canvas = document.getElementById("canvas");
   }
 
   playGame() {
@@ -39,13 +44,15 @@ class GameCanvas extends React.Component {
   }
 
   handleClick(e) {
-    const rect = this.canvas.getBoundingClientRect()
-    const canvasX = e.clientX - rect.left
-    const canvasY = e.clientY - rect.top
-    let clickPos = [canvasX + this.game.camera.xView, canvasY + this.game.camera.yView]
-    let moveData = { clickPos, type: "move", gameId: this.props.roomId}
-    this.socket.emit('newClickMove', moveData)
-    console.log("movedata")
+    if(this.canvas){
+      const rect = this.canvas.getBoundingClientRect()
+      const canvasX = e.clientX - rect.left
+      const canvasY = e.clientY - rect.top
+      let clickPos = [canvasX + this.game.camera.xView, canvasY + this.game.camera.yView]
+      let moveData = { clickPos, type: "move", gameId: this.props.roomId }
+      this.socket.emit('newClickMove', moveData)
+      console.log("movedata")
+    }
   }
 
   handleRightClick(e) {
