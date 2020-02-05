@@ -58,18 +58,23 @@ class Map {
                 obj = new Wall(this.game, this.objCounts.wall, ...objParams);
                 break;
             case 'hTerminal':
+                console.log(this.game.terminalsLeft);
                 this.objCounts.hTerminal += 1;
                 obj = new HTerminal(this.game, this.objCounts.hTerminal, ...objParams);
                 this.hTerminals += 1;
+                this.game.terminalsLeft += 1;
+                console.log(this.game.terminalsLeft);
                 break;
             case 'teleporter':
                 this.objCounts.teleporter += 1;
                 obj = new Teleporter(this.game, this.objCounts.teleporter, ...objParams);
                 break;
             case 'deposit':
+                console.log(this.game.resourcesLeft);
                 this.objCounts.deposit += 1;
-                this.numHTerminal += 1;
                 obj = new Deposit(this.game, this.objCounts.deposit, ...objParams);
+                this.game.resourcesLeft = obj.hp;
+                console.log(this.game.resourcesLeft);
                 break;
             case 'trap':
                 this.objCounts.trap += 1;

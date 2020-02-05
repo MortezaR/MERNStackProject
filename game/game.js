@@ -3,6 +3,9 @@ const Map = require('./map.js')
 
 class Game {
     constructor(map){
+        this.timer = 10;
+        this.terminalsLeft = 0;
+        this.resourcesLeft = 0;
         this.map = new Map(5000, 5000, [2500, 2500], this);
         if(map){
             const sl = this.map.getObjects.houses[0];
@@ -18,7 +21,6 @@ class Game {
         }
         this.players = {};
         this.winner = null;
-        this.timer = 100;
         this.tick = this.tick.bind(this);
         this.clock = setInterval(this.tick, 1000)
     }
@@ -69,6 +71,18 @@ class Game {
         })
         return retVal;
     }
+
+    getGameInfo(){
+        let retVal = {
+            timeLeft: this.timer,
+            resourcesLeft: this.resourcesLeft,
+            terminalsLeft: this.terminalsLeft,
+            winner: this.winner
+
+        };
+        return retVal;
+    }
+
     getPlayer(playerId){
         let retVal = null;
         Object.keys(this.players).forEach(player => {
@@ -100,7 +114,6 @@ class Game {
         switch (val) {
             case 'deposit':
                 this.winner = 'piglet';
-
                 break;
             case 'time':
                 this.winner = 'wolf';

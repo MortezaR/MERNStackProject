@@ -20,6 +20,7 @@ export default class Game{
     this.vHeight = this.canvas.height;
     this.context = this.canvas.getContext("2d");
     this.gameLoop = this.gameLoop.bind(this)
+    this.gameOver = false;
   }
 
   addNewPlayer(playerData, wolf){
@@ -35,7 +36,7 @@ export default class Game{
       this.myId = playerData.id;
       this.player = new Wolf (id, x, y, width, height);
       this.camera = new Camera(0, 0, this.vWidth, this.vHeight, this.room.width, this.room.height);
-      this.resBar = new resBar();
+      this.resBar = new resBar(this.player instanceof Wolf);
       let follow = this.camera.follow.bind(this);
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)  
     } else if (this.myId === null) {
@@ -43,7 +44,7 @@ export default class Game{
       this.myId = playerData.id;
       this.player = new Piglet(id, x, y, width, height);
       this.camera = new Camera(0, 0, this.vWidth, this.vHeight, this.room.width, this.room.height);
-      this.resBar = new resBar();
+      this.resBar = new resBar(this.player instanceof Wolf);
       let follow = this.camera.follow.bind(this);
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)  
     } 
@@ -79,10 +80,14 @@ export default class Game{
       }}
       )
   }
-  gameLoop(playerData, gameData){
-    // console.log(gameData);
+  updateGameInfo(objectsData){
+    if (this.resBar) this.resBar.updateGameInfo(objectsData);
+  }
+
+  gameLoop(playerData, gameData, gameInfo){
     this.updatePlayers(playerData);
     this.updateObjects(gameData);
+    this.updateGameInfo(gameInfo);
     if (this.player){
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.room.map.draw(this.context, this.camera.xView, this.camera.yView);
@@ -94,6 +99,10 @@ export default class Game{
       })
       this.player.draw(this.context, this.camera.xView, this.camera.yView)
       this.resBar.draw(this.context);
+    }
+    if (this.gameOver){
+      this.context.font = "30px Arial";
+      this.context.fillText(`Game is over! ${gameInfo.winner} wins!`, this.canvas.width / 2, this.canvas.height / 2);
     }
     
   }

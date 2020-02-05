@@ -121,7 +121,7 @@ chatServer.on('connection', function(socket){
     let currentRoomId = '';
     let currentRoomName = '';
     let interval;
-
+    let intervalId;
 
     console.log('a chat user connected: ', socket.id);
     setTimeout(() => {
@@ -221,7 +221,8 @@ chatServer.on('connection', function(socket){
         if (inGame) {//in game
             if (id===currentRoomId){//hosting game
                 chatServer.to(currentRoomName).emit('disconnectHost');
-                game
+                delete games[id];
+                delete rooms[id];
             } else {
                 game.deletePlayer(id);
                 chatServer.to(currentRoomName).emit('disconnectUser', id);
@@ -236,12 +237,13 @@ chatServer.on('connection', function(socket){
             chatServer.emit('updateRoomsInfo', rooms)
             chatServer.emit('disconnectUser', id)
         }
-        clearInterval(interval)
+        clearInterval(intervalId)
         socket.disconnect()
     });
 
 
     socket.on('playersAllReady', (data) => {
+        let gameId = data.roomId;
         inGame = true
         let players = rooms[data.roomId].chatters
         let playerIds = Object.keys(players).map((key) => {
@@ -263,12 +265,23 @@ chatServer.on('connection', function(socket){
             chatServer.to(`${playerIds[i]}`).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
         }
         chatServer.to(currentRoomName).emit('currentPlayers', game.getPlayers());
-        interval = () => {
-            setInterval(() => {
+        
+        interval = () => { 
+            intervalId = setInterval(() => {
+                let gameInfo = game.getGameInfo();
+                if (gameInfo.winner){
+                    chatServer.to(currentRoomName).emit("endGame", gameInfo.winner);
+                    setTimeout( () => {
+                        chatServer.to(currentRoomName).emit('gameIsOver');
+                        clearInterval(intervalId);
+                        delete games[gameId];
+                    }, 6000)
+                }
                 // chatServer.to(currentRoomName).emit("updatePlayer", game.getPlayers())
-                chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects());
+                chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects(), gameInfo);
+                console.log(game.getGameInfo());
                 // chatServer.emit("updatePlayer", game.getPlayers())
-            }, 1000 / 120)
+                }, 1000 / 120)
         }
 
         interval()

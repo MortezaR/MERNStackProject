@@ -30,9 +30,15 @@ class GameCanvas extends React.Component {
     this.socket.on('newWolf', (playerData) => this.game.addNewPlayer(playerData, true))
     this.socket.on('newPiglet', (playerData) => this.game.addNewPlayer(playerData, false))
     this.socket.on('currentPlayers', (playersData) => this.game.addCurrentPlayers(playersData))
+    this.socket.on('endGame', (gameWinner) => {
+      this.game.gameOver = true;
+      setTimeout(() => {
+        this.props.backToLobby();
+      }, 5000)
+    })
     this.socket.on('disconnectUser', (id) => this.game.disconnectPlayer(id))
     this.socket.on('disconnectHost', () => this.disconnectHost())
-    this.socket.on('updateGame', (playerData, gameData) => this.game.gameLoop(playerData, gameData))
+    this.socket.on('updateGame', (playerData, gameData, gameInfo) => this.game.gameLoop(playerData, gameData, gameInfo))
     setTimeout(() => {
       console.log("players are all ready timeout")
       let data = {roomName: this.props.roomName, roomId: this.props.roomId, map: this.props.map}

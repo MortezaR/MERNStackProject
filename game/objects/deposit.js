@@ -11,6 +11,8 @@ class Deposit extends GObject {
     }
     damage(num) {
         this.hp -= num;
+        if (this.hp < 0) this.hp = 0
+        if (this.hp < this.game.resourcesLeft) this.game.resourcesLeft = this.hp;
         if(this.hp <= 0){
             this.game.win('deposit');
         }

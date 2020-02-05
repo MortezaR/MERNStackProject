@@ -62,6 +62,14 @@ class Lobby extends React.Component{
             })
         })
 
+        this.socket.on('isGameOver', () => {
+            console.log(this)
+            this.setState({
+                inLobby: true,
+                inGame: false
+            })
+        })
+
         this.socket.on('updateRoomsInfo', (data) => {
             console.log("im updating rooms info")
             this.setState({
