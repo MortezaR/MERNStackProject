@@ -46,10 +46,12 @@ class TopNav extends React.Component {
         this.props.history.push('/login')
     }
     handleDropdown (e) {
-        if (this.myRef.current.contains(e.target)) {
-            this.profileDropdown();
+        if (this.props.currentUser.username) {
+            if (this.myRef.current.contains(e.target)) {
+                this.profileDropdown();
+            }
+            return null;
         }
-        return null;
     }
 
     profileDropdown () {
@@ -71,61 +73,30 @@ class TopNav extends React.Component {
     }
 
     render () {
-        const saveForm = (
-                <SaveMapForm  
-                saveMapForm={this.state.saveMapForm}
-                rockCount={this.props.rockCount}
-                foodCount={this.props.foodCount}
-                foods={this.props.foods}
-                rocks={this.props.rocks}
-                houses={this.props.houses}
-                title={this.props.title}
-                url={this.props.url} 
-                currentUser={this.props.currentUser}
-                mapId={this.props.mapId}
-            />
-        ) 
-        const updateForm = (
-            <UpdateMapForm  
-            saveMapForm={this.state.saveMapForm}
-            rockCount={this.props.rockCount}
-            foodCount={this.props.foodCount}
-            foods={this.props.foods}
-            rocks={this.props.rocks}
-            houses={this.props.houses}
-            title={this.props.title}
-            url={this.props.url} 
-            currentUser={this.props.currentUser}
-            mapId={this.props.mapId}
-            />
-        )
-        let pickedForm;
-        this.props.mapId ? pickedForm = updateForm : pickedForm = saveForm
         const loggedIn = (
             <div className="topnav-right-nav">
-                <a onClick={this.profileDropdown}>{this.props.currentUser.username}</a>
+                <a onClick={this.profileDropdown}><span>{this.props.currentUser.username}</span></a>
                 <ul ref={this.myRef} onClick={this.handleDropdown} className={`topnav-dropdown ${this.state.profileDropdown}`}>
                     <li className="topnav-dropdown-item">
-                        <Link to='/profile'><i class="fas fa-user-circle"></i> Profile</Link>
+                        <Link to='/profile'><i className="fas fa-user-circle"></i> Profile</Link>
                     </li>
                     <li className="topnav-dropdown-item">
-                        <Link to='/profile'><i class="fas fa-cog"></i> Settings</Link>
+                        <Link to='/profile'><i className="fas fa-cog"></i> Settings</Link>
                     </li>
                     <li onClick={this.handleLogout}className="topnav-dropdown-item">
-                        <Link to='/profile'><i class="fas fa-sign-out-alt"></i> Logout</Link>
+                        <Link to='/profile'><i className="fas fa-sign-out-alt"></i> Logout</Link>
                     </li>
                 </ul>
             </div>
         )
-
         const loggedOut = (
             <div className="topnav-right-nav">
-                <Link to='/login'>Sign Up</Link>
+                <Link to='/signup'>Sign Up</Link>
                 <Link to='/login'>Login</Link>
             </div>
         )
-
-        let rightNav = this.props.currentUser ? loggedIn : loggedOut
+        //check if logged in and render correct topnav elements
+        let rightNav = this.props.currentUser.username ? loggedIn : loggedOut
         return (
             <div className="topnav">
                 <div className="topnav-left-nav">

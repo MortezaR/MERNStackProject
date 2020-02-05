@@ -6,28 +6,36 @@ import worldMusic from '../assets/sound/gflop.mp3';
 
 class GameCanvas extends React.Component {
   constructor(props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleRightClick = this.handleRightClick.bind(this)
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleRightClick = this.handleRightClick.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.game = null;
+    this.canvas = null;
     this.socket = this.props.socket;
     this.state = {
       sound: 'Sound.status.PAUSED'
     }
   }
 
+  // componentDidMount(){
+    // this.canvas = document.getElementById("canvas");
+    // this.canvas = document.querySelector("#canvas");
+    // console.log(this.canvas)
+  // }
+
   playGame() {
     console.log("setting up new game")
     this.game = new Game();
-    this.socket.on('newPlayer', (playerData) => this.game.addNewPlayer(playerData))
+    this.socket.on('newWolf', (playerData) => this.game.addNewPlayer(playerData, true))
+    this.socket.on('newPiglet', (playerData) => this.game.addNewPlayer(playerData, false))
     this.socket.on('currentPlayers', (playersData) => this.game.addCurrentPlayers(playersData))
     this.socket.on('disconnectUser', (id) => this.game.disconnectPlayer(id))
     this.socket.on('disconnectHost', () => this.disconnectHost())
     this.socket.on('updateGame', (playerData, gameData) => this.game.gameLoop(playerData, gameData))
-    console.log(this.game)
     setTimeout(() => {
       console.log("players are all ready timeout")
-      let data = {roomName: this.props.roomName, roomId: this.props.roomId}
+      let data = {roomName: this.props.roomName, roomId: this.props.roomId, map: this.props.map}
       if (this.props.host) this.socket.emit('playersAllReady', data)
     }, 1000);
   }
@@ -37,23 +45,34 @@ class GameCanvas extends React.Component {
   }
 
   handleClick(e) {
-    let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
-    let moveData = { clickPos, type: "move", gameId: this.props.roomId}
-    this.socket.emit('newClickMove', moveData)
-    console.log(moveData)
-    console.log("movedata")
+    if(this.game.canvas){
+      const rect = this.game.canvas.getBoundingClientRect()
+      const canvasX = e.clientX - rect.left
+      const canvasY = e.clientY - rect.top
+      let clickPos = [canvasX + this.game.camera.xView, canvasY + this.game.camera.yView]
+      let moveData = { clickPos, type: "move", gameId: this.props.roomId }
+      this.socket.emit('newClickMove', moveData)
+    }
   }
 
   handleRightClick(e) {
     e.preventDefault();
+    let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView];
+    this.game.player.attacking = true;
+    let moveData = { clickPos, type: "attack", gameId: this.props.roomId  }
+    this.socket.emit('newClickMove', moveData)
+  }
+
+  handleKeyPress(e) {
+    e.preventDefault();
     let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
-    let moveData = { clickPos, type: "attack", gameId: this.props.roomId }
+    let moveData = { clickPos, type: "trap", gameId: this.props.roomId  }
     this.socket.emit('newClickMove', moveData)
   }
 
   componentDidMount() {
     this.playGame();
-
+    window.addEventListener('keypress', this.handleKeyPress);
     this.setState({
       sound: 'Sound.status.PLAYING'
     })
