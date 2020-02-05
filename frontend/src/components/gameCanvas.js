@@ -19,7 +19,9 @@ class GameCanvas extends React.Component {
   }
 
   componentDidMount(){
-    this.canvas = document.getElementById("canvas");
+    // this.canvas = document.getElementById("canvas");
+    this.canvas = document.querySelector("#canvas");
+    console.log(this.canvas)
   }
 
   playGame() {
@@ -44,6 +46,7 @@ class GameCanvas extends React.Component {
   }
 
   handleClick(e) {
+    console.log(this.canvas)
     if(this.canvas){
       const rect = this.canvas.getBoundingClientRect()
       const canvasX = e.clientX - rect.left
@@ -51,7 +54,7 @@ class GameCanvas extends React.Component {
       let clickPos = [canvasX + this.game.camera.xView, canvasY + this.game.camera.yView]
       let moveData = { clickPos, type: "move", gameId: this.props.roomId }
       this.socket.emit('newClickMove', moveData)
-      console.log("movedata")
+      console.log(movedata)
     }
   }
 

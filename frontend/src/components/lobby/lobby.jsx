@@ -33,15 +33,12 @@ class Lobby extends React.Component{
     }
 
     pickMap(map) {
-        console.log(map)
-
         this.setState({
             pickedMap: this.state.maps[map._id]
         })
     }
 
     componentWillUnmount(){
-        console.log("component is unmounting")
         this.socket.emit('disconnect', this.state.myId)
         this.socket.disconnect();
     }
