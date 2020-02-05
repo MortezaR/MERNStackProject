@@ -9,7 +9,7 @@ import gameCanvas from './gameCanvas'
 import MapEditor from './map_editor/map_editor'
 import TopNavContainer from './top_nav_two/top_nav__two_container'
 import LoginFormContainer from './session/login_form_container'
-import SignupFormContainer from './session/login_form_container';
+import SignupFormContainer from './session/signup_form_container';
 import ProfileContainer from './profile/profile_container.js'
 import '../App.scss'
 import MiddleModal from './modal/middle_modal.jsx';

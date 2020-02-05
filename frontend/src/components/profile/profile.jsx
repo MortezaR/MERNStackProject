@@ -1,31 +1,62 @@
 import React from "react"
 import { Link } from 'react-router-dom'
 import axios from 'axios';
+import './profile.scss'
+import MapLink from './map-link';
 
 class Profile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            maps: null
+            allMaps: null,
+            thisUser: null,
+            userMaps: 'no maps',
         }
+        this.deleteMap = this.deleteMap.bind(this);
     }
 
     componentDidMount () {
-        axios.get('/api/maps/')
-        .then(maps => this.setState({
-            maps: maps.data
-        }))
+        axios.get(`/api/users/${this.props.currentUser.id}`)
+            .then(user => this.setState({
+                thisUser: user.data
+            }))
+        axios.get(`/api/maps/user/${this.props.currentUser.id}`)
+            .then(maps => this.setState({
+                userMaps: maps.data
+            }))
+    }
+
+    deleteMap(mapId) {
+        return (() =>
+        axios.delete(`/api/maps/${mapId}`).then( () =>
+            axios.get(`/api/maps/user/${this.props.currentUser.id}`)
+            .then(maps => this.setState({
+                userMaps: maps.data
+            }))
+        )
+        )
     }
 
     render() {
-        console.log(this.state.maps)
-        if (!this.state.maps) return null;
+        // console.log(this.state.userMaps);
+        if (!this.state.thisUser || this.state.userMaps === 'no maps') return null;
         return (
-            <ul>
-                {
-                    this.state.maps.map(map => <Link to={`/map/${map._id}`}>{map.title}</Link>)
-                }
-            </ul>
+            <div className="profile-page">
+                <div className="profile-card">
+                    <div className="title-row">
+                        <div className="profile-name">{this.props.currentUser.username}</div>
+                        <div className="profile-wins">Wins: {this.state.thisUser.wins}</div>
+                    </div>
+                        <ul className="maps-list">
+                            {
+                                this.state.userMaps.map((map, idx) =>
+                                {return <MapLink map={map} deleteMap={this.deleteMap} className={"map-link-"+(idx % 2 ? 'e' : 'o')} key={idx}/>
+                                })
+                                // <Link to={`/map/${map._id}`} key={idx} className={"map-link-"+(idx % 2 ? 'e' : 'o')}>{map.title}</Link>)
+                            }
+                        </ul>
+                </div>
+            </div>
         )
     }
 }
