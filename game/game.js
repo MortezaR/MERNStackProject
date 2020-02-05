@@ -67,7 +67,6 @@ class Game {
         Object.keys(this.map.gameObjects).forEach(objId => {
             retVal[objId] = this.map.gameObjects[objId].toObj();
         })
-        console.log(this.map.gameObjects)
         return retVal;
     }
     getPlayer(playerId){

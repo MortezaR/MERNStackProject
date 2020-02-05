@@ -145,8 +145,6 @@ chatServer.on('connection', function(socket){
 
     let addChatterToRoomsObj = (username, roomId, playerId) => {
         console.log("adding chatter to room")
-        console.log(roomId)
-        console.log(rooms)
         rooms[roomId].chatters[playerId] = {
             id: playerId,
             username: username,
@@ -158,7 +156,6 @@ chatServer.on('connection', function(socket){
         console.log("player joining room")
         socket.leave(data.oldRoomName)
         currentRoomId = data.roomId;
-        console.log(data)
         if (data.oldRoomId !== ''){
             leaveRoom(data) // maybe problem
         }
@@ -213,7 +210,6 @@ chatServer.on('connection', function(socket){
     })
 
     socket.on('newClickMove', function (moveData) {
-        console.log(moveData)
         games[moveData.gameId].getPlayer(socket.id).getObject()
             .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
     });
@@ -245,7 +241,6 @@ chatServer.on('connection', function(socket){
 
 
     socket.on('playersAllReady', (data) => {
-        console.log(data)
         inGame = true
         let players = rooms[data.roomId].chatters
         let playerIds = Object.keys(players).map((key) => {
@@ -257,7 +252,6 @@ chatServer.on('connection', function(socket){
         
 
         let numPlayers = playerIds.length;
-        console.log(numPlayers);
 
         //initial player setups
         game.addPlayer(playerIds[0], 'bbw', 200, 200);
@@ -268,9 +262,7 @@ chatServer.on('connection', function(socket){
         //     chatServer.to(`${playerIds[i]}`).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
         // }
         chatServer.to(currentRoomName).emit('currentPlayers', game.getPlayers());
-        console.log(game.getPlayer(socket.id).toObj())
         interval = () => {
-            console.log("im setting an interval");
             setInterval(() => {
                 // chatServer.to(currentRoomName).emit("updatePlayer", game.getPlayers())
                 chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects());
