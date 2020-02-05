@@ -9,9 +9,9 @@ class BigBadWolf extends movableObject {
 
     constructor(game, id, x, y) {
         super(game, id, x, y);
-        this.speed = 5;
+        this.speed = 4;
         this.hitBoxSize = [100,50];
-        this.hitBox = [35, 35];
+        this.hitBox = [70, 70];
         this.actionCooldown = 1;
         this.increaseSpeed = this.increaseSpeed.bind(this);
         this.speedInterval = setInterval(this.increaseSpeed, 10000);
@@ -21,6 +21,7 @@ class BigBadWolf extends movableObject {
     }
     performAction(type, dX, dY) {
         if (this.dead) {
+
             return 'you are dead mate';
         }
         switch (type) {
@@ -38,6 +39,7 @@ class BigBadWolf extends movableObject {
                         this.game.map.playerObjects[objId].kill();
                     }
                 })
+                console.log(this.moveDir);
                 break;
             case 'move':
                 this.move(dX, dY);
@@ -57,11 +59,11 @@ class BigBadWolf extends movableObject {
         }
     }
     stun(obj){
+        this.moveDir = 0;
         obj.trigger(this);
     }
     increaseSpeed(){
-        this.speed += 1;
-        console.log(this.speed);
+        this.speed += 0.5;
         if(this.speed > 50){
             clearInterval(this.speedInterval);
         }
