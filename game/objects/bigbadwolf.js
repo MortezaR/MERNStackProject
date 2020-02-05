@@ -20,6 +20,7 @@ class BigBadWolf extends movableObject {
         // this.kill(10000);
     }
     performAction(type, dX, dY) {
+        console.log('att')
         if (this.dead) {
             return 'you are dead mate';
         }
@@ -61,7 +62,6 @@ class BigBadWolf extends movableObject {
     }
     increaseSpeed(){
         this.speed += 1;
-        console.log(this.speed);
         if(this.speed > 50){
             clearInterval(this.speedInterval);
         }
