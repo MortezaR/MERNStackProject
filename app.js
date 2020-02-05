@@ -251,7 +251,7 @@ chatServer.on('connection', function(socket){
         let playerIds = Object.keys(players).map((key) => {
             return players[key].id
         })
-        game = new Game();
+        game = new Game(data.map);
         games[data.roomId] = game;
         console.log('the game host connected: ', socket.id);
         
@@ -261,12 +261,12 @@ chatServer.on('connection', function(socket){
 
         //initial player setups
         game.addPlayer(playerIds[0], 'bbw', 200, 200);
-        chatServer.to(`${playerIds[0]}`).emit('newPlayer', game.getPlayer(playerIds[0]).toObj());
-        // for (let i = 1; i < 4; i++) {
-        //     game.addPlayer(playerIds[i], 'piglet',
-        //     200 * (numPlayers + 1), 200 * (numPlayers + 1))
-        //     chatServer.to(`${playerIds[i]}`).emit('newPlayer', game.getPlayer(playerIds[i]).toObj());
-        // }
+        chatServer.to(`${playerIds[0]}`).emit('newWolf', game.getPlayer(playerIds[0]).toObj());
+        for (let i = 1; i < 4; i++) {
+            game.addPlayer(playerIds[i], 'piglet',
+            200 * (numPlayers + 1), 200 * (numPlayers + 1))
+            chatServer.to(`${playerIds[i]}`).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
+        }
         chatServer.to(currentRoomName).emit('currentPlayers', game.getPlayers());
         console.log(game.getPlayer(socket.id).toObj())
         interval = () => {
@@ -275,7 +275,7 @@ chatServer.on('connection', function(socket){
                 // chatServer.to(currentRoomName).emit("updatePlayer", game.getPlayers())
                 chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects());
                 // chatServer.emit("updatePlayer", game.getPlayers())
-            }, 1000 / 60)
+            }, 1000 / 120)
         }
 
         interval()

@@ -22,27 +22,30 @@ export default class Game{
     this.gameLoop = this.gameLoop.bind(this)
   }
 
-  addNewPlayer(playerData){
+  addNewPlayer(playerData, wolf){
     this.room = {
       width: 5000,
       height: 5000,
       map: new Map(5000, 5000)
     };
     this.room.map.generate();
-    if (this.myId === null) {
+    if (this.myId === null && wolf) {
       console.log("new player created")
       let { id, x, y, width, height } = playerData;
       this.myId = playerData.id;
-      this.player = new Piglet (id, x, y, width, height);
+      this.player = new Wolf (id, x, y, width, height);
       this.camera = new Camera(0, 0, this.vWidth, this.vHeight, this.room.width, this.room.height);
       this.resBar = new resBar();
       let follow = this.camera.follow.bind(this);
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)  
-    } else {
-      // console.log("other player created")
-      // let { id, x, y, width, height } = playerData;
-      // let player = new Player(id, x, y, width, height);
-      // this.otherPlayers[player.id] = player;
+    } else if (this.myId === null) {
+      let { id, x, y, width, height } = playerData;
+      this.myId = playerData.id;
+      this.player = new Piglet(id, x, y, width, height);
+      this.camera = new Camera(0, 0, this.vWidth, this.vHeight, this.room.width, this.room.height);
+      this.resBar = new resBar();
+      let follow = this.camera.follow.bind(this);
+      this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)  
     } 
   }
 

@@ -199,7 +199,7 @@ class Lobby extends React.Component{
         return e => {
             e.preventDefault();
             if (roomId === this.state.myRoomId) return null
-            if (Object.values(this.state.rooms[roomId].chatters).length === 1) {
+            if (Object.values(this.state.rooms[roomId].chatters).length === 4) {
                 let messages = this.state.messages
                 let message = {
                     currentMessage: "That room is too full",

@@ -20,7 +20,8 @@ class GameCanvas extends React.Component {
   playGame() {
     console.log("setting up new game")
     this.game = new Game();
-    this.socket.on('newPlayer', (playerData) => this.game.addNewPlayer(playerData))
+    this.socket.on('newWolf', (playerData) => this.game.addNewPlayer(playerData, true))
+    this.socket.on('newPiglet', (playerData) => this.game.addNewPlayer(playerData, false))
     this.socket.on('currentPlayers', (playersData) => this.game.addCurrentPlayers(playersData))
     this.socket.on('disconnectUser', (id) => this.game.disconnectPlayer(id))
     this.socket.on('disconnectHost', () => this.disconnectHost())
@@ -38,10 +39,12 @@ class GameCanvas extends React.Component {
   }
 
   handleClick(e) {
-    let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
+    const rect = this.canvas.getBoundingClientRect()
+    const canvasX = e.clientX - rect.left
+    const canvasY = e.clientY - rect.top
+    let clickPos = [canvasX + this.game.camera.xView, canvasY + this.game.camera.yView]
     let moveData = { clickPos, type: "move", gameId: this.props.roomId}
     this.socket.emit('newClickMove', moveData)
-    console.log(moveData)
     console.log("movedata")
   }
 
