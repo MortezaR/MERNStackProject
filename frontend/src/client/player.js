@@ -2,7 +2,7 @@
 import Sprite from './sprite.js'
 
 export default class Player {
-    constructor(id, x, y, width, height, moveDir) {
+    constructor(id, x, y, width, height, moveDir=21) {
         this.id = id;
         this.x = x;
         this.y = y;

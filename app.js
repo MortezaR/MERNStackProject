@@ -258,14 +258,12 @@ chatServer.on('connection', function(socket){
 
         //initial player setups
         game.addPlayer(playerIds[0], 'bbw', 200, 200);
-        chatServer.to(`${playerIds[0]}`).emit('newWolf', game.getPlayer(playerIds[0]).toObj());
+        chatServer.to(currentRoomName).emit('newWolf', game.getPlayer(playerIds[0]).toObj());
         for (let i = 1; i < 2; i++) {
             game.addPlayer(playerIds[i], 'piglet',
             200 * (numPlayers + 1), 200 * (numPlayers + 1))
-            chatServer.to(`${playerIds[i]}`).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
+            chatServer.to(currentRoomName).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
         }
-        chatServer.to(currentRoomName).emit('currentPlayers', game.getPlayers());
-        
         interval = () => { 
             intervalId = setInterval(() => {
                 let gameInfo = game.getGameInfo();
@@ -277,10 +275,7 @@ chatServer.on('connection', function(socket){
                         delete games[gameId];
                     }, 6000)
                 }
-                // chatServer.to(currentRoomName).emit("updatePlayer", game.getPlayers())
                 chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects(), gameInfo);
-                console.log(game.getGameInfo());
-                // chatServer.emit("updatePlayer", game.getPlayers())
                 }, 1000 / 120)
         }
 

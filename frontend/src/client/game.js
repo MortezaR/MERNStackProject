@@ -24,14 +24,14 @@ export default class Game{
   }
 
   addNewPlayer(playerData, wolf){
-    this.room = {
-      width: 5000,
-      height: 5000,
-      map: new Map(5000, 5000)
-    };
-    this.room.map.generate();
     if (this.myId === null && wolf) {
-      console.log("new player created")
+      console.log("add new player")
+      this.room = {
+        width: 5000,
+        height: 5000,
+        map: new Map(5000, 5000)
+      };
+      this.room.map.generate();
       let { id, x, y, width, height } = playerData;
       this.myId = playerData.id;
       this.player = new Wolf (id, x, y, width, height);
@@ -40,6 +40,13 @@ export default class Game{
       let follow = this.camera.follow.bind(this);
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)  
     } else if (this.myId === null) {
+      console.log("add new player")
+      this.room = {
+        width: 5000,
+        height: 5000,
+        map: new Map(5000, 5000)
+      };
+      this.room.map.generate();
       let { id, x, y, width, height } = playerData;
       this.myId = playerData.id;
       this.player = new Piglet(id, x, y, width, height);
@@ -47,26 +54,28 @@ export default class Game{
       this.resBar = new resBar(this.player instanceof Wolf);
       let follow = this.camera.follow.bind(this);
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)  
-    } 
-  }
-
-  addCurrentPlayers(playersData){
-    console.log("im adding current players")
-    Object.values(playersData).forEach(playerData => {
-      let { id, x, y, width, height } = playerData
-      let player = new Player(id, x, y, width, height)
-      this.otherPlayers[player.id] = player;
-    })
+    } else if (wolf) {
+      console.log("add new player")
+      let { id, x, y, width, height } = playerData;
+      let player = new Wolf(id, x, y, width, height);
+      this.otherPlayers[id] = player;
+    } else {
+      console.log("add new player")
+      let { id, x, y, width, height } = playerData;
+      let player = new Piglet(id, x, y, width, height);
+      this.otherPlayers[id] = player;
+    }
   }
 
   updatePlayers(playersData){
     Object.values(playersData).forEach((data) => {
       if (data.id === this.myId) {
+
         this.player.update(data.x, data.y, data.moveDir);
         this.resBar.update(data.resource);
         this.camera.update();
       } else if (this.otherPlayers[data.id]) {
-        // this.otherPlayers[data.id].update(data.x, data.y, data.moveDir, data.resource);
+        this.otherPlayers[data.id].update(data.x, data.y, data.moveDir, data.resource);
       }
     })
   }

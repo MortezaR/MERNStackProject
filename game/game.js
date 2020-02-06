@@ -3,7 +3,7 @@ const Map = require('./map.js')
 
 class Game {
     constructor(map){
-        this.timer = 10;
+        this.timer = 100;
         this.terminalsLeft = 0;
         this.resourcesLeft = 0;
         this.map = new Map(5000, 5000, [2500, 2500], this);
@@ -126,7 +126,6 @@ class Game {
             default:
                 break;
         }
-        console.log(this.winner);
     }
 }
 
