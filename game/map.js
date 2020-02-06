@@ -25,7 +25,7 @@ class Map {
             deposit: 50000,
             trap: 100000
         }
-        this.generateDefaultMap();
+        // this.generateDefaultMap();
     }
     getDim(){
         return [this.width,this.height];
@@ -53,7 +53,7 @@ class Map {
                 this.objCounts.food += 1;
                 obj = new Food(this.game, this.objCounts.food, ...objParams);
                 break;
-            case 'wall':
+            case 'rock':
                 this.objCounts.wall += 1;
                 obj = new Wall(this.game, this.objCounts.wall, ...objParams);
                 break;
@@ -61,6 +61,7 @@ class Map {
                 this.objCounts.hTerminal += 1;
                 obj = new HTerminal(this.game, this.objCounts.hTerminal, ...objParams);
                 this.hTerminals += 1;
+                this.game.terminalsLeft += 1;
                 break;
             case 'teleporter':
                 this.objCounts.teleporter += 1;
@@ -68,8 +69,8 @@ class Map {
                 break;
             case 'deposit':
                 this.objCounts.deposit += 1;
-                this.numHTerminal += 1;
                 obj = new Deposit(this.game, this.objCounts.deposit, ...objParams);
+                this.game.resourcesLeft = obj.hp;
                 break;
             case 'trap':
                 this.objCounts.trap += 1;
@@ -91,10 +92,10 @@ class Map {
     }
 
     generateDefaultMap(){
-        // this.addObject('wall', 2100, 2000);
-        // this.addObject('wall', 2100, 2100);
-        // this.addObject('wall', 2000, 2100);
-        // this.addObject('wall', 1900, 2100);
+        // this.addObject('rock', 2100, 2000);
+        // this.addObject('rock', 2100, 2100);
+        // this.addObject('rock', 2000, 2100);
+        // this.addObject('rock', 1900, 2100);
 
         
         this.addObject('food', 2000, 2000);

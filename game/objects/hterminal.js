@@ -14,6 +14,7 @@ class HTerminal extends GObject {
         if(this.hp <= 0 && !this.triggered){
             // this.game.map.hTerminals
             this.game.map.hTerminals -= 1;
+            this.game.terminalsLeft -= 1;
             if( this.game.map.hTerminals <= 0){
                 this.game.win('hTerminal')
             }

@@ -60,7 +60,6 @@ class Piglet extends movableObject{
         obj.hack();
     }
     kill(){
-        console.log('piglet down')
         this.dead = true;
         this.moveDir = 0;
     }

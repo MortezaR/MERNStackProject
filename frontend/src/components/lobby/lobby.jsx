@@ -34,7 +34,7 @@ class Lobby extends React.Component{
 
     pickMap(map) {
         this.setState({
-            pickedMap: this.state.maps[map._id]
+            pickedMap: map
         })
     }
 
@@ -59,6 +59,13 @@ class Lobby extends React.Component{
                 myRoomName: data.roomName,
                 myRoomId: data.roomId,
                 inLobby: true
+            })
+        })
+
+        this.socket.on('isGameOver', () => {
+            this.setState({
+                inLobby: true,
+                inGame: false
             })
         })
 
@@ -137,26 +144,20 @@ class Lobby extends React.Component{
         console.log('hi')
         axios.get('/api/maps/')
         .then(maps => 
-            
-        {
-            console.log(maps)
-            this.setState({
-                maps: maps.data
-            })
-        }
+            {
+                this.setState({
+                    maps: maps.data
+                })
+            }
         )
     }
 
     backToLobby(){
         this.setState({
-            messages: [],
             currentMessage: '',
             username: this.props.currentUser.username,
-            myRoomId: '',
-            myChatters: {},
-            myRoomName: '',
             requestedRoomName: '',
-            inLobby: false,
+            inLobby: true,
             inGame: false
         })
     }
@@ -253,7 +254,6 @@ class Lobby extends React.Component{
     }
 
     render(){
-        console.log(this.state.pickedMap)
         if (this.state.myId === '') return null
         if (this.state.inGame){
             return (
@@ -261,10 +261,11 @@ class Lobby extends React.Component{
                     <GameCanvas 
                         socket={this.socket} 
                         roomName={this.state.myRoomName} 
+                        myId={this.state.myId}
                         roomId={this.state.myRoomId} 
                         host={this.state.myRoomId===this.state.myId}
                         backToLobby={this.backToLobby}
-                        map={this.state.map}
+                        map={this.state.pickedMap}
                     />
                 </div>
             )

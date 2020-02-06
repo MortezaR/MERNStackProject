@@ -3,22 +3,27 @@ const Map = require('./map.js')
 
 class Game {
     constructor(map){
+        this.timer = 100;
+        this.terminalsLeft = 0;
+        this.resourcesLeft = 0;
         this.map = new Map(5000, 5000, [2500, 2500], this);
         if(map){
-            const sl = this.map.getObjects.houses[0];
+            const sl = map.objects.houses[0];
             this.map = new Map(5000,5000, [sl.x, sl.y], this);
-            const allObjs = this.map.objects;
+            let allObjs = map.objects;
             Object.keys(allObjs).forEach(objsKey => {
                 if(!(objsKey.includes('Count'))){
                     Object.keys(allObjs[objsKey]).forEach(objKey => {
-                        this.map.addObject(objKey, allObjs[objsKey][objKey])
+                        let objType = objsKey.substring(0, objsKey.length - 1);
+                        this.map.addObject(objType, ...Object.values(allObjs[objsKey][objKey]));
                     })
                 }
             })
+        }else{
+            this.map.generateDefaultMap();
         }
         this.players = {};
         this.winner = null;
-        this.timer = 100;
         this.tick = this.tick.bind(this);
         this.clock = setInterval(this.tick, 1000)
     }
@@ -30,7 +35,6 @@ class Game {
         }
     }
     addPlayer(id){
-        console.log('added_player')
 
         let numPlayers = Object.keys(this.players).length;
         switch (numPlayers) {
@@ -69,6 +73,18 @@ class Game {
         })
         return retVal;
     }
+
+    getGameInfo(){
+        let retVal = {
+            timeLeft: this.timer,
+            resourcesLeft: this.resourcesLeft,
+            terminalsLeft: this.terminalsLeft,
+            winner: this.winner
+
+        };
+        return retVal;
+    }
+
     getPlayer(playerId){
         let retVal = null;
         Object.keys(this.players).forEach(player => {
@@ -100,7 +116,6 @@ class Game {
         switch (val) {
             case 'deposit':
                 this.winner = 'piglet';
-
                 break;
             case 'time':
                 this.winner = 'wolf';
@@ -113,7 +128,6 @@ class Game {
             default:
                 break;
         }
-        console.log(this.winner);
     }
 }
 

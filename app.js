@@ -121,7 +121,7 @@ chatServer.on('connection', function(socket){
     let currentRoomId = '';
     let currentRoomName = '';
     let interval;
-
+    let intervalId;
 
     console.log('a chat user connected: ', socket.id);
     setTimeout(() => {
@@ -209,8 +209,7 @@ chatServer.on('connection', function(socket){
     })
 
     socket.on('newClickMove', function (moveData) {
-        console.log(games);
-        console.log(moveData);
+        //error here
         games[moveData.gameId].getPlayer(socket.id).getObject()
             .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
     });
@@ -221,14 +220,16 @@ chatServer.on('connection', function(socket){
         if (inGame) {//in game
             if (id===currentRoomId){//hosting game
                 chatServer.to(currentRoomName).emit('disconnectHost');
-                game
+                inGame = false;
+                delete games[id];
+                delete rooms[id];
             } else {
                 game.deletePlayer(id);
                 chatServer.to(currentRoomName).emit('disconnectUser', id);
             }
         } 
         if (rooms[id]){//hosting chat
-            delete rooms[id]
+            delete rooms[id];
             } else {//not hosting vhat
                 if (rooms[currentRoomId]){
                     delete rooms[currentRoomId].chatters[id]
@@ -236,13 +237,15 @@ chatServer.on('connection', function(socket){
             chatServer.emit('updateRoomsInfo', rooms)
             chatServer.emit('disconnectUser', id)
         }
-        clearInterval(interval)
+        clearInterval(intervalId)
         socket.disconnect()
     });
 
 
     socket.on('playersAllReady', (data) => {
-        inGame = true
+        let gameId = data.roomId;
+        inGame = true;
+
         let players = rooms[data.roomId].chatters
         let playerIds = Object.keys(players).map((key) => {
             return players[key].id
@@ -250,26 +253,33 @@ chatServer.on('connection', function(socket){
         game = new Game(data.map);
         games[data.roomId] = game;
         console.log('the game host connected: ', socket.id);
-        
 
         let numPlayers = playerIds.length;
 
         //initial player setups
         game.addPlayer(playerIds[0], 'bbw', 200, 200);
-        chatServer.to(`${playerIds[0]}`).emit('newWolf', game.getPlayer(playerIds[0]).toObj());
+        chatServer.to(currentRoomName).emit('newWolf', game.getPlayer(playerIds[0]).toObj());
         for (let i = 1; i < 2; i++) {
             game.addPlayer(playerIds[i], 'piglet',
             200 * (numPlayers + 1), 200 * (numPlayers + 1))
-            console.log(game.getPlayer(playerIds[i]));
-            if (game.getPlayer(playerIds[i])) chatServer.to(`${playerIds[i]}`).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
+            // if (game.getPlayer(playerIds[i]))
+            chatServer.to(currentRoomName).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
         }
-        chatServer.to(currentRoomName).emit('currentPlayers', game.getPlayers());
-        interval = () => {
-            setInterval(() => {
-                // chatServer.to(currentRoomName).emit("updatePlayer", game.getPlayers())
-                chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects());
-                // chatServer.emit("updatePlayer", game.getPlayers())
-            }, 1000 / 120)
+        interval = () => { 
+            intervalId = setInterval(() => {
+                let gameInfo = game.getGameInfo();
+                if (gameInfo.winner){
+                    chatServer.to(currentRoomName).emit("endGame", gameInfo.winner);
+                    inGame = false;
+                    setTimeout( () => {
+                        inGame = false;
+                        chatServer.to(currentRoomName).emit('gameIsOver');
+                        clearInterval(intervalId);
+                        delete games[gameId];
+                    }, 6000)
+                }
+                chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects(), gameInfo);
+                }, 1000 / 120)
         }
 
         interval()
