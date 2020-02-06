@@ -294,6 +294,7 @@ class Lobby extends React.Component{
                 
                 currentPlayers = (this.state.inLobby) ?
                 (Object.keys(this.state.myChatters).map((id) => {
+                        // debugger;
                         return (
                             <div className="chat-member" key={id}>
                                 <p>{this.state.myChatters[id].username}</p>

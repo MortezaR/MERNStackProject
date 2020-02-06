@@ -13,7 +13,7 @@ import SignupFormContainer from './session/signup_form_container';
 import ProfileContainer from './profile/profile_container.js'
 import '../App.scss'
 import MiddleModal from './modal/middle_modal.jsx';
-// import TestForm from './testform/testform.jsx';
+import TestFormContainer from './testform/testform_container';
 
 const App = () => (
   <div>
@@ -33,7 +33,7 @@ const App = () => (
       <AuthRoute exact path="/signup" component={SignupFormContainer} />
       <ProtectedRoute exact path="/profile" component={ProfileContainer} />
       {/* <ProtectedRoute exact path="/editor" component={ProfileContainer} /> */}
-      {/* <Route exact path="/testform" component={TestForm} /> */}
+      <ProtectedRoute exact path="/testform" component={TestFormContainer} />
 
  
   </div>
