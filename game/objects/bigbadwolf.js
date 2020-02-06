@@ -64,11 +64,7 @@ class BigBadWolf extends movableObject {
         obj.trigger(this);
     }
     increaseSpeed(){
-<<<<<<< HEAD
-        this.speed += 1;
-=======
         this.speed += 0.5;
->>>>>>> 3d803d03e975e2c1080b57d8b94aaf8118db1a4f
         if(this.speed > 50){
             clearInterval(this.speedInterval);
         }

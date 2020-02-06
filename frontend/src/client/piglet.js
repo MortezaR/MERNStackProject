@@ -1,5 +1,7 @@
 import Sprite from './sprite.js'
 import Player from './player.js'
+import { playSound } from '../util/sound_util';
+
 
 export default class Piglet extends Player {
     constructor(id, x, y, width, height, moveDir) {
@@ -26,6 +28,7 @@ export default class Piglet extends Player {
     draw(context, xView, yView) {
 
         if (this.attacking) {
+            playSound('pigletPunch');
             switch (this.moveDir) {
                 case 31:
                     this.sprites.attacksouth.step(context, this, xView, yView, 2, 2);

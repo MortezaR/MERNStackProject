@@ -1,7 +1,9 @@
 // import raikouSprites from '../assets/images/raikou_sprites.png'
-import Sprite from './sprite.js'
+import Sprite from './sprite.js';
 // import foodIcon from './../assets/images/food_icon.png'
-import rockIcon from './../assets/images/rock_icon.png'
+import rockIcon from './../assets/images/rock_icon.png';
+import { playSound } from '../util/sound_util';
+
 export default class GObject {
     constructor(id, x, y, width, height, params, isWolf) {
         this.id = id;
@@ -76,12 +78,14 @@ export default class GObject {
                     }, 1000)
                 } 
                 if (this.active){
+                    // playSound('depositBeep');
                     this.sprites.hTerminal.step(context, this, xView, yView, 2, 2);
                 } else {
                     this.sprites.hTerminal.drawFirstFrame(context, this, xView, yView, 2, 2);
                 }
                 break;
             case 4:
+                console.log('teleporter')
                 this.sprites.teleporter.step(context, this, xView, yView, 2, 2);
                 break;
             case 5:
@@ -94,6 +98,7 @@ export default class GObject {
                     }, 1000)
                 }
                 if (this.active) {
+                    playSound('depositBeep');
                     this.sprites.deposit.step(context, this, xView, yView, 2, 2);
                 } else {
                     this.sprites.deposit.drawFirstFrame(context, this, xView, yView, 2, 2);

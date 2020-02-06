@@ -1,5 +1,7 @@
 // import raikouSprites from '../assets/images/raikou_sprites.png'
-import Sprite from './sprite.js'
+import Sprite from './sprite.js';
+import { playSound } from '../util/sound_util';
+
 
 export default class Player {
     constructor(id, x, y, width, height, moveDir) {
@@ -21,6 +23,7 @@ export default class Player {
     draw(context, xView, yView) {
         if (this.attacking) {
             console.log(this.moveDir);
+            playSound('rClick');
             switch (this.moveDir) {
                 case 31:
                     this.sprites.attacksouth.step(context, this, xView, yView, 2, 2);
@@ -76,10 +79,12 @@ export default class Player {
         // context.
         } else {
             if (this.moveDir === 0){
+                playSound('trapped');
                 this.trapped = true;
                 this.sprites.ko.step(context, this, xView, yView, 2, 2, this.trapped);
             } else if (this.moveDir === 1){
                 this.trapped = true;
+                // playSound('trapped');
                 this.sprites.death.step(context, this, xView, yView, 2, 2, this.trapped);
             } else {
                 this.trapped = false;

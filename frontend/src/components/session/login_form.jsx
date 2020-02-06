@@ -39,7 +39,7 @@ class LoginForm extends React.Component {
 
     handleGuestSignIn(e) {
         e.preventDefault();
-        let randName = Math.random().toString(36).substring(2, 15);
+        let randName = 'Guest #' + Math.random().toString(36).substring(2, 12);
         let randPassword =  Math.random().toString(36).substring(2, 15);
         this.props.signup({username: randName, password: randPassword, password2: randPassword})
         .then(() => {

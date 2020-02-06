@@ -61,7 +61,7 @@ class GameCanvas extends React.Component {
     this.game.player.attacking = true;
     let moveData = { clickPos, type: "attack", gameId: this.props.roomId  }
     this.socket.emit('newClickMove', moveData);
-    playSound('rClick');
+    // playSound('rClick');
   }
 
   handleKeyPress(e) {
