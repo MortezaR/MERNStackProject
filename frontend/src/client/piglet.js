@@ -1,94 +1,96 @@
-// import raikouSprites from '../assets/images/raikou_sprites.png'
-import Sprite from './sprite.js';
+import Sprite from './sprite.js'
+import Player from './player.js'
 import { playSound } from '../util/sound_util';
 
 
-export default class Player {
-    constructor(id, x, y, width, height, moveDir=21) {
-        this.id = id;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.moveDir = moveDir;
-        this.attacking = false;
-    }
-
-    update(x, y, moveDir) {
-        this.x = x;
-        this.y = y;
-        this.moveDir = moveDir;
+export default class Piglet extends Player {
+    constructor(id, x, y, width, height, moveDir) {
+        super(id, x, y, width, height, moveDir)
+        this.sprites = {
+            // all movement images -> https://imgur.com/a/jYhF28e
+            //https://imgur.com/a/nCJchlO attack animations
+            south: new Sprite('https://i.imgur.com/f0z68qE.png', 32, 32, 4, [0,0], this),
+            southWest: new Sprite('https://i.imgur.com/lhoTJgR.png', 32, 32, 4, [0,0], this),
+            southEast: new Sprite('https://i.imgur.com/xS8gjpo.png', 32, 32, 4, [0,0], this),
+            west: new Sprite('https://i.imgur.com/Ezs7gZN.png', 32, 32, 4, [0,0], this),
+            east: new Sprite('https://i.imgur.com/YrRWLp0.png', 32, 32, 4, [0,0], this),
+            north: new Sprite('https://i.imgur.com/YnQohoW.png', 32, 32, 4, [0,0], this),
+            northWest: new Sprite('https://i.imgur.com/hmMZtGz.png', 32, 32, 4, [0,0], this),
+            northEast: new Sprite('https://i.imgur.com/HNeHTjo.png', 32, 32, 4, [0,0], this),
+            attacksouth: new Sprite('https://i.imgur.com/XGxMUpw.png', 32, 32, 4, [0, 0], this),
+            attackwest: new Sprite('https://i.imgur.com/WD55HOr.png', 32, 32, 4, [0, 0], this),
+            attackeast: new Sprite('https://i.imgur.com/qg7mA7W.png', 32, 32, 4, [0, 0], this),
+            attacknorth: new Sprite('https://i.imgur.com/cZH8BDX.png', 32, 32, 4, [0, 0], this),
+            ko: new Sprite('https://i.imgur.com/n7Vj74U.png', 32, 32, 4, [0, 0], this, 20),
+        };
     }
 
     draw(context, xView, yView) {
+
         if (this.attacking) {
-            console.log(this.moveDir);
-            playSound('rClick');
+            playSound('pigletPunch');
             switch (this.moveDir) {
                 case 31:
                     this.sprites.attacksouth.step(context, this, xView, yView, 2, 2);
                     break;
                 case 32:
-                    this.sprites.attacksouthWest.step(context, this, xView, yView, 2, 2);
+                    this.sprites.weaponwest.step(context, this, xView, yView, 2, 2);
                     break;
                 case 12:
                     this.sprites.attackwest.step(context, this, xView, yView, 2, 2);
                     break;
                 case 22:
-                    this.sprites.attacknorthWest.step(context, this, xView, yView, 2, 2);
+                    this.sprites.attackwest.step(context, this, xView, yView, 2, 2);
                     break;
                 case 21:
                     this.sprites.attacknorth.step(context, this, xView, yView, 2, 2);
                     break;
                 case 23:
-                    this.sprites.attacknorthEast.step(context, this, xView, yView, 2, 2);
+                    this.sprites.attackeast.step(context, this, xView, yView, 2, 2);
                     break;
                 case 13:
                     this.sprites.attackeast.step(context, this, xView, yView, 2, 2);
                     break;
                 case 33:
-                    this.sprites.attacksouthEast.step(context, this, xView, yView, 2, 2);
+                    this.sprites.attackeast.step(context, this, xView, yView, 2, 2);
                     break;
                 case 310:
                     this.sprites.attacksouth.step(context, this, xView, yView, 2, 2);
                     break;
                 case 320:
-                    this.sprites.attacksouthWest.step(context, this, xView, yView, 2, 2);
+                    this.sprites.attackwest.step(context, this, xView, yView, 2, 2);
                     break;
                 case 120:
                     this.sprites.attackwest.step(context, this, xView, yView, 2, 2);
                     break;
                 case 220:
-                    this.sprites.attacknorthWest.step(context, this, xView, yView, 2, 2);
+                    this.sprites.attackwest.step(context, this, xView, yView, 2, 2);
                     break;
                 case 210:
                     this.sprites.attacknorth.step(context, this, xView, yView, 2, 2);
                     break;
                 case 230:
-                    this.sprites.attacknorthEast.step(context, this, xView, yView, 2, 2);
+                    this.sprites.attackeast.step(context, this, xView, yView, 2, 2);
                     break;
                 case 130:
                     this.sprites.attackeast.step(context, this, xView, yView, 2, 2);
                     break;
                 case 330:
-                    this.sprites.attacksouthEast.step(context, this, xView, yView, 2, 2);
+                    this.sprites.attackeast.step(context, this, xView, yView, 2, 2);
                     break;
                 default:
-                // context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
             }
-        // context.
+            // context.
         } else {
-            if (this.moveDir === 0){
-                playSound('trapped');
+            if (this.moveDir === 0) {
                 this.trapped = true;
                 this.sprites.ko.step(context, this, xView, yView, 2, 2, this.trapped);
-            } else if (this.moveDir === 1){
-                this.trapped = true;
-                // playSound('trapped');
-                this.sprites.death.step(context, this, xView, yView, 2, 2, this.trapped);
             } else {
                 this.trapped = false;
                 switch (this.moveDir) {
+                    case 0:
+                        this.sprites.ko.step(context, this, xView, yView, 2, 2);
+                        break;
                     case 31:
                         this.sprites.south.step(context, this, xView, yView, 2, 2);
                         break;
@@ -141,9 +143,11 @@ export default class Player {
                     // context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
                 }
             }
-        // context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
-        }
+            // context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+        }   
         // YOU NOW HAVE ACCESS TO THIS.MOVEDIR
-        
+
     }
 }
+
+       

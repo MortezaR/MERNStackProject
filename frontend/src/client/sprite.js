@@ -1,8 +1,8 @@
 
 
-export default class Spirte {
+export default class Sprite {
 
-    constructor(img, height, width, loopLeng){
+    constructor(img, height, width, loopLeng, startFramePos, parentObj, maxFrameCount = 15) {
         this.image = new Image();
         this.image.src = img;
         this.loopLeng = loopLeng;
@@ -10,45 +10,69 @@ export default class Spirte {
         this.frameCount = 0;
         this.height = height;
         this.width = width;
+        this.startFramePos = startFramePos;
         this.step = this.step.bind(this);
         this.drawFrame = this.drawFrame.bind(this);
+        this.parentObj = parentObj;
+        this.maxFrameCount = maxFrameCount;
+        this.invisible = true;
     }
-    step(ctx, oCtx, xView, yView, hMul = 1, wMul = 1) {
+    step(ctx, object, xView, yView, heightMultiplier = 1, widthMultiplier = 1, trapped) {
         this.frameCount++;
-        this.drawFrame(ctx, oCtx, xView, yView, hMul, wMul);
-        if (this.frameCount < 15) {
+        if(this.loopC>= this.loopLeng && trapped){
+            this.drawFinalFrame(ctx, object, xView, yView, heightMultiplier, widthMultiplier);
+        } else {
+            this.drawFrame(ctx, object, xView, yView, heightMultiplier, widthMultiplier);
+        }
+        if (this.frameCount < this.maxFrameCount) {
             return;
         }
         this.frameCount = 0;
         this.loopC++;
-        if (this.loopC >= this.loopLeng) {
+        if (this.loopC >= this.loopLeng && !trapped) {
             this.loopC = 0;
+            if (this.parentObj){
+                this.parentObj.attacking = false;
+            }
         }
     }
-    drawFrame(ctx, oCtx, xView, yView, hMul = 1, wMul = 1) {
+    drawFrame(ctx, object, xView, yView, heightMultiplier = 1, widthMultiplier = 1) {
         ctx.drawImage(
             this.image,
             this.loopC * this.width,
-            0,
+            this.startFramePos[1],
             this.width,
             this.height,
-            (oCtx.x - oCtx.width / 2) - xView,
-            (oCtx.y - oCtx.height / 2) - yView,
-            this.height * hMul,
-            this.width * wMul
-            );
+            (object.x - object.width / 2) - xView,
+            (object.y - object.height / 2) - yView,
+            this.width * widthMultiplier,
+            this.height * heightMultiplier
+        );
     }
-    drawFFrame(ctx, oCtx, xView, yView, hMul = 1, wMul = 1) {
+    drawFirstFrame(ctx, object, xView, yView, heightMultiplier = 1, widthMultiplier = 1) {
         ctx.drawImage(
             this.image,
-            0,
-            0,
+            this.startFramePos[0],
+            this.startFramePos[1],
             this.width,
             this.height,
-            (oCtx.x - oCtx.width / 2) - xView,
-            (oCtx.y - oCtx.height / 2) - yView,
-            this.height * hMul,
-            this.width * wMul
-            );
+            (object.x - object.width / 2) - xView,
+            (object.y - object.height / 2) - yView,
+            this.width * widthMultiplier,
+            this.height * heightMultiplier
+        );
+    }
+    drawFinalFrame(ctx, object, xView, yView, heightMultiplier = 1, widthMultiplier = 1) {
+        ctx.drawImage(
+            this.image,
+            (this.loopLeng-1) * this.width,
+            this.startFramePos[1],
+            this.width,
+            this.height,
+            (object.x - object.width / 2) - xView,
+            (object.y - object.height / 2) - yView,
+            this.height * heightMultiplier,
+            this.width * widthMultiplier
+        );
     }
 }

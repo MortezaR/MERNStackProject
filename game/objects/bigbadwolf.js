@@ -7,16 +7,24 @@ const Piglet = require('./piglet')
 
 class BigBadWolf extends movableObject {
 
-    constructor(game, x, y, id) {
-        super(game, x, y, id);
-        this.speed = 5;
+    constructor(game, id, x, y) {
+        super(game, id, x, y);
+        this.speed = 4;
         this.hitBoxSize = [100,50];
-        this.hitBox = [35, 35];
+        this.hitBox = [70, 70];
         this.actionCooldown = 1;
         this.increaseSpeed = this.increaseSpeed.bind(this);
         this.speedInterval = setInterval(this.increaseSpeed, 10000);
+
+        //uncomment for actual game
+        this.kill(15000);
     }
     performAction(type, dX, dY) {
+        console.log('att')
+        if (this.dead) {
+
+            return 'you are dead mate';
+        }
         switch (type) {
             case 'attack':
                 let dir = getDir(this.x, this.y, dX, dY)
@@ -40,12 +48,29 @@ class BigBadWolf extends movableObject {
                 break;
         }
     }
+    teleport(obj){
+        this.x = obj.newX;
+        this.y = obj.newY;
+        if (this.moving) {
+            clearInterval(this.moving);
+            if (this.moveDir / 100 < 1) {
+                this.moveDir *= 10;
+            }
+        }
+    }
+    stun(obj){
+        this.moveDir = 0;
+        obj.trigger(this);
+    }
     increaseSpeed(){
-        this.speed += 1;
-        console.log(this.speed);
+        this.speed += 0.5;
         if(this.speed > 50){
             clearInterval(this.speedInterval);
         }
+    }
+    kill(time = 5000){
+        setTimeout(() => this.dead = false, time);
+        this.dead = true;
     }
 }
 

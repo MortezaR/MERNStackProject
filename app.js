@@ -11,17 +11,17 @@ const passport = require('passport');
 const path = require('path');
 
 //added for sockets
-const io = require("socket.io");
-const chatServer = io.listen(7000);
+const server = require('http').Server(app);
+const socket = require('socket.io');
 
 //
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('frontend/build'));
     app.get('/', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
     })
-  }
+} 
 
 mongoose
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -46,21 +46,35 @@ app.use("/api/maps", maps);
 
 const port = process.env.PORT || 5000;
 
-
-const pear = require('http').createServer(app);
-
-app.listen(port, () => {console.log(`Listening on port ${port}`)})
-
-//added code for sockets
-app.get('/index.html', function (req, res) {
-    res.sendFile(__dirname + '/frontend/public/index.html');
+//new code
+server.listen(port, () => {
+    console.log(`Listening on port ${port}`)
 });
 
+const chatServer = socket(server);
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
-});
+
+
+// const pear = require('http').createServer(app);
+
+// app.listen(port, () => {console.log(`Listening on port ${port}`)})
+
+// //added code for sockets
+// app.get('/index.html', function (req, res) {
+//     res.sendFile(__dirname + '/frontend/public/index.html');
+// });
+
+
+// app.get('/', function (req, res) {
+//     res.sendFile(__dirname + '/index.html');
+// });
 //
+
+
+
+
+
+
 //-------------------
 
 // let game = new Game();
@@ -107,7 +121,7 @@ chatServer.on('connection', function(socket){
     let currentRoomId = '';
     let currentRoomName = '';
     let interval;
-
+    let intervalId;
 
     console.log('a chat user connected: ', socket.id);
     setTimeout(() => {
@@ -122,7 +136,6 @@ chatServer.on('connection', function(socket){
         }
         let newData = data;
         newData["roomId"] = socket.id;
-        console.log('requested room')
         currentRoomId = socket.id;
         currentRoomName = data.roomName;
         joinRoom(newData)
@@ -131,8 +144,6 @@ chatServer.on('connection', function(socket){
 
     let addChatterToRoomsObj = (username, roomId, playerId) => {
         console.log("adding chatter to room")
-        console.log(roomId)
-        console.log(rooms)
         rooms[roomId].chatters[playerId] = {
             id: playerId,
             username: username,
@@ -144,7 +155,6 @@ chatServer.on('connection', function(socket){
         console.log("player joining room")
         socket.leave(data.oldRoomName)
         currentRoomId = data.roomId;
-        console.log(data)
         if (data.oldRoomId !== ''){
             leaveRoom(data) // maybe problem
         }
@@ -199,7 +209,7 @@ chatServer.on('connection', function(socket){
     })
 
     socket.on('newClickMove', function (moveData) {
-        console.log(moveData)
+        //error here
         games[moveData.gameId].getPlayer(socket.id).getObject()
             .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
     });
@@ -210,14 +220,16 @@ chatServer.on('connection', function(socket){
         if (inGame) {//in game
             if (id===currentRoomId){//hosting game
                 chatServer.to(currentRoomName).emit('disconnectHost');
-                game
+                inGame = false;
+                delete games[id];
+                delete rooms[id];
             } else {
                 game.deletePlayer(id);
                 chatServer.to(currentRoomName).emit('disconnectUser', id);
             }
         } 
         if (rooms[id]){//hosting chat
-            delete rooms[id]
+            delete rooms[id];
             } else {//not hosting vhat
                 if (rooms[currentRoomId]){
                     delete rooms[currentRoomId].chatters[id]
@@ -225,43 +237,49 @@ chatServer.on('connection', function(socket){
             chatServer.emit('updateRoomsInfo', rooms)
             chatServer.emit('disconnectUser', id)
         }
-        clearInterval(interval)
+        clearInterval(intervalId)
         socket.disconnect()
     });
 
 
     socket.on('playersAllReady', (data) => {
-        console.log(data)
-        inGame = true
+        let gameId = data.roomId;
+        inGame = true;
+
         let players = rooms[data.roomId].chatters
         let playerIds = Object.keys(players).map((key) => {
             return players[key].id
         })
-        game = new Game();
+        game = new Game(data.map);
         games[data.roomId] = game;
         console.log('the game host connected: ', socket.id);
-        
 
         let numPlayers = playerIds.length;
-        console.log(numPlayers);
 
         //initial player setups
         game.addPlayer(playerIds[0], 'bbw', 200, 200);
-        chatServer.to(`${playerIds[0]}`).emit('newPlayer', game.getPlayer(playerIds[0]).toObj());
-        // for (let i = 1; i < 4; i++) {
-        //     game.addPlayer(playerIds[i], 'piglet',
-        //     200 * (numPlayers + 1), 200 * (numPlayers + 1))
-        //     chatServer.to(`${playerIds[i]}`).emit('newPlayer', game.getPlayer(playerIds[i]).toObj());
-        // }
-        chatServer.to(currentRoomName).emit('currentPlayers', game.getPlayers());
-        console.log(game.getPlayer(socket.id).toObj())
-        interval = () => {
-            console.log("im setting an interval");
-            setInterval(() => {
-                // chatServer.to(currentRoomName).emit("updatePlayer", game.getPlayers())
-                chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects());
-                // chatServer.emit("updatePlayer", game.getPlayers())
-            }, 1000 / 60)
+        chatServer.to(currentRoomName).emit('newWolf', game.getPlayer(playerIds[0]).toObj());
+        for (let i = 1; i < 2; i++) {
+            game.addPlayer(playerIds[i], 'piglet',
+            200 * (numPlayers + 1), 200 * (numPlayers + 1))
+            // if (game.getPlayer(playerIds[i]))
+            chatServer.to(currentRoomName).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
+        }
+        interval = () => { 
+            intervalId = setInterval(() => {
+                let gameInfo = game.getGameInfo();
+                if (gameInfo.winner){
+                    chatServer.to(currentRoomName).emit("endGame", gameInfo.winner);
+                    inGame = false;
+                    setTimeout( () => {
+                        inGame = false;
+                        chatServer.to(currentRoomName).emit('gameIsOver');
+                        clearInterval(intervalId);
+                        delete games[gameId];
+                    }, 6000)
+                }
+                chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects(), gameInfo);
+                }, 1000 / 120)
         }
 
         interval()

@@ -3,9 +3,9 @@ const GObject = require( './object.js')
 
 class Food extends GObject{
 
-    constructor(game, x, y, id){
-        super(game, x, y, id);
-        this.resource = 10;
+    constructor(game, id, x, y){
+        super(game, id, x, y);
+        this.resource = 5;
         this.hitBox = [135,135];
         this.phasable = true;
         this.resetResource = null;
@@ -18,7 +18,7 @@ class Food extends GObject{
         }
     }
     resetRes(){
-        this.resource = 10;
+        this.resource = 5;
         clearInterval(this.resetResource);
     }
     toObj() {

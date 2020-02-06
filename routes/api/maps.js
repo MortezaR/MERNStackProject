@@ -60,7 +60,6 @@ router.post('/',
         if (!isValid) {
             return res.status(400).json(errors)
         }
-        console.log('hello')
         const newMap = new Maps({
             title: req.body.title,
             user: req.user.id,
@@ -68,7 +67,6 @@ router.post('/',
             url: req.body.url
         });
         newMap.save().then(map => {
-            console.log('success')
             return res.json(map)
         })
         .catch(err => res.status(400).json(err));

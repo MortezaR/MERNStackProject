@@ -2,6 +2,8 @@
 const GObject = require( './object.js')
 const utils = require('../util.js')
 const HTerminal = require('./hterminal.js')
+const Teleporter = require('./teleporter.js')
+const Trap = require('./trap')
 const getDir = utils.getDir;
 const hitBoxTouch = utils.hitBoxTouch;
 //S - 21 , SW - 22, W - 12, NW - 32, N - 31, NE - 33, E - 13, SE - 23
@@ -9,8 +11,8 @@ const hitBoxTouch = utils.hitBoxTouch;
 
 class moveableObject extends GObject{
 
-    constructor(game, x, y, id){
-        super(game, x, y, id);
+    constructor(game, id, x, y){
+        super(game, id, x, y);
         this.speed = 1;
         this.hitBoxSize = [4,2];
         this.actionCooldown = 1;
@@ -51,7 +53,13 @@ class moveableObject extends GObject{
                     }
                 }
                 if (obj instanceof HTerminal && touching) {
-                    obj.hack(this);
+                    this.hack(obj);
+                }
+                if (obj instanceof Teleporter && touching) {
+                    this.teleport(obj);
+                }
+                if (obj instanceof Trap && touching) {
+                    this.stun(obj);
                 }
             })
             if (((this.x >= dX && unitX >= 0) || (this.x <= dX && unitX <= 0)) && 
@@ -62,7 +70,19 @@ class moveableObject extends GObject{
         if(this.moving){
             clearInterval(this.moving);
         }
-        this.moving = setInterval(moveHelper, 1000 / 60);
+        this.moving = setInterval(moveHelper, 1000 / 120);
+    }
+    hack(){
+
+    }
+    teleport(){
+
+    }
+    stun(){
+
+    }
+    kill(){
+
     }
     setMoveDir(x,y){
         let NS = 10;
@@ -85,9 +105,6 @@ class moveableObject extends GObject{
         if(this.moveDir / 100 < 1){ 
             this.moveDir *= 10;
         }
-    }
-    kill(){
-
     }
 
 }
