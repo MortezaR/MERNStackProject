@@ -7,13 +7,13 @@ import GObject from './gobject';
 import resBar from './resBar'
 
 export default class Game{
-  constructor(){
+  constructor(id){
     this.otherPlayers = {};
     this.objects = {};
     this.player = null;
     this.camera = null;
     this.resBar = null;
-    this.myId = null;
+    this.myId = id;
     this.room = null;
     this.canvas = document.getElementById("canvas")
     this.vWidth = this.canvas.width;
@@ -21,11 +21,14 @@ export default class Game{
     this.context = this.canvas.getContext("2d");
     this.gameLoop = this.gameLoop.bind(this)
     this.gameOver = false;
+
   }
 
   addNewPlayer(playerData, wolf){
-    if (this.myId === null && wolf) {
-      console.log("add new player")
+    console.log(playerData)
+    console.log(this.myId)
+    if (this.myId === playerData.id && wolf) {
+      console.log("add me player wolf")
       this.room = {
         width: 5000,
         height: 5000,
@@ -39,8 +42,8 @@ export default class Game{
       this.resBar = new resBar(this.player instanceof Wolf);
       let follow = this.camera.follow.bind(this);
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)  
-    } else if (this.myId === null) {
-      console.log("add new player")
+    } else if (this.myId === playerData.id ) {
+      console.log("add me player pig")
       this.room = {
         width: 5000,
         height: 5000,
@@ -55,12 +58,12 @@ export default class Game{
       let follow = this.camera.follow.bind(this);
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)  
     } else if (wolf) {
-      console.log("add new player")
+      console.log("add other player wolf")
       let { id, x, y, width, height } = playerData;
       let player = new Wolf(id, x, y, width, height);
       this.otherPlayers[id] = player;
     } else {
-      console.log("add new player")
+      console.log("add other player pig")
       let { id, x, y, width, height } = playerData;
       let player = new Piglet(id, x, y, width, height);
       this.otherPlayers[id] = player;

@@ -26,7 +26,7 @@ class GameCanvas extends React.Component {
 
   playGame() {
     console.log("setting up new game")
-    this.game = new Game();
+    this.game = new Game(this.props.myId);
     this.socket.on('newWolf', (playerData) => this.game.addNewPlayer(playerData, true))
     this.socket.on('newPiglet', (playerData) => this.game.addNewPlayer(playerData, false))
     this.socket.on('currentPlayers', (playersData) => this.game.addCurrentPlayers(playersData))

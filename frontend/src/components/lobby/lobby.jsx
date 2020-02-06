@@ -270,6 +270,7 @@ class Lobby extends React.Component{
                     <GameCanvas 
                         socket={this.socket} 
                         roomName={this.state.myRoomName} 
+                        myId={this.state.myId}
                         roomId={this.state.myRoomId} 
                         host={this.state.myRoomId===this.state.myId}
                         backToLobby={this.backToLobby}
