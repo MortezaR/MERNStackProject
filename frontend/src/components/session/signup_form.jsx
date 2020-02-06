@@ -27,7 +27,7 @@ class SignupForm extends React.Component {
             if (this.props.signedIn === true) this.props.login({username: this.state.username, password: this.state.password}) 
         })
         .then(() => {
-            if (this.props.signedIn === true) this.props.history.push('/map')
+            if (this.props.signedIn === true) this.props.history.push('/lobby')
         })
     }
 
@@ -49,9 +49,9 @@ class SignupForm extends React.Component {
             <div className="signup-box">
                 <h2 className='signup-title'><p>Big</p> <p>Bad</p> <p>Wolf</p> </h2>
                 <form className="signup-form">
-                    <input type="text" placeholder="username" value={this.state.username} onChange={this.handleInput('username')}/>
-                    <input type="password" placeholder="enter password" value={this.state.password} onChange={this.handleInput('password')}/>
-                    <input type="password" placeholder="re-enter password" value={this.state.password2} onChange={this.handleInput('password2')}/>
+                    <input type="text" placeholder=" username" value={this.state.username} onChange={this.handleInput('username')}/>
+                    <input type="password" placeholder=" enter password" value={this.state.password} onChange={this.handleInput('password')}/>
+                    <input type="password" placeholder=" re-enter password" value={this.state.password2} onChange={this.handleInput('password2')}/>
                 </form>
                 <div className="signup-row">
                     <Link className="signup-link" to={'/login'}>Login instead</Link>

@@ -2,7 +2,7 @@ import React from 'react';
 import Game from '../client/game'
 import Sound from 'react-sound';
 import worldMusic from '../assets/sound/gflop.mp3';
-
+import { playSound } from '../util/sound_util';
 
 class GameCanvas extends React.Component {
   constructor(props) {
@@ -68,12 +68,11 @@ class GameCanvas extends React.Component {
 
   handleRightClick(e) {
     e.preventDefault();
-    if (this.game.canvas && !this.game.gameOver) {
-      let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView];
-      this.game.player.attacking = true;
-      let moveData = { clickPos, type: "attack", gameId: this.props.roomId  }
-      this.socket.emit('newClickMove', moveData)
-    }
+    let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView];
+    this.game.player.attacking = true;
+    let moveData = { clickPos, type: "attack", gameId: this.props.roomId  }
+    this.socket.emit('newClickMove', moveData);
+    // playSound('rClick');
   }
 
   handleKeyPress(e) {

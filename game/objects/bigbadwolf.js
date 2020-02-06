@@ -20,6 +20,7 @@ class BigBadWolf extends movableObject {
         this.kill(15000);
     }
     performAction(type, dX, dY) {
+        console.log('att')
         if (this.dead) {
 
             return 'you are dead mate';
