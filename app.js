@@ -209,8 +209,7 @@ chatServer.on('connection', function(socket){
     })
 
     socket.on('newClickMove', function (moveData) {
-        // console.log(games);
-        // console.log(moveData);
+        //error here
         games[moveData.gameId].getPlayer(socket.id).getObject()
             .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
     });
@@ -221,6 +220,7 @@ chatServer.on('connection', function(socket){
         if (inGame) {//in game
             if (id===currentRoomId){//hosting game
                 chatServer.to(currentRoomName).emit('disconnectHost');
+                inGame = false;
                 delete games[id];
                 delete rooms[id];
             } else {
@@ -229,7 +229,7 @@ chatServer.on('connection', function(socket){
             }
         } 
         if (rooms[id]){//hosting chat
-            delete rooms[id]
+            delete rooms[id];
             } else {//not hosting vhat
                 if (rooms[currentRoomId]){
                     delete rooms[currentRoomId].chatters[id]
@@ -244,23 +244,22 @@ chatServer.on('connection', function(socket){
 
     socket.on('playersAllReady', (data) => {
         let gameId = data.roomId;
-        inGame = true
+        inGame = true;
+
         let players = rooms[data.roomId].chatters
         let playerIds = Object.keys(players).map((key) => {
             return players[key].id
         })
-        console.log(data.map);
         game = new Game(data.map);
         games[data.roomId] = game;
         console.log('the game host connected: ', socket.id);
-        
 
         let numPlayers = playerIds.length;
 
         //initial player setups
         game.addPlayer(playerIds[0], 'bbw', 200, 200);
         chatServer.to(currentRoomName).emit('newWolf', game.getPlayer(playerIds[0]).toObj());
-        for (let i = 1; i < 4; i++) {
+        for (let i = 1; i < 2; i++) {
             game.addPlayer(playerIds[i], 'piglet',
             200 * (numPlayers + 1), 200 * (numPlayers + 1))
             chatServer.to(currentRoomName).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
@@ -270,7 +269,9 @@ chatServer.on('connection', function(socket){
                 let gameInfo = game.getGameInfo();
                 if (gameInfo.winner){
                     chatServer.to(currentRoomName).emit("endGame", gameInfo.winner);
+                    inGame = false;
                     setTimeout( () => {
+                        inGame = false;
                         chatServer.to(currentRoomName).emit('gameIsOver');
                         clearInterval(intervalId);
                         delete games[gameId];

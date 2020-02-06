@@ -48,33 +48,41 @@ class GameCanvas extends React.Component {
   }
 
   disconnectHost(){
+    this.game.gameOver = true;
     this.props.backToLobby();
   }
 
   handleClick(e) {
-    if(this.game.canvas){
+    console.log("iminside move data")
+    if(this.game.canvas && !this.game.gameOver){
+      
       const rect = this.game.canvas.getBoundingClientRect()
       const canvasX = e.clientX - rect.left
       const canvasY = e.clientY - rect.top
       let clickPos = [canvasX + this.game.camera.xView, canvasY + this.game.camera.yView]
       let moveData = { clickPos, type: "move", gameId: this.props.roomId }
       this.socket.emit('newClickMove', moveData)
+      console.log(moveData)
     }
   }
 
   handleRightClick(e) {
     e.preventDefault();
-    let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView];
-    this.game.player.attacking = true;
-    let moveData = { clickPos, type: "attack", gameId: this.props.roomId  }
-    this.socket.emit('newClickMove', moveData)
+    if (this.game.canvas && !this.game.gameOver) {
+      let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView];
+      this.game.player.attacking = true;
+      let moveData = { clickPos, type: "attack", gameId: this.props.roomId  }
+      this.socket.emit('newClickMove', moveData)
+    }
   }
 
   handleKeyPress(e) {
-    e.preventDefault();
-    let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
-    let moveData = { clickPos, type: "trap", gameId: this.props.roomId  }
-    this.socket.emit('newClickMove', moveData)
+    if (this.game.canvas && !this.game.gameOver) {
+      e.preventDefault();
+      let clickPos = [e.clientX + this.game.camera.xView, e.clientY + this.game.camera.yView]
+      let moveData = { clickPos, type: "trap", gameId: this.props.roomId  }
+      this.socket.emit('newClickMove', moveData)
+    }
   }
 
   componentDidMount() {
@@ -89,6 +97,7 @@ class GameCanvas extends React.Component {
 
 
   render() {
+    console.log(this.handleClick)
     return (
       <div>
         <canvas 

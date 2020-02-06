@@ -36,7 +36,6 @@ class Lobby extends React.Component{
         this.setState({
             pickedMap: map
         })
-        console.log(map);
     }
 
     componentWillUnmount(){
@@ -64,7 +63,6 @@ class Lobby extends React.Component{
         })
 
         this.socket.on('isGameOver', () => {
-            console.log(this)
             this.setState({
                 inLobby: true,
                 inGame: false
@@ -146,26 +144,20 @@ class Lobby extends React.Component{
         console.log('hi')
         axios.get('/api/maps/')
         .then(maps => 
-            
-        {
-            console.log(maps)
-            this.setState({
-                maps: maps.data
-            })
-        }
+            {
+                this.setState({
+                    maps: maps.data
+                })
+            }
         )
     }
 
     backToLobby(){
         this.setState({
-            messages: [],
             currentMessage: '',
             username: this.props.currentUser.username,
-            myRoomId: '',
-            myChatters: {},
-            myRoomName: '',
             requestedRoomName: '',
-            inLobby: false,
+            inLobby: true,
             inGame: false
         })
     }
@@ -262,7 +254,6 @@ class Lobby extends React.Component{
     }
 
     render(){
-        console.log(this.state.pickedMap)
         if (this.state.myId === '') return null
         if (this.state.inGame){
             return (
