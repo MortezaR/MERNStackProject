@@ -16,7 +16,6 @@ class Deposit extends GObject {
         if(this.hp <= 0){
             this.game.win('deposit');
         }
-        console.log('deposit hp -> ',this.hp);
         return this.hp <= 0 ? true : false;
     }
     toObj() {

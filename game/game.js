@@ -7,19 +7,14 @@ class Game {
         this.terminalsLeft = 0;
         this.resourcesLeft = 0;
         this.map = new Map(5000, 5000, [2500, 2500], this);
-        console.log(map);
         if(map){
-            console.log('we have a map')
             const sl = map.objects.houses[0];
             this.map = new Map(5000,5000, [sl.x, sl.y], this);
             let allObjs = map.objects;
             Object.keys(allObjs).forEach(objsKey => {
-                console.log('this is the first layer');
                 if(!(objsKey.includes('Count'))){
                     Object.keys(allObjs[objsKey]).forEach(objKey => {
-                        console.log('this is the last layer');
                         let objType = objsKey.substring(0, objsKey.length - 1);
-                        console.log(objType, ...Object.values(allObjs[objsKey][objKey]));
                         this.map.addObject(objType, ...Object.values(allObjs[objsKey][objKey]));
                     })
                 }
@@ -40,7 +35,6 @@ class Game {
         }
     }
     addPlayer(id){
-        console.log('added_player')
 
         let numPlayers = Object.keys(this.players).length;
         switch (numPlayers) {

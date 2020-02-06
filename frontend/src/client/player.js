@@ -20,7 +20,6 @@ export default class Player {
 
     draw(context, xView, yView) {
         if (this.attacking) {
-            console.log(this.moveDir);
             switch (this.moveDir) {
                 case 31:
                     this.sprites.attacksouth.step(context, this, xView, yView, 2, 2);

@@ -17,7 +17,7 @@ class BigBadWolf extends movableObject {
         this.speedInterval = setInterval(this.increaseSpeed, 10000);
 
         //uncomment for actual game
-        // this.kill(10000);
+        this.kill(15000);
     }
     performAction(type, dX, dY) {
         if (this.dead) {
@@ -39,7 +39,6 @@ class BigBadWolf extends movableObject {
                         this.game.map.playerObjects[objId].kill();
                     }
                 })
-                console.log(this.moveDir);
                 break;
             case 'move':
                 this.move(dX, dY);
