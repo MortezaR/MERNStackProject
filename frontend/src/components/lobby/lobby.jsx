@@ -33,7 +33,7 @@ class Lobby extends React.Component {
         //Variables
         this.container = React.createRef();
         //Socket
-        this.socket = io.connect("http://localhost:5000");
+        this.socket = process.env.NODE_ENV === 'production' ? io() : io("http://localhost:5000")
         //Functions
         this.handleSubmit = this.handleSubmit.bind(this)
         this.readyPlayer = this.readyPlayer.bind(this)
