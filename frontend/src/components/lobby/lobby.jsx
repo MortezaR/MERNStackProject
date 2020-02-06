@@ -34,8 +34,9 @@ class Lobby extends React.Component{
 
     pickMap(map) {
         this.setState({
-            pickedMap: this.state.maps[map._id]
+            pickedMap: map
         })
+        console.log(map);
     }
 
     componentWillUnmount(){
@@ -272,7 +273,7 @@ class Lobby extends React.Component{
                         roomId={this.state.myRoomId} 
                         host={this.state.myRoomId===this.state.myId}
                         backToLobby={this.backToLobby}
-                        map={this.state.map}
+                        map={this.state.pickedMap}
                     />
                 </div>
             )

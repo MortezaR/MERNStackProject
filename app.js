@@ -209,8 +209,8 @@ chatServer.on('connection', function(socket){
     })
 
     socket.on('newClickMove', function (moveData) {
-        console.log(games);
-        console.log(moveData);
+        // console.log(games);
+        // console.log(moveData);
         games[moveData.gameId].getPlayer(socket.id).getObject()
             .performAction(moveData.type, moveData.clickPos[0], moveData.clickPos[1]);
     });
@@ -249,6 +249,7 @@ chatServer.on('connection', function(socket){
         let playerIds = Object.keys(players).map((key) => {
             return players[key].id
         })
+        console.log(data.map);
         game = new Game(data.map);
         games[data.roomId] = game;
         console.log('the game host connected: ', socket.id);
