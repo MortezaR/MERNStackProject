@@ -1,4 +1,6 @@
 const GObject = require('./object.js')
+const utils = require('../util.js')
+const hitBoxTouch = utils.hitBoxTouch;
 
 class HTerminal extends GObject {
 
@@ -8,8 +10,12 @@ class HTerminal extends GObject {
         this.phasable = true;
         this.hp = 500;
         this.triggered = false;
+        this.hackInterval = null;
     }
-    hack(){
+    hack(piglet){
+        this.hackInterval = setInterval(() => this.handleHack(piglet), 100)
+    }
+    handleHack(piglet){
         this.hp -= 1;
         if(this.hp <= 0 && !this.triggered){
             // this.game.map.hTerminals
@@ -19,6 +25,10 @@ class HTerminal extends GObject {
                 this.game.win('hTerminal')
             }
             this.triggered = true;
+        }
+        if(!hitBoxTouch(piglet.getHitBox(), this.getHitBox())){
+            clearInterval(this.hackInterval);
+            this.hackInterval = null;
         }
     }
     toObj() {
