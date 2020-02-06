@@ -11,6 +11,7 @@ import TopNavContainer from './top_nav/top_nav_container'
 import LoginFormContainer from './session/login_form_container'
 import SignupFormContainer from './session/signup_form_container';
 import ProfileContainer from './profile/profile_container.js'
+import InstructionsContainer from './instructions_page/instructions_container';
 import '../App.scss'
 import MiddleModal from './modal/middle_modal.jsx';
 // import TestForm from './testform/testform.jsx';
@@ -32,6 +33,7 @@ const App = () => (
       <ProtectedRoute exact path="/game" component={gameCanvas} />
       <AuthRoute exact path="/signup" component={SignupFormContainer} />
       <ProtectedRoute exact path="/profile" component={ProfileContainer} />
+      <ProtectedRoute exact path="/instructions" component={InstructionsContainer} />
       {/* <ProtectedRoute exact path="/editor" component={ProfileContainer} /> */}
       {/* <Route exact path="/testform" component={TestForm} /> */}
 
