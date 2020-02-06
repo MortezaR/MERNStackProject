@@ -3,16 +3,16 @@ import {Link} from 'react-router-dom'
 import './top_nav.scss';
 import SaveMapForm from '../save_map_form/save_map_form.jsx';
 import UpdateMapForm from '../save_map_form/update_map_form';
+import TopNavProfileDropdown from './top_nav_profile_dropdown';
 
 class TopNav extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            profileDropdown: 'hidden',
+            profileDropdown: false,
             saveMapForm: 'hidden'
         }
-        this.profileDropdown = this.profileDropdown.bind(this)
-        this.handleDropdown = this.handleDropdown.bind(this)
+        this.toggleProfileDropdown = this.toggleProfileDropdown.bind(this)
         this.handleLogout = this.handleLogout.bind(this)
         this.myRef = React.createRef();
         // this.saveMapForm = this.saveMapForm.bind(this)
@@ -21,72 +21,38 @@ class TopNav extends React.Component {
     
 
     componentDidMount () {
-        document.addEventListener('mousedown', this.handleDropdown, false)
+        // document.addEventListener('mousedown', this.toggleProfileDropdown, false)
     }
 
     componentWillUnmount () {
-        document.removeEventListener('mousedown', this.handleDropdown, false)
+        // document.removeEventListener('mousedown', this.toggleProfileDropdown, false)
     }
-
-    // handleDropdown () {
-    //     if (this.state.hidden === 'hidden') {
-    //         this.setState({
-    //             hidden: 'show'
-    //         })
-    //     }
-    //     else {
-    //         this.setState({
-    //             hidden: 'hidden'
-    //         })
-    //     }
-    // }
 
     handleLogout () {
         this.props.logout()
         this.props.history.push('/login')
     }
-    handleDropdown (e) {
-        if (this.props.currentUser.username) {
-            if (this.myRef.current.contains(e.target)) {
-                this.profileDropdown();
-            }
-            return null;
-        }
-    }
 
-    profileDropdown () {
-        if (this.state.profileDropdown === 'hidden') {
-            this.setState({
-                profileDropdown: 'fadein'
-            })
-        }
-        else if (this.state.profileDropdown === 'fadein') {
-            this.setState({
-                profileDropdown: 'fadeout'
-            })
-        }
-        else if (this.state.profileDropdown === 'fadeout') {
-            this.setState({
-                profileDropdown: 'fadein'
-            })
-        }
+    toggleProfileDropdown () {
+        this.setState({
+            profileDropdown: !this.state.profileDropdown
+        })
     }
 
     render () {
         const loggedIn = (
             <div className="topnav-right-nav">
-                <a onClick={this.profileDropdown}><span>{this.props.currentUser.username}</span></a>
-                <ul ref={this.myRef} onClick={this.handleDropdown} className={`topnav-dropdown ${this.state.profileDropdown}`}>
-                    <li className="topnav-dropdown-item">
-                        <Link to='/profile'><i className="fas fa-user-circle"></i> Profile</Link>
-                    </li>
-                    <li className="topnav-dropdown-item">
-                        <Link to='/profile'><i className="fas fa-cog"></i> Settings</Link>
-                    </li>
-                    <li onClick={this.handleLogout}className="topnav-dropdown-item">
-                        <Link to='/profile'><i className="fas fa-sign-out-alt"></i> Logout</Link>
-                    </li>
-                </ul>
+                <a onClick={this.toggleProfileDropdown}><span>{this.props.currentUser.username}</span></a>
+                {
+                    this.state.profileDropdown &&
+                    (
+                        <TopNavProfileDropdown
+                            toggleProfileDropdown={this.toggleProfileDropdown}
+                            profileDropdown={this.state.profileDropdown}
+                        />
+                    )
+                }
+
             </div>
         )
         const loggedOut = (

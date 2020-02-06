@@ -1,4 +1,7 @@
-
+@keyframes profile-dropdown {
+  0%   {top: 40%; opacity: 0;}
+  100% {top: 100%; opacity: 1;}
+}
 
 /* Add a black background color to the top navigation */
 .topnav {
@@ -70,7 +73,7 @@
   background-color: white;
   position: absolute;
   top: 100%;
-  left: 91.2%;
+  left: 148.6rem;
   width: 166px;
   // max-width: 166px;
   font-size: 20px;
@@ -81,6 +84,8 @@
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   overflow: hidden;
   text-decoration: none;
+  animation-name: profile-dropdown;
+  animation-duration: 0.5s;
   .topnav-dropdown-item {
     padding-top: 10px;
     padding-bottom: 10px;

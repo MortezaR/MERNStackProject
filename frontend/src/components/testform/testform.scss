@@ -9,8 +9,8 @@
 }
 
 @keyframes maps-dropdown {
-    0%   {left: 70%; opacity: 0;}
-    100% {left: 80%; opacity: 1;}
+    0%   {left: 100rem; opacity: 0;}
+    100% {left: 115rem; opacity: 1;}
 }
 
 
@@ -420,7 +420,7 @@
     font-size: 14px;
     font-family: 'Poppins', sans-serif;
     position: absolute;
-    left: 80%;
+    left: 115rem;
     overflow: hidden;
     animation-name: maps-dropdown;
     animation-duration: 0.5s;
