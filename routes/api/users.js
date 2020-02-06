@@ -14,6 +14,7 @@ router.get("/test", (req, res) => {
 });
 
 router.post('/register', (req, res) => {
+    // debugger;
     const { errors, isValid } = validateRegisterInput(req.body);
 
     if(!isValid) {
@@ -22,9 +23,9 @@ router.post('/register', (req, res) => {
 
     User.findOne( {username: req.body.username })
     .then(user => {
-        if(user) {
-            return res.status(400).json({username: "A user is already registered with that username"})
-        } else {
+        // if(user) {
+            // return res.status(400).json({username: "A user is already registered with that username"})
+        // } else {
             const newUser = new User({
                 username: req.body.username,
                 password: req.body.password
@@ -39,7 +40,7 @@ router.post('/register', (req, res) => {
                         .catch(err => console.log(err))
                 })
             })
-        }
+        // }
     })
 });
 

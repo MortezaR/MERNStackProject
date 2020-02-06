@@ -352,7 +352,7 @@ class Lobby extends React.Component{
                         </div>
 
                     </div>
-                    <div>
+                    {/* <div>
                         <h1 className="testingthis">Map Index</h1>
                         <div className="profile">
                             <div>
@@ -363,7 +363,7 @@ class Lobby extends React.Component{
                             </ul>
                             </div>
                         </div>
-                    </div>
+                            </div> */}
                     </div>
                 )
             }

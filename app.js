@@ -262,6 +262,7 @@ chatServer.on('connection', function(socket){
         for (let i = 1; i < 2; i++) {
             game.addPlayer(playerIds[i], 'piglet',
             200 * (numPlayers + 1), 200 * (numPlayers + 1))
+            // if (game.getPlayer(playerIds[i]))
             chatServer.to(currentRoomName).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
         }
         interval = () => { 
