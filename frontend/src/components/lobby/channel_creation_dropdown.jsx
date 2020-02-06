@@ -1,6 +1,6 @@
 import React from 'react';
 import enhanceWithClickOutside from 'react-click-outside';
-import './testform.scss';
+import './lobby.scss';
 
 class ChannelCreationDropdown extends React.Component {
     constructor(props) {

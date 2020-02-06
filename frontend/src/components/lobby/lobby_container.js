@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import TestForm from './testform';
+import Lobby from './lobby';
 
 const mapStateToProps = state => ({
     currentUser: state.session.user
@@ -8,4 +8,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestForm)
+export default connect(mapStateToProps, mapDispatchToProps)(Lobby)

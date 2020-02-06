@@ -1,5 +1,5 @@
 import React from 'react';
-import './testform.scss';
+import './lobby.scss';
 
 class ChannelIndexItem extends React.Component {
     constructor(props) {

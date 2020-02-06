@@ -1,6 +1,6 @@
 import React from 'react';
 import enhanceWithClickOutside from 'react-click-outside';
-import './testform.scss';
+import './lobby.scss';
 import LobbyRoomMember from './lobby_room_member'
 
 class LobbyRoomMemberDropdown extends React.Component {

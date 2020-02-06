@@ -1,5 +1,5 @@
 import React from 'react';
-import './testform.scss';
+import './lobby.scss';
 
 class LobbyChatMessage extends React.Component {
     constructor(props) {
@@ -37,7 +37,7 @@ class LobbyChatMessage extends React.Component {
         let displayedHTML;
         displayedHTML = (this.props.currentUser.username === this.props.message.username) ?  messageFromUser : messageFromOthers
         return (
-            <div>
+            <div className="lobby-room-body-chat-messages">
                 {
                     displayedHTML
                 }
