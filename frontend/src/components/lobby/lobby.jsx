@@ -329,6 +329,7 @@ class Lobby extends React.Component {
                         host={this.state.myRoomId===this.state.myId}
                         backToLobby={this.backToLobby}
                         map={this.state.map}
+                        myId={this.state.myId}
                     />
                 </div>
             )
