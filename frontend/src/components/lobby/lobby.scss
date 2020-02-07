@@ -9,8 +9,8 @@
 }
 
 @keyframes maps-dropdown {
-    0%   {left: 70%; opacity: 0;}
-    100% {left: 80%; opacity: 1;}
+    0%   {left: 65%; opacity: 0;}
+    100% {left: 63%; opacity: 1;}
 }
 
 
@@ -330,6 +330,7 @@
                 background-color: white;
             }
             button {
+                background-color: transparent;
                 border: none;
                 .send-icon {
                     background-color: #04afc3;
@@ -424,7 +425,7 @@
     font-size: 14px;
     font-family: 'Poppins', sans-serif;
     position: absolute;
-    left: 80%;
+    left: 63%;
     overflow: hidden;
     animation-name: maps-dropdown;
     animation-duration: 0.5s;
@@ -458,6 +459,7 @@
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
+                width: 100%;
             }
             a {
                 &:hover {
@@ -480,6 +482,9 @@
             align-items: center;
             font-weight: 700;
             padding: 15px 20px;
+            &:focus {
+                background-color: #ecb708;
+            }
             &:hover {
                 background-color: #ecb708;
                 cursor: pointer;

@@ -50,6 +50,11 @@ class Lobby extends React.Component {
         this.scrollToBottom = this.scrollToBottom.bind(this)
     }
 
+    highlightMap(i) {
+        const isSelected = (this.state.selectedMap === i)
+        return isSelected ? 'selectedMap' : ''
+    }
+
     scrollToBottom (){
         let bottomOfChat = document.getElementById('bottom-of-chat')
         let chatMessage = document.getElementsByClassName('lobby-room-body-chat-messages')
@@ -334,6 +339,7 @@ class Lobby extends React.Component {
             )
         }
         else {
+            //Display channel name if you're in a channel
             const channelName = this.state.myRoomName ? this.state.myRoomName : 'Channel Name'
             //Change button to "play" if everyone is ready, otherwise, just show ready/not ready
             let allPlayersReady = false;
@@ -378,7 +384,7 @@ class Lobby extends React.Component {
                             <header className="lobby-channel-header">
                                 <div className="lobby-channel-header-wrapper">
                                     <div onClick={this.toggleChannelsDropdown}>
-                                        <a ><i className="fas fa-plus-circle"></i></a> <span>Channel</span>
+                                        <a href="JavaScript:void(0)"><i className="fas fa-plus-circle"></i></a> <span>Channel</span>
                                     </div>
                                     {
                                         this.state.channelsDropdownOpen && (
@@ -473,7 +479,6 @@ class Lobby extends React.Component {
 
                         </section>
                     </div>
-                    {/* <div className="map-index-sidebar"> */}
                     {
                         this.state.mapsDropdownOpen && (
                             <div className="map-index">
@@ -481,13 +486,14 @@ class Lobby extends React.Component {
                                         <div className="map-index-header-wrapper">
                                             <div className="map-index-header-wrapper-content">
                                                 <span>Maps</span>
+                                                <a onClick={this.toggleMapsDropdown}><i className="fas fa-ellipsis-h fa-lg"></i></a>
                                             </div>
                                         </div>
                                 </header>
                                 <section className="map-index-container">
                                     {
-                                        this.state.maps.map(map =>
-                                        <div onClick={()=>this.pickMap(map)} className="map-index-map-item">
+                                        this.state.maps.map((map, i) =>
+                                        <div onClick={()=>this.pickMap(map)} key={i} className="map-index-map-item">
                                             <span>{map.title}</span>
                                         </div>
                                         )
@@ -496,7 +502,6 @@ class Lobby extends React.Component {
                             </div>
                         )
                     }
-                    {/* </div> */}
                 </div>
                 )
         }
