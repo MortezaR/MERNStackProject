@@ -1,8 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 import './top_nav.scss';
-import SaveMapForm from '../save_map_form/save_map_form.jsx';
-import UpdateMapForm from '../save_map_form/update_map_form';
 import TopNavProfileDropdown from './top_nav_profile_dropdown';
 
 class TopNav extends React.Component {

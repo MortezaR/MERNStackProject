@@ -78,12 +78,6 @@ class Canvas extends React.Component {
     }
   }
 
-  // handleUpdate(field) {
-  //   return e => this.setState({
-  //       [field]: e.currentTarget.value
-  //   })
-  // }
-
   handleOverlap() {
     this.setState({
       hidden: 'fadein'
@@ -159,8 +153,10 @@ class Canvas extends React.Component {
             })
             Object.keys(this.state.foods).forEach(foodKey => {
               if (Math.sqrt((canvasx-this.state.foods[foodKey].x)*(canvasx-this.state.foods[foodKey].x) + (canvasy-this.state.foods[foodKey].y)*(canvasy-this.state.foods[foodKey].y)) < this.state.radius) {
+                let newState = this.state.foods
+                delete newState[foodKey]
                 this.setState({
-                  foods: Object.assign({}, this.state.foods, {[foodKey]: {x: -10000000000000000000000000000, y: -1000000000000000000000000}})
+                  foods: Object.assign({}, newState)
                 })
               }
             })
@@ -235,8 +231,6 @@ class Canvas extends React.Component {
               let newState = Object.assign({}, this.state.teleporters);
               let indexed = Object.assign({}, this.state.teleporters[this.state.teleporterCount], {newX: canvasx, newY: canvasy})
               newState[this.state.teleporterCount] = indexed;
-              // console.log(indexed)
-              // indexed = {[this.state.teleporterCount]: indexed};
               console.log(indexed)
               console.log(`before ${this.state.teleporters}`)
               this.setState({
