@@ -50,11 +50,6 @@ class Lobby extends React.Component {
         this.scrollToBottom = this.scrollToBottom.bind(this)
     }
 
-    highlightMap(i) {
-        const isSelected = (this.state.selectedMap === i)
-        return isSelected ? 'selectedMap' : ''
-    }
-
     scrollToBottom (){
         let bottomOfChat = document.getElementById('bottom-of-chat')
         let chatMessage = document.getElementsByClassName('lobby-room-body-chat-messages')
@@ -340,6 +335,7 @@ class Lobby extends React.Component {
             )
         }
         else {
+            debugger;
             //Display channel name if you're in a channel
             const channelName = this.state.myRoomName ? this.state.myRoomName : 'Channel Name'
             //Change button to "play" if everyone is ready, otherwise, just show ready/not ready
@@ -481,30 +477,34 @@ class Lobby extends React.Component {
                             }
 
                         </section>
-                    </div>
-                    {
+                {
                         this.state.mapsDropdownOpen && (
                             <div className="map-index">
                                 <header className="map-index-header">
                                         <div className="map-index-header-wrapper">
                                             <div className="map-index-header-wrapper-content">
                                                 <span>Maps</span>
-                                                <a onClick={this.toggleMapsDropdown}><i className="fas fa-ellipsis-h fa-lg"></i></a>
+                                                <a onClick={this.toggleMapsDropdown}><i class="fas fa-times fa-lg"></i></a>
                                             </div>
                                         </div>
                                 </header>
                                 <section className="map-index-container">
                                     {
-                                        this.state.maps.map((map, i) =>
-                                        <div onClick={()=>this.pickMap(map)} key={i} className="map-index-map-item">
-                                            <span>{map.title}</span>
-                                        </div>
-                                        )
+                                        this.state.maps.map((map, i) => {
+                                            let selectedMap;
+                                            if (this.state.pickedMap) {
+                                                selectedMap = (this.state.pickedMap._id === map._id) ? 'selectedMap' : ''
+                                            }
+                                        return (<div onClick={()=>this.pickMap(map)} key={i} className={`map-index-map-item ${selectedMap}`}>
+                                                    <span>{map.title}</span>
+                                                </div>)
+                                        })
                                     }
                                 </section>
                             </div>
                         )
                     }
+                    </div>
                 </div>
                 )
         }
