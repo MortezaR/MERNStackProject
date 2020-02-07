@@ -88,7 +88,7 @@ class Lobby extends React.Component {
     pickMap(map) {
         console.log(map)
         this.setState({
-            pickedMap: this.state.maps[map._id]
+            pickedMap: map
         })
     }
 
@@ -328,7 +328,7 @@ class Lobby extends React.Component {
                         roomId={this.state.myRoomId} 
                         host={this.state.myRoomId===this.state.myId}
                         backToLobby={this.backToLobby}
-                        map={this.state.map}
+                        map={this.state.pickedMap}
                         myId={this.state.myId}
                     />
                 </div>
@@ -338,7 +338,9 @@ class Lobby extends React.Component {
             const channelName = this.state.myRoomName ? this.state.myRoomName : 'Channel Name'
             //Change button to "play" if everyone is ready, otherwise, just show ready/not ready
             let allPlayersReady = false;
-            if((this.state.myRoomId!=='') && Object.values(this.state.myChatters).length === 4){
+
+            //test change here
+            if((this.state.myRoomId!=='') && Object.values(this.state.myChatters).length === 2){
                 allPlayersReady = Object.values(this.state.myChatters).every((user) => {
                     return user.ready
                 })
