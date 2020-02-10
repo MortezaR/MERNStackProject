@@ -33,7 +33,7 @@ class Instructions extends React.Component {
                             Trees can be harvested for delicious apples
                         </div>
                         <div className="instruction-row">
-                            Apples can be placed at deposits.  Place enough apples to win the game!
+                            Apples can be placed at deposits.  Place enough apples to win!
                             <img ref="deposit" alt="" src={deposit} />
                         </div>
                         <div className="instruction-row">
@@ -62,6 +62,12 @@ class Instructions extends React.Component {
                         <div className="instruction-row">
                             <img ref="hourglass" width="50px" height="50px" alt="" src={hourglass} />
                             Time is on your side--if the piglets don't gather enough apples before time runs out, you win!
+                        </div>
+                    </div>
+                    <div className="player-card">
+                        <div className="card-title">About</div>
+                        <div className="instruction-row">
+                            Big Bad Wolf is 
                         </div>
                     </div>
                 </div>

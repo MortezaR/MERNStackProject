@@ -68,6 +68,7 @@ class TopNav extends React.Component {
                 <div className="topnav-left-nav">
                     <Link to='/lobby'>Lobby</Link>
                     <Link to='/map'>Create a Map</Link>
+                    <Link to='/instructions'>How to Play</Link>
                 </div>
                 {
                     rightNav
