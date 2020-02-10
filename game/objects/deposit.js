@@ -5,7 +5,7 @@ class Deposit extends GObject {
 
     constructor(game, id, x, y) {
         super(game, id, x, y);
-        this.hitBox = [50, 100];
+        this.hitBox = [150, 150];
         this.phasable = true;
         this.hp = 20;
     }

@@ -86,7 +86,7 @@ class Lobby extends React.Component {
     }
 
     pickMap(map) {
-        console.log(map)
+        this.toggleMapsDropdown();
         this.setState({
             pickedMap: map
         })
@@ -104,6 +104,8 @@ class Lobby extends React.Component {
     }
 
     componentDidMount(){
+        
+
         document.addEventListener("mousedown", this.handleClickOutside);
         this.socket.on('setupNewChatter', (data) => {
             console.log("im receiving my own info")
@@ -114,23 +116,24 @@ class Lobby extends React.Component {
         })
 
         //add game wins here
-        this.socket.on('endGame', (gameWinner) => {
-            if (gameWinner === "wolf"){
-
+        this.socket.on('endGame', (endGameData) => {
+            if (endGameData.wolfId[0] === this.state.myId){
+                if (endGameData.winner === "wolf"){
+                    axios.patch(`/api/users/win/${this.props.currentUser.id}`)
+                } else {
+                    axios.patch(`/api/users/lose/${this.props.currentUser.id}`)
+                }
             } else {
-
+                endGameData.pigletIds.forEach(pigletId => {
+                    if (pigletId === this.state.myId){
+                        if (endGameData.winner === "wolf"){
+                            axios.patch(`/api/users/lose/${this.props.currentUser.id}`)
+                        } else {
+                            axios.patch(`/api/users/win/${this.props.currentUser.id}`)
+                        }
+                    }
+                })
             }
-            let { myRoomId, username, myId, myRoomName } = this.state
-            let data = {
-                roomId: myRoomId,
-                oldRoomId: '',
-                username: username,
-                myId: myId,
-                oldRoomName: myRoomName
-            }
-            console.log(data)
-            console.log(gameWinner)
-            this.socket.emit('joinRoom', data)
         })
 
         this.socket.on('joinRoomInfo', (data) => {
@@ -222,9 +225,10 @@ class Lobby extends React.Component {
         .then(maps => 
             
         {
-            console.log(maps)
+            console.log(maps.data)
             this.setState({
-                maps: maps.data
+                maps: maps.data,
+                pickedMap: maps.data[0] 
             })
         }
         )
@@ -232,17 +236,25 @@ class Lobby extends React.Component {
 
     backToLobby(){
         this.setState({
+            rooms: {},
+            messages: [],
             currentMessage: '',
             username: this.props.currentUser.username,
+            myRoomId: '',
+            myChatters: {},
+            myRoomName: '',
+            myId: this.state.myId,
             requestedRoomName: '',
-            inLobby: true,
-            inGame: false
+            inLobby: false,
+            inGame: false,
+            pickedMap: null,
+            channelsDropdownOpen: false,
+            usersDropdownOpen: false,
+            mapsDropdownOpen: false
         })
     }
 
     readyPlayer(id){
-        console.log(id)
-        console.log(this.state.myId)
         // if (this.state.myId === id){
             let {myChatters} = this.state
             myChatters[this.state.myId].ready = !myChatters[this.state.myId].ready 
@@ -359,7 +371,7 @@ class Lobby extends React.Component {
             let allPlayersReady = false;
 
             //test change here
-            if((this.state.myRoomId!=='') && Object.values(this.state.myChatters).length === 2){
+            if((this.state.myRoomId!=='') && Object.values(this.state.myChatters).length === 3){
                 allPlayersReady = Object.values(this.state.myChatters).every((user) => {
                     return user.ready
                 })
@@ -384,7 +396,7 @@ class Lobby extends React.Component {
                     :
                     //Pending button if they have not said they're ready
                     readyIcon = (<div onClick={() => this.readyPlayer(this.props.currentUser.id)}  className="lobby-channel-index-profile-icon">
-                                <a style={{color: '#ecb708'}}><i class="far fa-question-circle fa-lg"></i></a>
+                                <a style={{color: '#ecb708'}}><i className="far fa-question-circle fa-lg"></i></a>
                                 <span>Pending</span>
                                 </div>)
                 }
@@ -444,7 +456,7 @@ class Lobby extends React.Component {
                                             <span>{channelName}</span>
                                             <div className="lobby-room-options">
                                                 <a onClick={this.toggleUsersDropdown}><i className="fas fa-users fa-lg"></i></a>
-                                                <a onClick={this.toggleMapsDropdown}><i className="fas fa-ellipsis-h fa-lg"></i></a>
+                                                <a onClick={this.toggleMapsDropdown}><i className="fas fa-map-marked-alt"></i></a>
                                             </div>
                                         </div>
                                     </div>

@@ -26,7 +26,6 @@ export default class Piglet extends Player {
     }
 
     draw(context, xView, yView) {
-
         if (this.attacking) {
             playSound('pigletPunch');
             switch (this.moveDir) {
@@ -79,8 +78,9 @@ export default class Piglet extends Player {
                     this.sprites.attackeast.step(context, this, xView, yView, 2, 2);
                     break;
                 default:
+                    this.sprites.south.drawFrame(context, this, xView, yView, 2, 2);
+                    break;
             }
-            // context.
         } else {
             if (this.moveDir === 0) {
                 this.trapped = true;
@@ -140,10 +140,10 @@ export default class Piglet extends Player {
                         this.sprites.southEast.drawFrame(context, this, xView, yView, 2, 2);
                         break;
                     default:
-                    // context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                        this.sprites.south.drawFrame(context, this, xView, yView, 2, 2);
+                        break;
                 }
             }
-            // context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
         }   
         // YOU NOW HAVE ACCESS TO THIS.MOVEDIR
 
