@@ -20,10 +20,10 @@ class TopNavProfileDropdown extends React.Component {
                     <Link to='/profile'><i className="fas fa-user-circle"></i> Profile</Link>
                 </li>
                 <li className="topnav-dropdown-item">
-                    <Link to='/profile'><i className="fas fa-cog"></i> Settings</Link>
+                    <Link to='/settings'><i className="fas fa-cog"></i> Settings</Link>
                 </li>
-                <li onClick={this.handleLogout}className="topnav-dropdown-item">
-                    <Link to='/profile'><i className="fas fa-sign-out-alt"></i> Logout</Link>
+                <li onClick={this.props.handleLogout}className="topnav-dropdown-item">
+                    <Link to='/login'><i className="fas fa-sign-out-alt"></i> Logout</Link>
                 </li>
             </ul>
         )
