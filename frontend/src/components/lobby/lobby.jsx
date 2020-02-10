@@ -228,7 +228,7 @@ class Lobby extends React.Component {
             console.log(maps.data)
             this.setState({
                 maps: maps.data,
-                // pickedMap: maps.data["5e3b0ecad0fb764776fbfd2f"] 
+                pickedMap: maps.data[0] 
             })
         }
         )
@@ -396,7 +396,7 @@ class Lobby extends React.Component {
                     :
                     //Pending button if they have not said they're ready
                     readyIcon = (<div onClick={() => this.readyPlayer(this.props.currentUser.id)}  className="lobby-channel-index-profile-icon">
-                                <a style={{color: '#ecb708'}}><i class="far fa-question-circle fa-lg"></i></a>
+                                <a style={{color: '#ecb708'}}><i className="far fa-question-circle fa-lg"></i></a>
                                 <span>Pending</span>
                                 </div>)
                 }
