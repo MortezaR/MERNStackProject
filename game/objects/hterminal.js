@@ -8,7 +8,7 @@ class HTerminal extends GObject {
         super(game, id, x, y);
         this.hitBox = [200, 200];
         this.phasable = true;
-        this.hp = 500;
+        this.hp = 1;
         this.triggered = false;
         this.hackInterval = null;
     }

@@ -114,11 +114,24 @@ class Lobby extends React.Component {
         })
 
         //add game wins here
-        this.socket.on('endGame', (gameWinner) => {
-            if (gameWinner === "wolf"){
-
+        this.socket.on('endGame', (endGameData) => {
+            console.log(this.props.currentUser.id)
+            if (endGameData.wolfId[0] === this.myId){
+                if (endGameData.winner === "wolf"){
+                    axios.patch(`/api/users/win/${this.props.currentUser.id}`)
+                } else {
+                    axios.patch(`/api/users/lose/${this.props.currentUser.id}`)
+                }
             } else {
-
+                endGameData.pigletIds.forEach(pigletId => {
+                    if (pigletId === this.myId){
+                        if (endGameData.winner === "wolf"){
+                            axios.patch(`/api/users/lose/${this.props.currentUser.id}`)
+                        } else {
+                            axios.patch(`/api/users/win/${this.props.currentUser.id}`)
+                        }
+                    }
+                })
             }
             let { myRoomId, username, myId, myRoomName } = this.state
             let data = {
@@ -128,8 +141,6 @@ class Lobby extends React.Component {
                 myId: myId,
                 oldRoomName: myRoomName
             }
-            console.log(data)
-            console.log(gameWinner)
             this.socket.emit('joinRoom', data)
         })
 
@@ -359,7 +370,7 @@ class Lobby extends React.Component {
             let allPlayersReady = false;
 
             //test change here
-            if((this.state.myRoomId!=='') && Object.values(this.state.myChatters).length === 4){
+            if((this.state.myRoomId!=='') && Object.values(this.state.myChatters).length === 2){
                 allPlayersReady = Object.values(this.state.myChatters).every((user) => {
                     return user.ready
                 })
