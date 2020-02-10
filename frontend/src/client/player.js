@@ -74,9 +74,9 @@ export default class Player {
                     this.sprites.attacksouthEast.step(context, this, xView, yView, 2, 2);
                     break;
                 default:
-                // context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                    this.sprites.south.drawFrame(context, this, xView, yView, 2, 2);
+                    break;
             }
-        // context.
         } else {
             if (this.moveDir === 0){
                 playSound('trapped');
@@ -84,7 +84,6 @@ export default class Player {
                 this.sprites.ko.step(context, this, xView, yView, 2, 2, this.trapped);
             } else if (this.moveDir === 1){
                 this.trapped = true;
-                // playSound('trapped');
                 this.sprites.death.step(context, this, xView, yView, 2, 2, this.trapped);
             } else {
                 this.trapped = false;
@@ -138,10 +137,10 @@ export default class Player {
                         this.sprites.southEast.drawFrame(context, this, xView, yView, 2, 2);
                         break;
                     default:
-                    // context.drawImage(this.image, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
+                        this.sprites.south.drawFrame(context, this, xView, yView, 2, 2);
+                        break;
                 }
             }
-        // context.drawImage(this.image, 0, 0, 25, 33, (this.x - this.width / 2) - xView, (this.y - this.height / 2) - yView, 25, 33);
         }
         // YOU NOW HAVE ACCESS TO THIS.MOVEDIR
         

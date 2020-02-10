@@ -120,11 +120,12 @@ class Game {
             case 'time':
                 this.winner = 'wolf';
                 break;
-
             case 'hTerminal':
                 this.winner = 'piglet';
                 break;
-                
+            case 'allPigletsDead':
+                this.winner = 'wolf';
+                break;
             default:
                 break;
         }

@@ -359,7 +359,7 @@ class Lobby extends React.Component {
             let allPlayersReady = false;
 
             //test change here
-            if((this.state.myRoomId!=='') && Object.values(this.state.myChatters).length === 4){
+            if((this.state.myRoomId!=='') && Object.values(this.state.myChatters).length === 2){
                 allPlayersReady = Object.values(this.state.myChatters).every((user) => {
                     return user.ready
                 })

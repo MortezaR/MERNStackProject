@@ -7,14 +7,13 @@ const Trap = require('./trap')
 const getDir = utils.getDir;
 const hitBoxTouch = utils.hitBoxTouch;
 //S - 21 , SW - 22, W - 12, NW - 32, N - 31, NE - 33, E - 13, SE - 23
-//
 
 class moveableObject extends GObject{
 
     constructor(game, id, x, y){
         super(game, id, x, y);
         this.speed = 1;
-        this.hitBoxSize = [4,2];
+        this.hitBoxSize = [50,50];
         this.actionCooldown = 1;
         this.moving = null;
         this.moveDir = 310;
@@ -70,7 +69,7 @@ class moveableObject extends GObject{
         if(this.moving){
             clearInterval(this.moving);
         }
-        this.moving = setInterval(moveHelper, 1000 / 120);
+        this.moving = setInterval(moveHelper, 1000 / 100);
     }
     hack(){
 
