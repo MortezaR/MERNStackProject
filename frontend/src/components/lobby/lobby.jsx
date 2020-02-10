@@ -113,6 +113,26 @@ class Lobby extends React.Component {
             })
         })
 
+        //add game wins here
+        this.socket.on('endGame', (gameWinner) => {
+            if (gameWinner === "wolf"){
+
+            } else {
+
+            }
+            let { myRoomId, username, myId, myRoomName } = this.state
+            let data = {
+                roomId: myRoomId,
+                oldRoomId: '',
+                username: username,
+                myId: myId,
+                oldRoomName: myRoomName
+            }
+            console.log(data)
+            console.log(gameWinner)
+            this.socket.emit('joinRoom', data)
+        })
+
         this.socket.on('joinRoomInfo', (data) => {
             console.log("im receiving room info")
             this.setState({
@@ -156,6 +176,7 @@ class Lobby extends React.Component {
         })
 
         this.socket.on('newMessage', (data) => {
+            console.log("im receiving msg")
             console.log(data)
             let {messages} = this.state
             let message = {
@@ -211,14 +232,10 @@ class Lobby extends React.Component {
 
     backToLobby(){
         this.setState({
-            messages: [],
             currentMessage: '',
             username: this.props.currentUser.username,
-            myRoomId: '',
-            myChatters: {},
-            myRoomName: '',
             requestedRoomName: '',
-            inLobby: false,
+            inLobby: true,
             inGame: false
         })
     }
@@ -298,13 +315,14 @@ class Lobby extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this.state.currentMessage)
+        
         if (this.state.currentMessage !== '') {
             let data = {
                 currentMessage: this.state.currentMessage,
                 username: this.state.username,
                 roomName: this.state.myRoomName
             }
+            console.log(data)
             this.socket.emit('chatMessage', data);
             this.setState({
                 currentMessage: ''
@@ -335,14 +353,13 @@ class Lobby extends React.Component {
             )
         }
         else {
-            debugger;
             //Display channel name if you're in a channel
             const channelName = this.state.myRoomName ? this.state.myRoomName : 'Channel Name'
             //Change button to "play" if everyone is ready, otherwise, just show ready/not ready
             let allPlayersReady = false;
 
             //test change here
-            if((this.state.myRoomId!=='') && Object.values(this.state.myChatters).length === 2){
+            if((this.state.myRoomId!=='') && Object.values(this.state.myChatters).length === 4){
                 allPlayersReady = Object.values(this.state.myChatters).every((user) => {
                     return user.ready
                 })

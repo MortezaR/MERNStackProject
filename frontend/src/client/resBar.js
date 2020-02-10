@@ -13,7 +13,7 @@ export default class resBar {
         this.terminalsLeft = 0;
         this.resourcesCollected = 0;
         this.timeLeft = 0;
-
+        this.timeEllapsed = 0;
     }
 
     update(resource) {
@@ -21,8 +21,10 @@ export default class resBar {
     }
 
     updateGameInfo(data) {
+        if (this.timeLeft === 0) this.timeLeft = data.timeLeft;
         this.resourcesLeft = data.resourcesLeft;
         this.terminalsLeft = data.terminalsLeft;
+        this.timeEllapsed += this.timeLeft-data.timeLeft;
         this.timeLeft = data.timeLeft;
     }
 
@@ -88,7 +90,7 @@ export default class resBar {
             context.fillText("Food: " + this.resourcesCollected, 10, 150);
             context.fillText("Resources Left: " + this.resourcesLeft, 10, 50);
             context.fillText("Terminals Left: " + this.terminalsLeft, 10, 100);
-            context.fillText("TimeLeft: " + this.timeLeft, 10, 200);
+            context.fillText("Gametime Left: " + this.timeLeft, 10, 200);
         }
 
     }
