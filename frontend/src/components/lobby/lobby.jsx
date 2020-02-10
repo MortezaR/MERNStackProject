@@ -86,7 +86,7 @@ class Lobby extends React.Component {
     }
 
     pickMap(map) {
-        console.log(map)
+        this.toggleMapsDropdown();
         this.setState({
             pickedMap: map
         })
@@ -104,6 +104,8 @@ class Lobby extends React.Component {
     }
 
     componentDidMount(){
+        
+
         document.addEventListener("mousedown", this.handleClickOutside);
         this.socket.on('setupNewChatter', (data) => {
             console.log("im receiving my own info")
@@ -115,8 +117,7 @@ class Lobby extends React.Component {
 
         //add game wins here
         this.socket.on('endGame', (endGameData) => {
-            console.log(this.props.currentUser.id)
-            if (endGameData.wolfId[0] === this.myId){
+            if (endGameData.wolfId[0] === this.state.myId){
                 if (endGameData.winner === "wolf"){
                     axios.patch(`/api/users/win/${this.props.currentUser.id}`)
                 } else {
@@ -124,7 +125,7 @@ class Lobby extends React.Component {
                 }
             } else {
                 endGameData.pigletIds.forEach(pigletId => {
-                    if (pigletId === this.myId){
+                    if (pigletId === this.state.myId){
                         if (endGameData.winner === "wolf"){
                             axios.patch(`/api/users/lose/${this.props.currentUser.id}`)
                         } else {
@@ -133,15 +134,6 @@ class Lobby extends React.Component {
                     }
                 })
             }
-            let { myRoomId, username, myId, myRoomName } = this.state
-            let data = {
-                roomId: myRoomId,
-                oldRoomId: '',
-                username: username,
-                myId: myId,
-                oldRoomName: myRoomName
-            }
-            this.socket.emit('joinRoom', data)
         })
 
         this.socket.on('joinRoomInfo', (data) => {
@@ -233,9 +225,10 @@ class Lobby extends React.Component {
         .then(maps => 
             
         {
-            console.log(maps)
+            console.log(maps.data)
             this.setState({
-                maps: maps.data
+                maps: maps.data,
+                // pickedMap: maps.data["5e3b0ecad0fb764776fbfd2f"] 
             })
         }
         )
@@ -243,17 +236,25 @@ class Lobby extends React.Component {
 
     backToLobby(){
         this.setState({
+            rooms: {},
+            messages: [],
             currentMessage: '',
             username: this.props.currentUser.username,
+            myRoomId: '',
+            myChatters: {},
+            myRoomName: '',
+            myId: this.state.myId,
             requestedRoomName: '',
-            inLobby: true,
-            inGame: false
+            inLobby: false,
+            inGame: false,
+            pickedMap: null,
+            channelsDropdownOpen: false,
+            usersDropdownOpen: false,
+            mapsDropdownOpen: false
         })
     }
 
     readyPlayer(id){
-        console.log(id)
-        console.log(this.state.myId)
         // if (this.state.myId === id){
             let {myChatters} = this.state
             myChatters[this.state.myId].ready = !myChatters[this.state.myId].ready 
@@ -455,7 +456,7 @@ class Lobby extends React.Component {
                                             <span>{channelName}</span>
                                             <div className="lobby-room-options">
                                                 <a onClick={this.toggleUsersDropdown}><i className="fas fa-users fa-lg"></i></a>
-                                                <a onClick={this.toggleMapsDropdown}><i className="fas fa-ellipsis-h fa-lg"></i></a>
+                                                <a onClick={this.toggleMapsDropdown}><i className="fas fa-map-marked-alt"></i></a>
                                             </div>
                                         </div>
                                     </div>

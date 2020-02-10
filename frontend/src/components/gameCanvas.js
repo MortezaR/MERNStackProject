@@ -31,7 +31,7 @@ class GameCanvas extends React.Component {
     this.socket.on('newWolf', (playerData) => this.game.addNewPlayer(playerData, true))
     this.socket.on('newPiglet', (playerData) => this.game.addNewPlayer(playerData, false))
     this.socket.on('currentPlayers', (playersData) => this.game.addCurrentPlayers(playersData))
-    this.socket.on('endGame', (gameWinner) => {
+    this.socket.on('endGame', () => {
       this.game.gameOver = true;
       setTimeout(() => {
         this.props.backToLobby();

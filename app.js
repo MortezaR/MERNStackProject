@@ -284,6 +284,8 @@ chatServer.on('connection', function(socket){
                         chatServer.to(currentRoomName).emit('gameIsOver');
                         clearInterval(intervalId);
                         delete games[gameId];
+                        delete rooms[gameId];
+                        chatServer.emit('updateRoomsInfo', rooms)
                     }, 6000)
                 }
                 chatServer.to(currentRoomName).emit("updateGame", game.getPlayers(), game.getObjects(), gameInfo);
