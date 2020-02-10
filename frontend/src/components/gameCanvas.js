@@ -3,6 +3,7 @@ import Game from '../client/game'
 import Sound from 'react-sound';
 import worldMusic from '../assets/sound/gflop.mp3';
 import { playSound } from '../util/sound_util';
+// import './gameCanvas.scss';
 
 class GameCanvas extends React.Component {
   constructor(props) {

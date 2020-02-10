@@ -149,6 +149,7 @@ chatServer.on('connection', function(socket){
             username: username,
             ready: false
         }
+        console.log(rooms[roomId].chatters)
     }
 
     let joinRoom = (data) => {
@@ -191,7 +192,9 @@ chatServer.on('connection', function(socket){
 
     socket.on('chatMessage', (data) => {
         console.log("im receiving msg")
+        console.log(rooms)
         chatServer.to(data.roomName).emit('newMessage', data)
+        console.log(data);
     })
 
     socket.on('playerReady', (data) => {
@@ -261,7 +264,7 @@ chatServer.on('connection', function(socket){
         chatServer.to(currentRoomName).emit('newWolf', game.getPlayer(playerIds[0]).toObj());
 
         //test change here
-        for (let i = 1; i < 2; i++) {
+        for (let i = 1; i < 4; i++) {
             game.addPlayer(playerIds[i], 'piglet',
                 200 * (numPlayers + 1), 200 * (numPlayers + 1))
             chatServer.to(currentRoomName).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
@@ -269,11 +272,10 @@ chatServer.on('connection', function(socket){
         interval = () => {
             intervalId = setInterval(() => {
                 let gameInfo = game.getGameInfo();
-                if (gameInfo.winner) {
+                if (gameInfo.winner && inGame) {
                     chatServer.to(currentRoomName).emit("endGame", gameInfo.winner);
                     inGame = false;
                     setTimeout(() => {
-                        inGame = false;
                         chatServer.to(currentRoomName).emit('gameIsOver');
                         clearInterval(intervalId);
                         delete games[gameId];
