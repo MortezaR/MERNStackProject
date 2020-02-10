@@ -10,10 +10,7 @@ import houseIcon from '../../assets/images/house_icon.png'
 
 
 import worldMap from '../../assets/images/worldmap1.png';
-import TopNavContainer from '../top_nav/top_nav_container.js';
 import MapEditorMenuContainer from '../map_editor_menu/map_editor_menu_container';
-import Sound from 'react-sound';
-import worldMusic from '../../assets/sound/gflop.mp3';
 import axios from 'axios';
 
 
@@ -43,12 +40,12 @@ class Canvas extends React.Component {
         radius: 70,
         imgLoaded: false,
         title: '',
-        url: '',
         mapId: '',
         clickEffect: 'obstacle',
         hidden: 'hidden'
 
-      };
+      }
+      //functions
       this.getCursorPosition = this.getCursorPosition.bind(this);
       this.intersectRect = this.intersectRect.bind(this);
       this.callbackTest = this.callbackTest.bind(this);
@@ -76,11 +73,16 @@ class Canvas extends React.Component {
           deposits: map.data.objects.deposits,
           houses: map.data.objects.houses,
           title: map.data.title,
-          url: map.data.url
         })
       })
     }
   }
+
+  // handleUpdate(field) {
+  //   return e => this.setState({
+  //       [field]: e.currentTarget.value
+  //   })
+  // }
 
   handleOverlap() {
     this.setState({
@@ -97,13 +99,12 @@ class Canvas extends React.Component {
     })
   }
 
-  handleSave (title, url) {
+  handleSave (title) {
     return e => {
       e.preventDefault();
       const map = {
         user: this.props.currentUser.id,
         title: title,
-        url: url,
         objects: {
             rockCount: this.state.rockCount,
             foodCount: this.state.foodCount,
@@ -117,7 +118,7 @@ class Canvas extends React.Component {
             deposits: this.state.deposits,
             houses: this.state.houses
         }
-    }
+      }
       if (this.props.mapId) {
         axios.put(`/api/maps/${this.props.mapId}`, map)
       }
@@ -328,7 +329,7 @@ class Canvas extends React.Component {
             <div className={`overlap ${this.state.hidden}`}>
                   <span>Cannot place object on starting position</span>
             </div>
-            <MapEditorMenuContainer title={this.state.title} url={this.state.url} handleClickEffect={this.handleClickEffect} handleSave={this.handleSave}/>
+            <MapEditorMenuContainer title={this.state.title} handleClickEffect={this.handleClickEffect} handleSave={this.handleSave} />
          </div> 
         )
       }

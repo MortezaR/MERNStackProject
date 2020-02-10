@@ -32,7 +32,8 @@ class Piglet extends movableObject{
                 let hitObjects = this.game.map.getObjects(hB);
                 Object.keys(hitObjects).forEach(objId => {
                     if (hitObjects[objId] instanceof Food
-                        && hitObjects[objId].resource > 0) {
+                        && hitObjects[objId].resource > 0
+                        && this.resource <= 10) {
                         hitObjects[objId].mine(1);
                         this.resource += 1;
                     }
@@ -57,7 +58,9 @@ class Piglet extends movableObject{
         }
     }
     hack(obj){
-        obj.hack();
+        if(obj.hackInterval === null){
+            obj.hack(this);
+        }
     }
     kill(){
         this.dead = true;
