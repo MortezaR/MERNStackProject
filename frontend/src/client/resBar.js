@@ -77,6 +77,11 @@ export default class resBar {
                 //Use translate to move the resource around the map
            }
            context.restore();
+           context.save();
+           context.textBaseline = 'middle';
+           context.textAlign = 'center';
+           context.fillText(this.resourcesCollected, cw-150, 200);
+           context.restore();
             //Old code
             console.log('old code')
             context.font = "30px Arial";
