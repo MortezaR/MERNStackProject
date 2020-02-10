@@ -1,6 +1,5 @@
 import Map from './map'
 import Camera from './camera'
-import Player from './player'
 import Wolf from './wolf'
 import Piglet from './piglet'
 import GObject from './gobject';
@@ -21,12 +20,10 @@ export default class Game{
     this.context = this.canvas.getContext("2d");
     this.gameLoop = this.gameLoop.bind(this)
     this.gameOver = false;
-
+    this.solo = false;
   }
 
   addNewPlayer(playerData, wolf){
-    console.log(playerData)
-    console.log(this.myId)
     if (this.myId === playerData.id && wolf) {
       console.log("add me player wolf")
       this.room = {
@@ -40,7 +37,6 @@ export default class Game{
       this.player = new Wolf (id, x, y, width, height);
       this.camera = new Camera(0, 0, this.vWidth, this.vHeight, this.room.width, this.room.height);
       this.resBar = new resBar(this.player instanceof Wolf);
-      let follow = this.camera.follow.bind(this);
       this.camera.follow(this.player, this.vWidth / 2, this.vHeight / 2)  
     } else if (this.myId === playerData.id ) {
       console.log("add me player pig")
@@ -73,7 +69,6 @@ export default class Game{
   updatePlayers(playersData){
     Object.values(playersData).forEach((data) => {
       if (data.id === this.myId) {
-
         this.player.update(data.x, data.y, data.moveDir);
         this.resBar.update(data.resource);
         this.camera.update();
