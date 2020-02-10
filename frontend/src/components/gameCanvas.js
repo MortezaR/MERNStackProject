@@ -31,7 +31,7 @@ class GameCanvas extends React.Component {
     this.socket.on('newWolf', (playerData) => this.game.addNewPlayer(playerData, true))
     this.socket.on('newPiglet', (playerData) => this.game.addNewPlayer(playerData, false))
     this.socket.on('currentPlayers', (playersData) => this.game.addCurrentPlayers(playersData))
-    this.socket.on('endGame', (gameWinner) => {
+    this.socket.on('endGame', () => {
       this.game.gameOver = true;
       setTimeout(() => {
         this.props.backToLobby();
@@ -100,6 +100,8 @@ class GameCanvas extends React.Component {
 
   render() {
     console.log(this.handleClick)
+    let width = window.innerWidth > 1600 ?  1600 : window.innerWidth
+    let height = window.innerHeight > 800 ?  800 : window.innerHeight
     return (
       <div>
         <canvas 
@@ -107,8 +109,8 @@ class GameCanvas extends React.Component {
           className="game-canvas"
           onClick={this.handleClick} 
           onContextMenu={this.handleRightClick} 
-          width={window.innerWidth} 
-          height={window.innerHeight - 55}>
+          width={width} 
+          height={height - 55}>
         </canvas>
         <Sound
           url={worldMusic}

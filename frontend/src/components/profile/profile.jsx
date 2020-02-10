@@ -46,6 +46,7 @@ class Profile extends React.Component {
                     <div className="title-row">
                         <div className="profile-name">{this.props.currentUser.username}</div>
                         <div className="profile-wins">Wins: {this.state.thisUser.wins}</div>
+                        <div className="profile-losses">Losses: {this.state.thisUser.losses}</div>
                     </div>
                         <ul className="maps-list">
                             {
