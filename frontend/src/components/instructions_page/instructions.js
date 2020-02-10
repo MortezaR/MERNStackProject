@@ -9,6 +9,7 @@ import wolf from '../../assets/images/instructions/wolf.png';
 import pigletdead from '../../assets/images/instructions/pigletdead.png';
 import teleporter from '../../assets/images/instructions/teleporter.png';
 import hourglass from '../../assets/images/instructions/hourglass.png';
+import { Link } from 'react-router-dom';
 
 class Instructions extends React.Component {
     constructor(props) {
@@ -66,8 +67,47 @@ class Instructions extends React.Component {
                     </div>
                     <div className="player-card">
                         <div className="card-title">About</div>
-                        <div className="instruction-row">
-                            Big Bad Wolf is 
+                        <div className="about-row">
+                            Big Bad Wolf is a fullstack MERN app making extensive use of MongoDB, Express, Node.js
+                            and React/Redux.  Multiplayer and lobby are implemented using WebSockets.  The game and map
+                            editor are rendered using Canvas.js.  The unbelievably talented developers who created this project
+                            are: 
+                        </div>
+                        <div className="about-row">
+                            <a href="https://github.com/kenhufford" target="_blank">
+                                <i className="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/kenneth-hufford-b09a324b/" target="_blank">
+                                <i className="fab fa-linkedin"></i>
+                            </a>
+                            Kenny Hufford
+                        </div>
+                        <div className="about-row">
+                            <a href="https://github.com/MortezaR" target="_blank">
+                                <i className="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/morteza-r-5b616292/" target="_blank">
+                                <i className="fab fa-linkedin"></i>
+                            </a>
+                            Morteza Rohaninejad
+                        </div>
+                        <div className="about-row">
+                            <a href="https://github.com/novirius" target="_blank">
+                                <i className="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/david-chin-504269106/" target="_blank">
+                                <i className="fab fa-linkedin"></i>
+                            </a>
+                            David Chin
+                        </div>
+                        <div className="about-row">
+                            <a href="https://github.com/mboo1" target="_blank">
+                                <i className="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/michael-booe-42448313/" target="_blank">
+                                <i className="fab fa-linkedin"></i>
+                            </a>
+                            Michael Booe
                         </div>
                     </div>
                 </div>

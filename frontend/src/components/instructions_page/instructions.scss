@@ -42,6 +42,28 @@
     align-items: center;
     justify-content: space-around;
     width: 350px;
+    line-height: 1.2;
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
+.about-row {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 350px;
+    font-size: 18px;
+    line-height: 1.5;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    a {
+        text-decoration: none;
+        color: #111111;
+        i {
+            font-size: 25px;
+            padding-right: 8px;
+            margin-top: 3px;
+        }
+    }
+}
+
