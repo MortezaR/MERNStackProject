@@ -1,8 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 import './top_nav.scss';
-import SaveMapForm from '../save_map_form/save_map_form.jsx';
-import UpdateMapForm from '../save_map_form/update_map_form';
 import TopNavProfileDropdown from './top_nav_profile_dropdown';
 
 class TopNav extends React.Component {
@@ -15,18 +13,8 @@ class TopNav extends React.Component {
         this.toggleProfileDropdown = this.toggleProfileDropdown.bind(this)
         this.handleLogout = this.handleLogout.bind(this)
         this.myRef = React.createRef();
-        // this.saveMapForm = this.saveMapForm.bind(this)
     }
 
-    
-
-    componentDidMount () {
-        // document.addEventListener('mousedown', this.toggleProfileDropdown, false)
-    }
-
-    componentWillUnmount () {
-        // document.removeEventListener('mousedown', this.toggleProfileDropdown, false)
-    }
 
     handleLogout () {
         this.props.logout()
@@ -40,8 +28,10 @@ class TopNav extends React.Component {
     }
 
     render () {
-        const loggedIn = (
-            <div className="topnav-right-nav">
+        let loggedIn;
+        if (this.props.currentUser && this.props.currentUser.username) {
+            loggedIn = (
+                <div className="topnav-right-nav">
                 <a onClick={this.toggleProfileDropdown}><span>{this.props.currentUser.username}</span></a>
                 {
                     this.state.profileDropdown &&
@@ -49,12 +39,29 @@ class TopNav extends React.Component {
                         <TopNavProfileDropdown
                             toggleProfileDropdown={this.toggleProfileDropdown}
                             profileDropdown={this.state.profileDropdown}
+                            handleLogout={this.handleLogout}
                         />
                     )
                 }
 
             </div>
-        )
+            )
+        }
+        // const loggedIn = (
+        //     <div className="topnav-right-nav">
+        //         <a onClick={this.toggleProfileDropdown}><span>{this.props.currentUser.username}</span></a>
+        //         {
+        //             this.state.profileDropdown &&
+        //             (
+        //                 <TopNavProfileDropdown
+        //                     toggleProfileDropdown={this.toggleProfileDropdown}
+        //                     profileDropdown={this.state.profileDropdown}
+        //                     handleLogout={this.handleLogout}
+        //                 />
+        //             )
+        //         }
+        //     </div>
+        // )
         const loggedOut = (
             <div className="topnav-right-nav">
                 <Link to='/signup'>Sign Up</Link>
@@ -62,7 +69,13 @@ class TopNav extends React.Component {
             </div>
         )
         //check if logged in and render correct topnav elements
-        let rightNav = this.props.currentUser.username ? loggedIn : loggedOut
+        let rightNav;
+        if (this.props.currentUser) {
+            rightNav = loggedIn
+        }
+        else {
+            rightNav = loggedOut
+        }
         return (
             <div className="topnav">
                 <div className="topnav-left-nav">
