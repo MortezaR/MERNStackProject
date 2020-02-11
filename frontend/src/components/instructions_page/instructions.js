@@ -73,6 +73,7 @@ class Instructions extends React.Component {
                             editor are rendered using Canvas.js.  The unbelievably talented developers who created this project
                             are: 
                         </div>
+                        <div className="divider"></div>
                         <div className="about-row">
                             <a href="https://github.com/kenhufford" target="_blank">
                                 <i className="fab fa-github"></i>
@@ -82,6 +83,7 @@ class Instructions extends React.Component {
                             </a>
                             Kenny Hufford
                         </div>
+                        <div className="divider"></div>
                         <div className="about-row">
                             <a href="https://github.com/MortezaR" target="_blank">
                                 <i className="fab fa-github"></i>
@@ -91,6 +93,7 @@ class Instructions extends React.Component {
                             </a>
                             Morteza Rohaninejad
                         </div>
+                        <div className="divider"></div>
                         <div className="about-row">
                             <a href="https://github.com/novirius" target="_blank">
                                 <i className="fab fa-github"></i>
@@ -100,6 +103,7 @@ class Instructions extends React.Component {
                             </a>
                             David Chin
                         </div>
+                        <div className="divider"></div>
                         <div className="about-row">
                             <a href="https://github.com/mboo1" target="_blank">
                                 <i className="fab fa-github"></i>

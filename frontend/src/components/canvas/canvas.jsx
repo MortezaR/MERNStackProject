@@ -120,7 +120,9 @@ class Canvas extends React.Component {
         }
       }
       if (this.props.mapId) {
-        axios.put(`/api/maps/${this.props.mapId}`, map)
+        axios.put(`/api/maps/${this.props.mapId}`, map).then(() =>
+          this.props.history.push("/profile")
+        )
       }
       else {
         axios.post('/api/maps/', map)
