@@ -264,7 +264,7 @@ chatServer.on('connection', function(socket){
         chatServer.to(currentRoomName).emit('newWolf', game.getPlayer(playerIds[0]).toObj());
 
         //test change here
-        for (let i = 1; i < 4; i++) {
+        for (let i = 1; i < 2; i++) {
             game.addPlayer(playerIds[i], 'piglet',
                 200 * (numPlayers + 1), 200 * (numPlayers + 1))
             chatServer.to(currentRoomName).emit('newPiglet', game.getPlayer(playerIds[i]).toObj());
