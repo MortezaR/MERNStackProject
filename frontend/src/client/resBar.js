@@ -1,6 +1,6 @@
 // import raikouSprites from '../assets/images/raikou_sprites.png'
 import Sprite from './sprite.js'
-import pigAvatar from '../assets/images/pigavatar.png'
+import pigAvatar from '../assets/images/pigAvatar.png'
 import wolfAvatar from '../assets/images/wolfavatar.png'
 import clockIcon from '../assets/images/clockicon.png'
 import bunshin from '../assets/images/bunshin.png'

@@ -90,12 +90,9 @@ class Game {
             resourcesLeft: this.resourcesLeft,
             terminalsLeft: this.terminalsLeft,
             winner: this.winner,
-<<<<<<< HEAD
-            killCount: killCount
-=======
+            killCount: killCount,
             pigletIds: this.pigletIds,
             wolfId: this.wolfId
->>>>>>> 6384176429efd8a63811425f0f2ccc9b7ccde90f
         };
         console.log(retVal.killCount)
         console.log(`get game info: ${killCount}`)
