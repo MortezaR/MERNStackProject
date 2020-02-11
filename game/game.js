@@ -1,5 +1,7 @@
 const Player = require('./player.js') 
 const Map = require('./map.js')
+const BigBadWolf = require('./objects/bigbadwolf')
+
 
 class Game {
     constructor(map){
@@ -75,13 +77,21 @@ class Game {
     }
 
     getGameInfo(){
+        let killCount;
+        Object.keys(this.players).forEach(key => {
+            if (this.players[key].object instanceof BigBadWolf) {
+                killCount = this.players[key].object.killCount;
+            }
+        })
         let retVal = {
             timeLeft: this.timer,
             resourcesLeft: this.resourcesLeft,
             terminalsLeft: this.terminalsLeft,
-            winner: this.winner
-
+            winner: this.winner,
+            killCount: killCount
         };
+        console.log(retVal.killCount)
+        console.log(`get game info: ${killCount}`)
         return retVal;
     }
 
