@@ -19,6 +19,7 @@ class moveableObject extends GObject{
         this.moveDir = 310;
         this.dead = false;
         this.cI = this.cI.bind(this);
+        this.visible = true;
     }
     move(dX, dY){
         if (dX === this.x && this.y === dY){
@@ -57,9 +58,6 @@ class moveableObject extends GObject{
                 if (obj instanceof Teleporter && touching) {
                     this.teleport(obj);
                 }
-                if (obj instanceof Trap && touching) {
-                    this.stun(obj);
-                }
             })
             if (((this.x >= dX && unitX >= 0) || (this.x <= dX && unitX <= 0)) && 
                 ((this.y >= dY && unitY >= 0) || (this.y <= dY && unitY <= 0))){
@@ -70,6 +68,50 @@ class moveableObject extends GObject{
             clearInterval(this.moving);
         }
         this.moving = setInterval(moveHelper, 1000 / 100);
+    }
+    phaseThrough(){
+        let tempMoveDir = this.moveDir;
+        if (tempMoveDir > 100) {
+            tempMoveDir /= 10;
+        }
+        let ver = Math.floor(tempMoveDir / 10);
+        let hor = tempMoveDir % 10;
+        let allObj = this.game.map.getAllObjects();
+        let canMove = false;
+        while(!canMove){
+            canMove = true;
+            Object.keys(allObj).forEach((key) => {
+                let obj = allObj[key];
+                if (obj.id !== this.id && obj.phasable === false) {
+                    let touching = hitBoxTouch(obj.getHitBox(), this.getHitBox());
+                    while (touching) {
+                        switch (hor) {
+                            case 2:
+                                this.x -= 30;
+                                break;
+                            case 3:
+                                this.x += 30;
+                                break;
+                            default:
+                                break;
+                        }
+                        switch (ver) {
+                            case 2:
+                                this.y -= 30;
+                                break;
+                            case 3:
+                                this.y += 30;
+                                break;
+                            default:
+                                break;
+                        }
+                        canMove = false;
+                        touching = hitBoxTouch(obj.getHitBox(), this.getHitBox());
+                    }
+                }
+            })
+        }
+        
     }
     hack(){
 

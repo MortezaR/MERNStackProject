@@ -14,12 +14,14 @@ class Piglet extends movableObject{
         this.hitBox = [70, 70];
         this.actionCooldown = 1;
         this.resource = 0;
+        this.visible = true;
     }
 
     performAction(type, dX, dY) {
         if(this.dead){
             return 'you are dead mate';
         }
+        
         switch (type) {
             case 'attack':
                 let dir = getDir(this.x, this.y, dX, dY)
@@ -44,10 +46,14 @@ class Piglet extends movableObject{
                 })
                 break;
             case 'trap':
+                
                 if(this.resource >= 5) {
                     this.resource -= 5;
+                    this.visible = false;
+                    setTimeout(() => {this.visible = true}, 2000);
                     this.game.map.addObject('trap',
                     this.x, this.y);
+                    this.phaseThrough();
                 }
                 break;
             case 'move':

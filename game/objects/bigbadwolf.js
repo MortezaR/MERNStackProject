@@ -3,6 +3,7 @@ const utils = require('../util.js')
 const getDir = utils.getDir;
 const calcHitBox = utils.calcHitBox;
 const Piglet = require('./piglet')
+const Trap = require('./trap')
 // const hitBoxTouch = utils.hitBoxTouch;
 
 class BigBadWolf extends movableObject {
@@ -38,6 +39,9 @@ class BigBadWolf extends movableObject {
                     if (hitObjects[objId] instanceof Piglet){
                         this.game.map.playerObjects[objId].kill();
                     }
+                    if (hitObjects[objId] instanceof Trap){
+                        this.stun(hitObjects[objId]);
+                    }
                 })
                 break;
             case 'move':
@@ -58,7 +62,6 @@ class BigBadWolf extends movableObject {
         }
     }
     stun(obj){
-        this.moveDir = 0;
         obj.trigger(this);
     }
     increaseSpeed(){

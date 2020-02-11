@@ -4,7 +4,7 @@ import { playSound } from '../util/sound_util';
 
 
 export default class Player {
-    constructor(id, x, y, width, height, moveDir=21) {
+    constructor(id, x, y, width, height, moveDir=310) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -12,12 +12,16 @@ export default class Player {
         this.height = height;
         this.moveDir = moveDir;
         this.attacking = false;
+        this.visible = true;
     }
 
-    update(x, y, moveDir) {
+    update(x, y, moveDir, resource, visible = true) {
+        console.log(arguments);
         this.x = x;
         this.y = y;
         this.moveDir = moveDir;
+        this.resource = resource;
+        this.visible = visible;
     }
 
     draw(context, xView, yView) {

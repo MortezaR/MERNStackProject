@@ -26,6 +26,7 @@ export default class GObject {
             teleporter: new Sprite('https://i.imgur.com/PODFsc5.png', 100, 100, 5, [0, 0], this),
             trap: new Sprite('https://i.imgur.com/AAjfnGl.png', 50,150, 5, [0,0], this),
             deposit: new Sprite('https://i.imgur.com/4JWVKGU.png', 100,50, 10, [0,0], this),
+            piglet: new Sprite('https://i.imgur.com/f0z68qE.png', 32, 32, 4, [0, 0], this)
         };
         this.active = false;
 
@@ -109,6 +110,8 @@ export default class GObject {
                     this.sprites.trap.step(context, this, xView, yView, 1, 1);
                 } else if (this.params.delete){
                     return null;
+                }else if(this.isWolf){
+                    this.sprites.piglet.drawFirstFrame(context, this, xView, yView, 2, 2);
                 } else {
                     if (!this.isWolf){
                         this.sprites.trap.drawFirstFrame(context, this, xView, yView, 1, 1);

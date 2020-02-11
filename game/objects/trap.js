@@ -5,13 +5,15 @@ class Trap extends GObject {
 
     constructor(game, id, x, y) {
         super(game, id, x, y);
-        this.hitBox = [50 , 150];
-        this.phasable = true;
+        this.hitBox = [70 , 70];
+        this.phasable = false;
         this.sprung = false;
         this.delete = false;
-        setTimeout(() => {this.sprung = false;}, 1000)
+        setTimeout( () => {this.sprung = false;},)
     }
     trigger(wolf){
+        this.phasable = true;
+        wolf.moveDir = 0;
         if(!this.sprung){
             wolf.kill();
             this.sprung = true;

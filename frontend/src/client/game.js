@@ -74,11 +74,11 @@ export default class Game{
     Object.values(playersData).forEach((data) => {
       if (data.id === this.myId) {
 
-        this.player.update(data.x, data.y, data.moveDir);
+        this.player.update(data.x, data.y, data.moveDir, data.resource, data.visible);
         this.resBar.update(data.resource);
         this.camera.update();
       } else if (this.otherPlayers[data.id]) {
-        this.otherPlayers[data.id].update(data.x, data.y, data.moveDir, data.resource);
+        this.otherPlayers[data.id].update(data.x, data.y, data.moveDir, data.resource, data.visible);
       }
     })
   }
@@ -107,7 +107,11 @@ export default class Game{
         this.objects[key].draw(this.context, this.camera.xView, this.camera.yView)
       })
       Object.keys(this.otherPlayers).forEach(key => {
-        this.otherPlayers[key].draw(this.context, this.camera.xView, this.camera.yView)
+        if (!this.otherPlayers[key].visible && this.player instanceof Wolf){
+          console.log(this.otherPlayers[key]);
+        }else{
+          this.otherPlayers[key].draw(this.context, this.camera.xView, this.camera.yView);
+        }
       })
       this.player.draw(this.context, this.camera.xView, this.camera.yView)
       this.resBar.draw(this.context);
