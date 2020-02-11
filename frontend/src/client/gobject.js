@@ -23,7 +23,7 @@ export default class GObject {
             food5: new Sprite('https://i.imgur.com/R8JxMrQ.png', 80, 80, 1, [400, 0], this),
             wall: new Sprite(rockIcon, 135, 135, 1, [0, 0], this),
             hTerminal: new Sprite('https://i.imgur.com/MNkGnTs.png', 80, 80, 16, [0, 0], this, 10),
-            teleporter: new Sprite('https://i.imgur.com/PODFsc5.png', 100, 100, 5, [0, 0], this),
+            teleporter: new Sprite('https://i.imgur.com/AZfCfiC.png', 100, 100, 4, [0, 0], this),
             trap: new Sprite('https://i.imgur.com/AAjfnGl.png', 50,150, 5, [0,0], this),
             deposit: new Sprite('https://i.imgur.com/4JWVKGU.png', 100,50, 10, [0,0], this),
             piglet: new Sprite('https://i.imgur.com/f0z68qE.png', 32, 32, 4, [0, 0], this)
@@ -86,7 +86,6 @@ export default class GObject {
                 }
                 break;
             case 4:
-                console.log('teleporter')
                 this.sprites.teleporter.step(context, this, xView, yView, 2, 2);
                 break;
             case 5:

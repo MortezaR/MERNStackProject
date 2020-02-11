@@ -104,6 +104,15 @@ button:focus {
   
 canvas{
   margin-top: 55px;
+  display: block;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 
@@ -161,4 +170,8 @@ canvas{
 textarea { 
   overflow:auto; 
   resize:none; 
-} 
+}
+
+canvas {
+  
+}

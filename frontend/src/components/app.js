@@ -19,23 +19,23 @@ const App = () => (
   <div>
     <MiddleModal />
     <TopNavContainer />
- 
-{/*       
-      <AuthRoute exact path="/" component={MainPage} />
-      <AuthRoute exact path="/login" component={LoginFormContainer} />
-      <AuthRoute exact path="/signup" component={SignupFormContainer} />
-      <ProtectedRoute exact path="/game" component={UsersIndexContainer} /> */}
+    <Switch>
       <ProtectedRoute exact path="/map/:mapId" component={MapEditor} />
       <ProtectedRoute exact path="/map" component={MapEditor} />
       <AuthRoute exact path="/login" component={LoginFormContainer} />
       <ProtectedRoute exact path="/game" component={gameCanvas} />
       <AuthRoute exact path="/signup" component={SignupFormContainer} />
       <ProtectedRoute exact path="/profile" component={ProfileContainer} />
+<<<<<<< HEAD
+      <ProtectedRoute path="/" component={LobbyContainer} />
+    </Switch>
+=======
       <ProtectedRoute exact path="/instructions" component={InstructionsContainer} />
       <ProtectedRoute exact path="/lobby" component={LobbyContainer} />
       {/* <ProtectedRoute exact path="/editor" component={ProfileContainer} /> */}
 
  
+>>>>>>> 6384176429efd8a63811425f0f2ccc9b7ccde90f
   </div>
 );
 

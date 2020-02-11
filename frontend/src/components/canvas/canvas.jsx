@@ -26,11 +26,11 @@ class Canvas extends React.Component {
       this.image.src = worldMap;
       this.state = {
         canvas: this.refs.canvas,
-        rockCount: 0,
-        foodCount: 0,
-        teleporterCount: 0,
-        hTerminalCount: 0,
-        depositCount: 0,
+        rockIndex: 0,
+        foodIndex: 0,
+        teleporterIndex: 0,
+        hTerminalIndex: 0,
+        depositIndex: 0,
         foods: {},
         rocks: {},
         teleporters:{},
@@ -64,8 +64,8 @@ class Canvas extends React.Component {
       axios.get(`/api/maps/${this.props.mapId}`)
       .then(map => {
         this.setState({
-          rockCount: map.data.objects.rockCount,
-          foodCount: map.data.objects.foodCount,
+          rockIndex: map.data.objects.rockIndex,
+          foodIndex: map.data.objects.foodIndex,
           foods: map.data.objects.foods,
           rocks: map.data.objects.rocks,
           teleporters: map.data.objects.teleporters,
@@ -77,12 +77,6 @@ class Canvas extends React.Component {
       })
     }
   }
-
-  // handleUpdate(field) {
-  //   return e => this.setState({
-  //       [field]: e.currentTarget.value
-  //   })
-  // }
 
   handleOverlap() {
     this.setState({
@@ -106,11 +100,11 @@ class Canvas extends React.Component {
         user: this.props.currentUser.id,
         title: title,
         objects: {
-            rockCount: this.state.rockCount,
-            foodCount: this.state.foodCount,
-            teleporterCount: this.state.teleporterCount,
-            hTerminalCount: this.state.hTerminalCount,
-            depositCount: this.state.depositCount,
+            rockIndex: this.state.rockIndex,
+            foodIndex: this.state.foodIndex,
+            teleporterIndex: this.state.teleporterIndex,
+            hTerminalIndex: this.state.hTerminalIndex,
+            depositIndex: this.state.depositIndex,
             foods: this.state.foods,
             rocks: this.state.rocks,
             teleporters: this.state.teleporters,
@@ -120,7 +114,9 @@ class Canvas extends React.Component {
         }
       }
       if (this.props.mapId) {
-        axios.put(`/api/maps/${this.props.mapId}`, map)
+        axios.put(`/api/maps/${this.props.mapId}`, map).then(() =>
+          this.props.history.push("/profile")
+        )
       }
       else {
         axios.post('/api/maps/', map)
@@ -152,36 +148,46 @@ class Canvas extends React.Component {
         case 'remove':
             Object.keys(this.state.rocks).forEach(rockKey => {
               if (Math.sqrt((canvasx-this.state.rocks[rockKey].x)*(canvasx-this.state.rocks[rockKey].x) + (canvasy-this.state.rocks[rockKey].y)*(canvasy-this.state.rocks[rockKey].y)) < this.state.radius) {
+                let newState = this.state.rocks
+                delete newState[rockKey]
                 this.setState({
-                  rocks: Object.assign({}, this.state.rocks, {[rockKey]: {x: -10000000000000000000000000000, y: -1000000000000000000000000}})
+                  rocks: Object.assign({}, newState)
                 })
               }
             })
             Object.keys(this.state.foods).forEach(foodKey => {
               if (Math.sqrt((canvasx-this.state.foods[foodKey].x)*(canvasx-this.state.foods[foodKey].x) + (canvasy-this.state.foods[foodKey].y)*(canvasy-this.state.foods[foodKey].y)) < this.state.radius) {
+                let newState = this.state.foods
+                delete newState[foodKey]
                 this.setState({
-                  foods: Object.assign({}, this.state.foods, {[foodKey]: {x: -10000000000000000000000000000, y: -1000000000000000000000000}})
+                  foods: Object.assign({}, newState)
                 })
               }
             })
             Object.keys(this.state.teleporters).forEach(teleporterKey => {
               if (Math.sqrt((canvasx-this.state.teleporters[teleporterKey].x)*(canvasx-this.state.teleporters[teleporterKey].x) + (canvasy-this.state.teleporters[teleporterKey].y)*(canvasy-this.state.teleporters[teleporterKey].y)) < this.state.radius) {
+                let newState = this.state.teleporters
+                delete newState[teleporterKey]
                 this.setState({
-                  teleporters: Object.assign({}, this.state.teleporters, {[teleporterKey]: {x: -10000000000000000000000000000, y: -1000000000000000000000000, newX: -1000000000000000000000000, newY: -1000000000000000000000000}})
+                  teleporters: Object.assign({}, newState)
                 })
               }
             })
             Object.keys(this.state.hTerminals).forEach(hTerminalKey => {
               if (Math.sqrt((canvasx-this.state.hTerminals[hTerminalKey].x)*(canvasx-this.state.hTerminals[hTerminalKey].x) + (canvasy-this.state.hTerminals[hTerminalKey].y)*(canvasy-this.state.hTerminals[hTerminalKey].y)) < this.state.radius) {
+                let newState = this.state.hTerminals
+                delete newState[hTerminalKey]
                 this.setState({
-                  hTerminals: Object.assign({}, this.state.hTerminals, {[hTerminalKey]: {x: -10000000000000000000000000000, y: -1000000000000000000000000}})
+                  hTerminals: Object.assign({}, newState)
                 })
               }
             })
             Object.keys(this.state.deposits).forEach(depositKey => {
               if (Math.sqrt((canvasx-this.state.deposits[depositKey].x)*(canvasx-this.state.deposits[depositKey].x) + (canvasy-this.state.deposits[depositKey].y)*(canvasy-this.state.deposits[depositKey].y)) < this.state.radius) {
+                let newState = this.state.deposits
+                delete newState[depositKey]
                 this.setState({
-                  deposits: Object.assign({}, this.state.deposits, {[depositKey]: {x: -10000000000000000000000000000, y: -1000000000000000000000000}})
+                  deposits: Object.assign({}, newState)
                 })
               }
             })
@@ -194,8 +200,8 @@ class Canvas extends React.Component {
           }
           else {
             this.setState({
-              rocks: Object.assign({}, this.state.rocks, {[this.state.rockCount]: {x: canvasx, y: canvasy}}),
-              rockCount: this.state.rockCount + 1
+              rocks: Object.assign({}, this.state.rocks, {[this.state.rockIndex]: {x: canvasx, y: canvasy}}),
+              rockIndex: this.state.rockIndex + 1
             })
             break;
           }
@@ -207,8 +213,8 @@ class Canvas extends React.Component {
           }
           else {
             this.setState({
-              foods: Object.assign({}, this.state.foods, {[this.state.foodCount]: {x: canvasx, y: canvasy}}),
-              foodCount: this.state.foodCount + 1
+              foods: Object.assign({}, this.state.foods, {[this.state.foodIndex]: {x: canvasx, y: canvasy}}),
+              foodIndex: this.state.foodIndex + 1
             })
             break;
           }
@@ -220,7 +226,7 @@ class Canvas extends React.Component {
           }
           else {
             this.setState({
-              teleporters: Object.assign({}, this.state.teleporters, {[this.state.teleporterCount]: {x: canvasx, y: canvasy}}),
+              teleporters: Object.assign({}, this.state.teleporters, {[this.state.teleporterIndex]: {x: canvasx, y: canvasy}}),
               clickEffect: 'destination'
             })
             break;
@@ -233,15 +239,13 @@ class Canvas extends React.Component {
             }
             else {
               let newState = Object.assign({}, this.state.teleporters);
-              let indexed = Object.assign({}, this.state.teleporters[this.state.teleporterCount], {newX: canvasx, newY: canvasy})
-              newState[this.state.teleporterCount] = indexed;
-              // console.log(indexed)
-              // indexed = {[this.state.teleporterCount]: indexed};
+              let indexed = Object.assign({}, this.state.teleporters[this.state.teleporterIndex], {newX: canvasx, newY: canvasy})
+              newState[this.state.teleporterIndex] = indexed;
               console.log(indexed)
               console.log(`before ${this.state.teleporters}`)
               this.setState({
                 teleporters: newState,
-                teleporterCount: this.state.teleporterCount + 1,
+                teleporterIndex: this.state.teleporterIndex + 1,
                 clickEffect: 'teleporter'
               })
               console.log(this.state.teleporters)
@@ -255,8 +259,8 @@ class Canvas extends React.Component {
           }
           else {
             this.setState({
-              hTerminals: Object.assign({}, this.state.hTerminals, {[this.state.hTerminalCount]: {x: canvasx, y: canvasy}}),
-              hTerminalCount: this.state.hTerminalCount + 1
+              hTerminals: Object.assign({}, this.state.hTerminals, {[this.state.hTerminalIndex]: {x: canvasx, y: canvasy}}),
+              hTerminalIndex: this.state.hTerminalIndex + 1
             })
             break;
           }
@@ -268,8 +272,8 @@ class Canvas extends React.Component {
           }
           else {
             this.setState({
-              deposits: Object.assign({}, this.state.deposits, {[this.state.depositCount]: {x: canvasx, y: canvasy}}),
-              depositCount: this.state.depositCount + 1
+              deposits: Object.assign({}, this.state.deposits, {[this.state.depositIndex]: {x: canvasx, y: canvasy}}),
+              depositIndex: this.state.depositIndex + 1
             })
             break;
           }

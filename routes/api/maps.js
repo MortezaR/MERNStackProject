@@ -14,7 +14,7 @@ router.get("/test", (req, res) => {
 
 router.get('/', (req, res) => {
     Maps.find()
-        .sort({ date: -1})
+        .sort({ date: 1})
         .then(maps => res.json(maps))
         .catch(err => res.status(404).json({nomaps: 'No maps found!'}))
 })
@@ -56,7 +56,7 @@ router.post('/',
     passport.authenticate('jwt', { session: false}),
     (req, res) => {
         const { errors, isValid } = validateMapInput(req.body);
-        debugger;
+        // debugger;
         if (!isValid) {
             return res.status(400).json(errors)
         }

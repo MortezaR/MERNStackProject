@@ -100,6 +100,7 @@ export default class Game{
     this.updatePlayers(playerData);
     this.updateObjects(gameData);
     this.updateGameInfo(gameInfo);
+
     if (this.player){
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.room.map.draw(this.context, this.camera.xView, this.camera.yView);

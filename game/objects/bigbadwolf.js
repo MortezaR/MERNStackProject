@@ -16,7 +16,7 @@ class BigBadWolf extends movableObject {
         this.actionCooldown = 1;
         this.increaseSpeed = this.increaseSpeed.bind(this);
         this.speedInterval = setInterval(this.increaseSpeed, 10000);
-
+        this.killCount = 0;
         //uncomment for actual game
         this.kill(15000);
     }
@@ -38,6 +38,8 @@ class BigBadWolf extends movableObject {
                 Object.keys(hitObjects).forEach(objId => {
                     if (hitObjects[objId] instanceof Piglet){
                         this.game.map.playerObjects[objId].kill();
+                        this.killCount += 1;
+                        console.log(`wolf info: ${this.killCount}`)
                     }
                     if (hitObjects[objId] instanceof Trap){
                         this.stun(hitObjects[objId]);
