@@ -60,6 +60,7 @@ export default class Game{
       this.otherPlayers[id] = player;
     } else {
       console.log("add other player pig")
+      console.log(this.otherPlayers)
       let { id, x, y, width, height } = playerData;
       let player = new Piglet(id, x, y, width, height);
       this.otherPlayers[id] = player;
