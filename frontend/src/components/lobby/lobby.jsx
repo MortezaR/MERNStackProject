@@ -6,8 +6,8 @@ import ChannelCreationDropdown from './channel_creation_dropdown';
 import LobbyRoomMemberDropdown from './lobby_room_member_dropdown';
 
 import io from "socket.io-client";
-import GameCanvas from '../gameCanvas'
-import axios from 'axios'
+import GameCanvas from '../gameCanvas';
+import axios from 'axios';
 
 class Lobby extends React.Component {
     constructor(props){
