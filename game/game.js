@@ -26,6 +26,8 @@ class Game {
         }
         this.players = {};
         this.winner = null;
+        this.wolfId = [];
+        this.pigletIds = [];
         this.tick = this.tick.bind(this);
         this.clock = setInterval(this.tick, 1000)
     }
@@ -88,7 +90,12 @@ class Game {
             resourcesLeft: this.resourcesLeft,
             terminalsLeft: this.terminalsLeft,
             winner: this.winner,
+<<<<<<< HEAD
             killCount: killCount
+=======
+            pigletIds: this.pigletIds,
+            wolfId: this.wolfId
+>>>>>>> 6384176429efd8a63811425f0f2ccc9b7ccde90f
         };
         console.log(retVal.killCount)
         console.log(`get game info: ${killCount}`)
@@ -120,6 +127,14 @@ class Game {
     }
 
     win(val){
+        let players = Object.values(this.players);
+        players.forEach(player => {
+            if (player.playerType === "bbw"){
+                this.wolfId.push(player.id);
+            } else {
+                this.pigletIds.push(player.id);
+            }
+        })
         if(this.winner !== null){
             return `the winner is ${this.winner}`;
         }
@@ -130,11 +145,12 @@ class Game {
             case 'time':
                 this.winner = 'wolf';
                 break;
-
             case 'hTerminal':
                 this.winner = 'piglet';
                 break;
-                
+            case 'allPigletsDead':
+                this.winner = 'wolf';
+                break;
             default:
                 break;
         }

@@ -22,7 +22,6 @@ class BigBadWolf extends movableObject {
     performAction(type, dX, dY) {
         console.log('att')
         if (this.dead) {
-
             return 'you are dead mate';
         }
         switch (type) {

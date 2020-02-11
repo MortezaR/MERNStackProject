@@ -44,10 +44,8 @@ router.post('/register', (req, res) => {
     })
 });
 
-router.patch('/:id', (req, res) => {
-
+router.patch('/win/:id', (req, res) => {
     User.findById(req.params.id).then((oldUser) =>
-        
         User.updateOne(
             {"_id": ObjectID(req.params.id)},
             {$set: {"wins": oldUser.wins + 1}}
@@ -55,7 +53,17 @@ router.patch('/:id', (req, res) => {
         .then((user) => res.json(user))
         .catch(err => res.status(404).json({error1: "Could not update"}))
     ).catch(err => res.status(404).json({error2: "No user found with that ID"}))
-    
+})
+
+router.patch('/lose/:id', (req, res) => {
+    User.findById(req.params.id).then((oldUser) =>
+        User.updateOne(
+            {"_id": ObjectID(req.params.id)},
+            {$set: {"losses": oldUser.losses + 1}}
+        )
+        .then((user) => res.json(user))
+        .catch(err => res.status(404).json({error1: "Could not update"}))
+    ).catch(err => res.status(404).json({error2: "No user found with that ID"}))
 })
 
 router.get('/:id', (req, res) => {

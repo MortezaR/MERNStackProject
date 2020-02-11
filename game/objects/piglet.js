@@ -64,7 +64,16 @@ class Piglet extends movableObject{
     }
     kill(){
         this.dead = true;
+        this.phasable = true;
         this.moveDir = 0;
+        Object.values(this.game.map.playerObjects).forEach(player =>{
+            if(player instanceof Piglet && player.dead === false){
+                return 'game is still going'
+            }else{
+                setTimeout(() => this.game.win('allPigletsDead'), 1000);
+            }
+        }
+        )
     }
 }
 
