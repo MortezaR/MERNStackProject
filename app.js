@@ -296,4 +296,64 @@ chatServer.on('connection', function(socket){
     })
 
 
+
+    socket.on('soloPlayerReady', (map, wolf) => {
+        inGame = true;
+        let demoRoomName = socket.id;
+        let numPiglets = 10;
+        socket.join(demoRoomName);
+        currentRoomId = socket.id;
+
+        // let players = rooms[data.roomId].chatters
+        // let playerIds = Object.keys(players).map((key) => {
+        //     return players[key].id
+        // })
+        game = new Game(map);
+        games[socket.id] = game;
+        console.log('the game host connected: ', socket.id);
+
+        //initial player setups
+        if (wolf){
+            game.addPlayer(socket.id, 'bbw', 200, 200);
+            chatServer.to(demoRoomName).emit('newWolf', game.getPlayer(socket.id).toObj());
+            let pigletSpawns = [[0, 0], [0, 0], [0, 0], [-400, 0], [-800, 0], [600, 0], [800, 0], [-800, 200], [800, 200], [600, 200]]
+            for (let i = 1; i < numPiglets; i++) {
+                game.addPlayer(i.toString(), 'piglet',
+                    pigletSpawns[i][0], pigletSpawns[i][1])
+                chatServer.to(demoRoomName).emit('newPiglet', game.getPlayer(i.toString()).toObj());
+            }
+            game.map.playerObjects[socket.id].dead = false;
+        } else {
+            game.addPlayer(socket.id, 'bbw', 100, 100);
+            game.addPlayer(socket.id, 'piglet', 200, 200);
+            chatServer.to(demoRoomName).emit('newPiglet', game.getPlayer(socket.id).toObj());
+            game.map.playerObjects[socket.id].dead = false;
+        }
+
+
+        //test change here
+        interval = () => {
+            intervalId = setInterval(() => {
+                let gameInfo = game.getGameInfo();
+                if (gameInfo.winner && inGame) {
+                    let endGameData = {
+                        winner: gameInfo.winner,
+                        pigletIds: gameInfo.pigletIds,
+                        wolfId: gameInfo.wolfId
+                    }
+                    chatServer.to(demoRoomName).emit("endGame", endGameData);
+                    inGame = false;
+                    setTimeout(() => {
+                        chatServer.to(demoRoomName).emit('gameIsOver');
+                        clearInterval(intervalId);
+                        delete games[socket.id];
+                    }, 6000)
+                }
+                chatServer.to(demoRoomName).emit("updateGame", game.getPlayers(), game.getObjects(), gameInfo);
+            }, 1000 / 100)
+        }
+
+        interval()
+    })
+
 })

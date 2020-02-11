@@ -38,7 +38,7 @@ class Game {
             this.win('time');
         }
     }
-    addPlayer(id){
+    addPlayer(id, type, x, y){
 
         let numPlayers = Object.keys(this.players).length;
         switch (numPlayers) {
@@ -57,9 +57,14 @@ class Game {
             case 3:
                 this.players[id] = (new Player(id, 'piglet', this,
                     200 + this.map.spawnLocation[0], 0 + this.map.spawnLocation[1]));
+
+                console.log(this.players)
+                
                 break;
-        
             default:
+                this.players[id] = (new Player(id, 'piglet', this,
+                    x + this.map.spawnLocation[0], y + this.map.spawnLocation[1]));
+                console.log("hello")
                 break;
         }
     }
