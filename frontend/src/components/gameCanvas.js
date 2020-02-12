@@ -50,6 +50,7 @@ class GameCanvas extends React.Component {
 
   disconnectHost(){
     this.game.gameOver = true;
+    window.removeEventListener('keypress', this.handleKeyPress);
     this.props.backToLobby();
   }
 

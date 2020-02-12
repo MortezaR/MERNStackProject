@@ -104,8 +104,6 @@ class Lobby extends React.Component {
     }
 
     componentDidMount(){
-        
-
         document.addEventListener("mousedown", this.handleClickOutside);
         this.socket.on('setupNewChatter', (data) => {
             console.log("im receiving my own info")
