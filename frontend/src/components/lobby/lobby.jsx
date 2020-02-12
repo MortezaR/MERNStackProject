@@ -245,7 +245,6 @@ class Lobby extends React.Component {
             requestedRoomName: '',
             inLobby: false,
             inGame: false,
-            pickedMap: null,
             channelsDropdownOpen: false,
             usersDropdownOpen: false,
             mapsDropdownOpen: false

@@ -16,7 +16,7 @@ class HTerminal extends GObject {
         setTimeout(()=> {this.startDelay = false}, 15000)
     }
     hack(piglet){
-        if(this.startDelay === true){
+        if(this.startDelay === false){
             this.hackInterval = setInterval(() => this.handleHack(piglet), 100)
         }
     }
