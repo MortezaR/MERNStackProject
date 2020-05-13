@@ -54,7 +54,8 @@ class Lobby extends React.Component {
         let bottomOfChat = document.getElementById('bottom-of-chat')
         let chatMessage = document.getElementsByClassName('lobby-room-body-chat-messages')
         if (bottomOfChat && bottomOfChat.lastChild) {
-            bottomOfChat.lastChild.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+            // bottomOfChat.lastChild.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' })
+            bottomOfChat.scrollTo(0,bottomOfChat.scrollHeight)
         }
     }
 
@@ -364,6 +365,8 @@ class Lobby extends React.Component {
         else {
             //Display channel name if you're in a channel
             const channelName = this.state.myRoomName ? this.state.myRoomName : 'Channel Name'
+            const messageBox = this.state.myRoomName ? `Type in #${this.state.myRoomName}` : 'Press the + button at the top left to create a channel'
+            const chatDisabled = this.state.myRoomName ? "" : "disabled"
             //Change button to "play" if everyone is ready, otherwise, just show ready/not ready
             let allPlayersReady = false;
 
@@ -478,16 +481,16 @@ class Lobby extends React.Component {
                                         )
                                     })
                                 }
-                            <div style={{ float:"left", clear: "both" }}  />
                             </div>
                             <div className="lobby-room-input">
                                 <form onSubmit={this.handleSubmit}>
                                     <input  
                                         id="styled"
-                                        placeholder="Type a message" 
+                                        placeholder={messageBox} 
                                         size="4"
                                         onChange={this.update("currentMessage")}
                                         value={this.state.currentMessage}
+                                        disabled = {chatDisabled}
                                     />
                                     <button type="submit"><svg  className="send-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/><path d="M0 0h24v24H0z" fill="none"/></svg></button>
                                 </form>
